@@ -16,12 +16,6 @@ interface ChessTrainerProps {
   courseName?: string;
 }
 
-interface PieceDropArgs {
-  piece: { isSparePiece: boolean; position: string; pieceType: string };
-  sourceSquare: string;
-  targetSquare: string | null;
-}
-
 const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
@@ -31,7 +25,9 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
   const [linesCompleted, setLinesCompleted] = useState(0);
   const [correctMoves, setCorrectMoves] = useState(0);
   const [totalMoves, setTotalMoves] = useState(0);
-  const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, React.CSSProperties>>({});
+  const [customSquareStyles, setCustomSquareStyles] = useState<
+    Record<string, Record<string, string | number>>
+  >({});
 
   const currentLine = lines[currentLineIndex];
   const isPlayerTurn = (game.turn() === 'w') === (playerColor === 'white');
@@ -57,8 +53,8 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
     makeOpponentMove();
   }, [makeOpponentMove]);
 
-  const handlePieceDrop = ({ piece, sourceSquare, targetSquare }: PieceDropArgs): boolean => {
-    if (!isPlayerTurn || !targetSquare) return false;
+  const handlePieceDrop = (sourceSquare: string, targetSquare: string, piece: string): boolean => {
+    if (!isPlayerTurn) return false;
 
     const expectedMove = currentLine.moves[currentMoveIndex];
     const newGame = new Chess(game.fen());
@@ -68,7 +64,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
       const moveResult = newGame.move({
         from: sourceSquare,
         to: targetSquare,
-        promotion: piece.pieceType?.toLowerCase() === 'p' ? 'q' : undefined,
+        promotion: piece[1]?.toLowerCase() === 'p' ? 'q' : undefined,
       });
 
       if (!moveResult) return false;
@@ -155,22 +151,20 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
       <div className="relative w-full max-w-[500px] mx-auto lg:mx-0">
         <div className="chess-board relative">
           <Chessboard
-            options={{
-              position: game.fen(),
-              onPieceDrop: handlePieceDrop,
-              boardOrientation: playerColor,
-              boardStyle: {
-                borderRadius: '12px',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
-              },
-              darkSquareStyle: {
-                backgroundColor: 'hsl(152, 25%, 32%)',
-              },
-              lightSquareStyle: {
-                backgroundColor: 'hsl(35, 35%, 75%)',
-              },
-              squareStyles: customSquareStyles,
+            position={game.fen()}
+            onPieceDrop={handlePieceDrop}
+            boardOrientation={playerColor}
+            customBoardStyle={{
+              borderRadius: '12px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
             }}
+            customDarkSquareStyle={{
+              backgroundColor: 'hsl(152, 25%, 32%)',
+            }}
+            customLightSquareStyle={{
+              backgroundColor: 'hsl(35, 35%, 75%)',
+            }}
+            customSquareStyles={customSquareStyles}
           />
         </div>
 
