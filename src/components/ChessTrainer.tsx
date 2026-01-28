@@ -16,6 +16,12 @@ interface ChessTrainerProps {
   courseName?: string;
 }
 
+interface PieceDropArgs {
+  piece: { isSparePiece: boolean; position: string; pieceType: string };
+  sourceSquare: string;
+  targetSquare: string | null;
+}
+
 const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
@@ -51,7 +57,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
     makeOpponentMove();
   }, [makeOpponentMove]);
 
-  const handlePieceDrop = ({ piece, sourceSquare, targetSquare }: { piece: { pieceType: string }; sourceSquare: string; targetSquare: string | null }) => {
+  const handlePieceDrop = ({ piece, sourceSquare, targetSquare }: PieceDropArgs): boolean => {
     if (!isPlayerTurn || !targetSquare) return false;
 
     const expectedMove = currentLine.moves[currentMoveIndex];
@@ -62,7 +68,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
       const moveResult = newGame.move({
         from: sourceSquare,
         to: targetSquare,
-        promotion: piece[1]?.toLowerCase() === 'p' ? 'q' : undefined,
+        promotion: piece.pieceType?.toLowerCase() === 'p' ? 'q' : undefined,
       });
 
       if (!moveResult) return false;
