@@ -4,19 +4,17 @@ import Navbar from '@/components/Navbar';
 import CourseCard from '@/components/CourseCard';
 import { courses } from '@/lib/courses';
 import { Button } from '@/components/ui/button';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, X } from 'lucide-react';
 
 const Courses = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [colorFilter, setColorFilter] = useState<'all' | 'white' | 'black'>('all');
-  const [difficultyFilter, setDifficultyFilter] = useState<'all' | 'beginner' | 'intermediate' | 'advanced'>('all');
 
   const filteredCourses = courses.filter((course) => {
     const matchesSearch = course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       course.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesColor = colorFilter === 'all' || course.color === colorFilter;
-    const matchesDifficulty = difficultyFilter === 'all' || course.difficulty === difficultyFilter;
-    return matchesSearch && matchesColor && matchesDifficulty;
+    return matchesSearch && matchesColor;
   });
 
   return (
@@ -54,8 +52,16 @@ const Courses = () => {
                 placeholder="Search openings..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-11 pl-10 pr-4 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+                className="w-full h-11 pl-10 pr-10 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
               />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
 
             {/* Color filter */}
@@ -74,21 +80,6 @@ const Courses = () => {
                       {color}
                     </span>
                   )}
-                </Button>
-              ))}
-            </div>
-
-            {/* Difficulty filter */}
-            <div className="flex gap-2">
-              {(['all', 'beginner', 'intermediate', 'advanced'] as const).map((difficulty) => (
-                <Button
-                  key={difficulty}
-                  variant={difficultyFilter === difficulty ? 'default' : 'secondary'}
-                  size="sm"
-                  onClick={() => setDifficultyFilter(difficulty)}
-                  className="capitalize"
-                >
-                  {difficulty === 'all' ? 'All Levels' : difficulty}
                 </Button>
               ))}
             </div>
