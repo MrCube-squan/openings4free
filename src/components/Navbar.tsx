@@ -26,7 +26,7 @@ const Navbar = () => {
               <div className="absolute inset-0 rounded-lg bg-primary/20 opacity-0 blur-md transition-opacity group-hover:opacity-100" />
             </div>
             <span className="text-xl font-bold">
-              chess<span className="text-primary">reps</span>
+              openings<span className="text-primary">4free</span>
             </span>
           </Link>
 

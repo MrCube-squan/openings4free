@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Course, getDifficultyColor, getDifficultyLabel } from '@/lib/courses';
-import { BookOpen, TrendingUp } from 'lucide-react';
+import { Course } from '@/lib/courses';
+import { BookOpen } from 'lucide-react';
 
 interface CourseCardProps {
   course: Course;
@@ -44,13 +44,6 @@ const CourseCard = ({ course, index = 0 }: CourseCardProps) => {
               <BookOpen className="h-3.5 w-3.5" />
               <span>{course.lines} lines</span>
             </div>
-            <div className="flex items-center gap-1.5 text-muted-foreground">
-              <TrendingUp className="h-3.5 w-3.5" />
-              <span>{course.popularity}%</span>
-            </div>
-            <span className={`ml-auto font-medium ${getDifficultyColor(course.difficulty)}`}>
-              {getDifficultyLabel(course.difficulty)}
-            </span>
           </div>
 
           {/* Hover arrow */}

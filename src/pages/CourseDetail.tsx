@@ -2,8 +2,8 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
-import { courses, getDifficultyColor, getDifficultyLabel } from '@/lib/courses';
-import { ArrowLeft, BookOpen, TrendingUp, Target, Play } from 'lucide-react';
+import { courses } from '@/lib/courses';
+import { ArrowLeft, BookOpen, Play } from 'lucide-react';
 
 const CourseDetail = () => {
   const { courseId } = useParams();
@@ -71,23 +71,13 @@ const CourseDetail = () => {
                 </p>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-8">
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <BookOpen className="h-5 w-5 text-primary mb-2" />
-                    <div className="text-2xl font-bold">{course.lines}</div>
-                    <div className="text-sm text-muted-foreground">Lines</div>
-                  </div>
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <TrendingUp className="h-5 w-5 text-accent mb-2" />
-                    <div className="text-2xl font-bold">{course.popularity}%</div>
-                    <div className="text-sm text-muted-foreground">Popularity</div>
-                  </div>
-                  <div className="rounded-xl border border-border bg-card p-4">
-                    <Target className="h-5 w-5 text-destructive mb-2" />
-                    <div className={`text-2xl font-bold ${getDifficultyColor(course.difficulty)}`}>
-                      {getDifficultyLabel(course.difficulty)}
+                <div className="mb-8">
+                  <div className="inline-flex rounded-xl border border-border bg-card p-4">
+                    <BookOpen className="h-5 w-5 text-primary mr-3" />
+                    <div>
+                      <div className="text-2xl font-bold">{course.lines}</div>
+                      <div className="text-sm text-muted-foreground">Lines</div>
                     </div>
-                    <div className="text-sm text-muted-foreground">Difficulty</div>
                   </div>
                 </div>
 

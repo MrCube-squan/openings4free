@@ -102,7 +102,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Why chessreps works
+              Why openings4free works
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               No more "this never happens in my games." Every line is built from real moves at your level.
@@ -196,11 +196,11 @@ const Index = () => {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold">
-                chess<span className="text-primary">reps</span>
+                openings<span className="text-primary">4free</span>
               </span>
             </div>
             <div className="text-sm text-muted-foreground">
-              © 2024 Chessreps. Train like you play.
+              © 2025 openings4free. Train like you play.
             </div>
           </div>
         </div>
