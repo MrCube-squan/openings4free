@@ -269,28 +269,35 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
             ))}
           </div>
 
-          {/* Hint */}
-          {isPlayerTurn && currentMoveIndex < currentLine.moves.length && (
-            <div className="pt-2 border-t border-border">
-              {showHint ? (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-accent/10 border border-accent/20">
-                  <Lightbulb className="h-5 w-5 text-accent" />
-                  <span className="text-accent font-mono font-bold text-lg">
-                    {currentLine.moves[currentMoveIndex]}
-                  </span>
-                </div>
-              ) : (
-                <Button
-                  variant="outline"
-                  onClick={revealHint}
-                  className="w-full border-accent/30 text-accent hover:bg-accent/10"
-                >
-                  <Lightbulb className="h-4 w-4 mr-2" />
-                  Show Hint
-                </Button>
-              )}
-            </div>
-          )}
+          {/* Hint - always visible */}
+          <div className="pt-2 border-t border-border">
+            {currentMoveIndex >= currentLine.moves.length ? (
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-primary/10 border border-primary/20">
+                <Check className="h-5 w-5 text-primary" />
+                <span className="text-primary font-medium">Line complete!</span>
+              </div>
+            ) : !isPlayerTurn ? (
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50 border border-border">
+                <span className="text-muted-foreground text-sm">Opponent's turn...</span>
+              </div>
+            ) : showHint ? (
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-accent/10 border border-accent/20">
+                <Lightbulb className="h-5 w-5 text-accent" />
+                <span className="text-accent font-mono font-bold text-lg">
+                  {currentLine.moves[currentMoveIndex]}
+                </span>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={revealHint}
+                className="w-full border-accent/30 text-accent hover:bg-accent/10"
+              >
+                <Lightbulb className="h-4 w-4 mr-2" />
+                Show Hint
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Stats */}

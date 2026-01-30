@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import ChessTrainer from '@/components/ChessTrainer';
 import { courses } from '@/lib/courses';
+import { getTrainingLines } from '@/lib/courseLines';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Calendar, Flame, Trophy } from 'lucide-react';
 
@@ -11,25 +12,8 @@ const Train = () => {
   const courseId = searchParams.get('course');
   const course = courseId ? courses.find((c) => c.id === courseId) : null;
 
-  // Sample training lines
-  const trainingLines = [
-    {
-      name: 'Italian Game: Main Line',
-      moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bc4', 'Bc5', 'c3', 'd6'],
-    },
-    {
-      name: 'Italian Game: Evans Gambit',
-      moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bc4', 'Bc5', 'b4', 'Bxb4'],
-    },
-    {
-      name: 'Italian Game: Two Knights Defense',
-      moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bc4', 'Nf6', 'd4', 'exd4'],
-    },
-    {
-      name: 'Italian Game: Giuoco Piano',
-      moves: ['e4', 'e5', 'Nf3', 'Nc6', 'Bc4', 'Bc5', 'd3', 'Nf6'],
-    },
-  ];
+  // Get training lines for the selected course
+  const trainingLines = getTrainingLines(courseId || 'italian-game');
 
   return (
     <div className="min-h-screen bg-background">
@@ -102,7 +86,7 @@ const Train = () => {
           >
             <ChessTrainer
               lines={trainingLines}
-              playerColor="white"
+              playerColor={course?.color || 'white'}
               courseName={course?.name || 'Italian Game'}
             />
           </motion.div>
