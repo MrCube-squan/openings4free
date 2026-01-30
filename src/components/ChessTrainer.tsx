@@ -201,6 +201,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
             onPieceDrop={handlePieceDrop}
             onSquareClick={handleSquareClick}
             boardOrientation={playerColor}
+            arePremovesAllowed={true}
             customBoardStyle={{
               borderRadius: '12px',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
