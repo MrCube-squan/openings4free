@@ -25,6 +25,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
   const [linesCompleted, setLinesCompleted] = useState(0);
   const [correctMoves, setCorrectMoves] = useState(0);
   const [totalMoves, setTotalMoves] = useState(0);
+  const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<
     Record<string, Record<string, string | number>>
   >({});
@@ -118,11 +119,55 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
     }
   };
 
+  // Handle click-to-move
+  const handleSquareClick = (square: string) => {
+    if (!isPlayerTurn) return;
+
+    // If no square selected, select this one if it has a piece of the player's color
+    if (!selectedSquare) {
+      const piece = game.get(square as any);
+      if (piece && piece.color === (playerColor === 'white' ? 'w' : 'b')) {
+        setSelectedSquare(square);
+        setCustomSquareStyles({
+          [square]: { backgroundColor: 'hsl(152, 76%, 45%, 0.5)' },
+        });
+      }
+      return;
+    }
+
+    // If clicking the same square, deselect
+    if (selectedSquare === square) {
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+      return;
+    }
+
+    // Try to make the move
+    const piece = game.get(selectedSquare as any);
+    if (piece) {
+      const pieceString = `${piece.color}${piece.type.toUpperCase()}`;
+      const success = handlePieceDrop(selectedSquare, square, pieceString);
+      if (!success) {
+        // Check if clicking another own piece to switch selection
+        const targetPiece = game.get(square as any);
+        if (targetPiece && targetPiece.color === (playerColor === 'white' ? 'w' : 'b')) {
+          setSelectedSquare(square);
+          setCustomSquareStyles({
+            [square]: { backgroundColor: 'hsl(152, 76%, 45%, 0.5)' },
+          });
+          return;
+        }
+      }
+    }
+    setSelectedSquare(null);
+  };
+
   const resetLine = () => {
     setGame(new Chess());
     setCurrentMoveIndex(0);
     setFeedback(null);
     setShowHint(false);
+    setSelectedSquare(null);
     setCustomSquareStyles({});
   };
 
@@ -136,6 +181,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
     setCurrentMoveIndex(0);
     setFeedback(null);
     setShowHint(false);
+    setSelectedSquare(null);
     setCustomSquareStyles({});
   };
 
@@ -150,9 +196,10 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
       {/* Chessboard */}
       <div className="relative w-full max-w-[500px] mx-auto lg:mx-0">
         <div className="chess-board relative">
-          <Chessboard
+            <Chessboard
             position={game.fen()}
             onPieceDrop={handlePieceDrop}
+            onSquareClick={handleSquareClick}
             boardOrientation={playerColor}
             customBoardStyle={{
               borderRadius: '12px',
@@ -224,17 +271,23 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
 
           {/* Hint */}
           {isPlayerTurn && currentMoveIndex < currentLine.moves.length && (
-            <div className="text-sm">
+            <div className="pt-2 border-t border-border">
               {showHint ? (
-                <span className="text-accent font-mono">{currentLine.moves[currentMoveIndex]}</span>
+                <div className="flex items-center gap-2 p-3 rounded-lg bg-accent/10 border border-accent/20">
+                  <Lightbulb className="h-5 w-5 text-accent" />
+                  <span className="text-accent font-mono font-bold text-lg">
+                    {currentLine.moves[currentMoveIndex]}
+                  </span>
+                </div>
               ) : (
-                <button
+                <Button
+                  variant="outline"
                   onClick={revealHint}
-                  className="text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1.5"
+                  className="w-full border-accent/30 text-accent hover:bg-accent/10"
                 >
-                  <Lightbulb className="h-4 w-4" />
-                  Show hint
-                </button>
+                  <Lightbulb className="h-4 w-4 mr-2" />
+                  Show Hint
+                </Button>
               )}
             </div>
           )}
