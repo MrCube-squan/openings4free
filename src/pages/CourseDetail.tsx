@@ -3,11 +3,18 @@ import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
 import { courses } from '@/lib/courses';
-import { ArrowLeft, BookOpen, Play } from 'lucide-react';
+import { getTrainingLines } from '@/lib/courseLines';
+import { useLearnedLines } from '@/hooks/useLearnedLines';
+import { ArrowLeft, BookOpen, Play, Dumbbell } from 'lucide-react';
 
 const CourseDetail = () => {
   const { courseId } = useParams();
   const course = courses.find((c) => c.id === courseId);
+  const { getLearnedCount } = useLearnedLines();
+  
+  const allLines = courseId ? getTrainingLines(courseId) : [];
+  const learnedCount = courseId ? getLearnedCount(courseId) : 0;
+  const canDrill = learnedCount > 0;
 
   if (!course) {
     return (
@@ -126,18 +133,42 @@ const CourseDetail = () => {
               >
                 <div className="rounded-xl border border-border bg-card p-6">
                   <h3 className="font-bold mb-4">Start Training</h3>
-                  <p className="text-sm text-muted-foreground mb-6">
+                  <p className="text-sm text-muted-foreground mb-4">
                     Learn the moves that real players at your rating actually play.
                   </p>
+                  
+                  {/* Progress indicator */}
+                  {learnedCount > 0 && (
+                    <div className="mb-4 p-3 rounded-lg bg-primary/10 border border-primary/20">
+                      <div className="text-sm font-medium text-primary">
+                        {learnedCount} of {allLines.length} lines learned
+                      </div>
+                      <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-primary transition-all"
+                          style={{ width: `${(learnedCount / allLines.length) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  
                   <Link to={`/train?course=${course.id}`}>
                     <Button variant="hero" size="lg" className="w-full">
                       <Play className="h-5 w-5 mr-2" />
-                      Start Course
+                      Learn New Lines
                     </Button>
                   </Link>
-                  <Link to="/train">
-                    <Button variant="ghost" size="lg" className="w-full mt-2">
-                      Try first line free
+                  
+                  {/* Drill button */}
+                  <Link to={`/train?course=${course.id}&mode=drill`}>
+                    <Button 
+                      variant={canDrill ? "secondary" : "ghost"} 
+                      size="lg" 
+                      className="w-full mt-2"
+                      disabled={!canDrill}
+                    >
+                      <Dumbbell className="h-5 w-5 mr-2" />
+                      {canDrill ? `Drill ${learnedCount} Learned Lines` : 'Learn lines to unlock drilling'}
                     </Button>
                   </Link>
                 </div>
