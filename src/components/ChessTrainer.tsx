@@ -1,9 +1,11 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { Chessboard } from 'react-chessboard';
-import { Chess } from 'chess.js';
+import { Chess, Square } from 'chess.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Check, X, RotateCcw, ArrowRight, Lightbulb } from 'lucide-react';
+import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings } from 'lucide-react';
+import { useBoardSettings } from '@/hooks/useBoardSettings';
+import BoardSettingsModal from '@/components/BoardSettingsModal';
 
 interface Line {
   moves: string[];
@@ -14,24 +16,59 @@ interface ChessTrainerProps {
   lines: Line[];
   playerColor: 'white' | 'black';
   courseName?: string;
+  courseId?: string;
+  onLineComplete?: (lineIndex: number, accuracy: number) => void;
 }
 
-const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => {
+// Helper function to get arrow from SAN move
+const getArrowFromMove = (game: Chess, sanMove: string): [Square, Square] | null => {
+  const tempGame = new Chess(game.fen());
+  try {
+    const move = tempGame.move(sanMove);
+    if (move) {
+      return [move.from as Square, move.to as Square];
+    }
+  } catch (e) {
+    return null;
+  }
+  return null;
+};
+
+const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [lineHistory, setLineHistory] = useState<number[]>([0]);
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [linesCompleted, setLinesCompleted] = useState(0);
   const [correctMoves, setCorrectMoves] = useState(0);
   const [totalMoves, setTotalMoves] = useState(0);
+  const [lineCorrectMoves, setLineCorrectMoves] = useState(0);
+  const [lineTotalMoves, setLineTotalMoves] = useState(0);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<
     Record<string, Record<string, string | number>>
   >({});
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const { settings, updateSettings, currentTheme } = useBoardSettings();
 
   const currentLine = lines[currentLineIndex];
   const isPlayerTurn = (game.turn() === 'w') === (playerColor === 'white');
+
+  // Compute arrow for hint
+  const hintArrow = useMemo(() => {
+    if (!showHint || !isPlayerTurn || currentMoveIndex >= currentLine.moves.length) {
+      return [];
+    }
+    const expectedMove = currentLine.moves[currentMoveIndex];
+    const arrow = getArrowFromMove(game, expectedMove);
+    if (arrow) {
+      return [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>;
+    }
+    return [];
+  }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
   // Make opponent moves automatically
   const makeOpponentMove = useCallback(() => {
@@ -72,6 +109,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
 
       const moveSan = moveResult.san;
       setTotalMoves(prev => prev + 1);
+      setLineTotalMoves(prev => prev + 1);
 
       // Check if it matches the expected move
       if (moveSan === expectedMove || moveResult.lan === expectedMove) {
@@ -79,6 +117,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
         setCurrentMoveIndex(prev => prev + 1);
         setFeedback('correct');
         setCorrectMoves(prev => prev + 1);
+        setLineCorrectMoves(prev => prev + 1);
         setShowHint(false);
         setCustomSquareStyles({
           [sourceSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.4)' },
@@ -92,8 +131,15 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
 
         // Check if line is complete
         if (currentMoveIndex + 1 >= currentLine.moves.length) {
+          const lineAccuracy = lineTotalMoves > 0 
+            ? Math.round(((lineCorrectMoves + 1) / (lineTotalMoves + 1)) * 100) 
+            : 100;
+          
           setTimeout(() => {
             setLinesCompleted(prev => prev + 1);
+            if (onLineComplete) {
+              onLineComplete(currentLineIndex, lineAccuracy);
+            }
             nextLine();
           }, 1000);
         }
@@ -125,7 +171,7 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
 
     // If no square selected, select this one if it has a piece of the player's color
     if (!selectedSquare) {
-      const piece = game.get(square as any);
+      const piece = game.get(square as Square);
       if (piece && piece.color === (playerColor === 'white' ? 'w' : 'b')) {
         setSelectedSquare(square);
         setCustomSquareStyles({
@@ -143,13 +189,13 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
     }
 
     // Try to make the move
-    const piece = game.get(selectedSquare as any);
+    const piece = game.get(selectedSquare as Square);
     if (piece) {
       const pieceString = `${piece.color}${piece.type.toUpperCase()}`;
       const success = handlePieceDrop(selectedSquare, square, pieceString);
       if (!success) {
         // Check if clicking another own piece to switch selection
-        const targetPiece = game.get(square as any);
+        const targetPiece = game.get(square as Square);
         if (targetPiece && targetPiece.color === (playerColor === 'white' ? 'w' : 'b')) {
           setSelectedSquare(square);
           setCustomSquareStyles({
@@ -169,20 +215,40 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
     setShowHint(false);
     setSelectedSquare(null);
     setCustomSquareStyles({});
+    setLineCorrectMoves(0);
+    setLineTotalMoves(0);
+  };
+
+  const previousLine = () => {
+    if (lineHistory.length > 1) {
+      const newHistory = [...lineHistory];
+      newHistory.pop(); // Remove current
+      const prevIndex = newHistory[newHistory.length - 1];
+      setLineHistory(newHistory);
+      setCurrentLineIndex(prevIndex);
+      setGame(new Chess());
+      setCurrentMoveIndex(0);
+      setFeedback(null);
+      setShowHint(false);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+      setLineCorrectMoves(0);
+      setLineTotalMoves(0);
+    }
   };
 
   const nextLine = () => {
-    if (currentLineIndex < lines.length - 1) {
-      setCurrentLineIndex(prev => prev + 1);
-    } else {
-      setCurrentLineIndex(0);
-    }
+    const nextIndex = currentLineIndex < lines.length - 1 ? currentLineIndex + 1 : 0;
+    setCurrentLineIndex(nextIndex);
+    setLineHistory(prev => [...prev, nextIndex]);
     setGame(new Chess());
     setCurrentMoveIndex(0);
     setFeedback(null);
     setShowHint(false);
     setSelectedSquare(null);
     setCustomSquareStyles({});
+    setLineCorrectMoves(0);
+    setLineTotalMoves(0);
   };
 
   const revealHint = () => {
@@ -196,21 +262,23 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
       {/* Chessboard */}
       <div className="relative w-full max-w-[500px] mx-auto lg:mx-0">
         <div className="chess-board relative">
-            <Chessboard
+          <Chessboard
             position={game.fen()}
             onPieceDrop={handlePieceDrop}
             onSquareClick={handleSquareClick}
             boardOrientation={playerColor}
             arePremovesAllowed={true}
+            showBoardNotation={settings.showCoordinates}
+            customArrows={hintArrow}
             customBoardStyle={{
               borderRadius: '12px',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
             }}
             customDarkSquareStyle={{
-              backgroundColor: 'hsl(152, 25%, 32%)',
+              backgroundColor: currentTheme.dark,
             }}
             customLightSquareStyle={{
-              backgroundColor: 'hsl(35, 35%, 75%)',
+              backgroundColor: currentTheme.light,
             }}
             customSquareStyles={customSquareStyles}
           />
@@ -247,6 +315,18 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
 
       {/* Controls and info */}
       <div className="flex-1 w-full lg:max-w-sm space-y-6">
+        {/* Settings button */}
+        <div className="flex justify-end">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setSettingsOpen(true)}
+            className="text-muted-foreground hover:text-foreground"
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
+        </div>
+
         {/* Current line info */}
         <div className="rounded-xl border border-border bg-card p-5">
           <div className="text-xs text-muted-foreground mb-1">Current Line</div>
@@ -319,6 +399,15 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
 
         {/* Action buttons */}
         <div className="flex gap-3">
+          <Button 
+            variant="outline" 
+            onClick={previousLine} 
+            disabled={lineHistory.length <= 1}
+            size="icon"
+            className="shrink-0"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
           <Button variant="secondary" onClick={resetLine} className="flex-1">
             <RotateCcw className="h-4 w-4 mr-2" />
             Reset
@@ -329,6 +418,14 @@ const ChessTrainer = ({ lines, playerColor, courseName }: ChessTrainerProps) => 
           </Button>
         </div>
       </div>
+
+      {/* Settings Modal */}
+      <BoardSettingsModal
+        isOpen={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        settings={settings}
+        onUpdateSettings={updateSettings}
+      />
     </div>
   );
 };
