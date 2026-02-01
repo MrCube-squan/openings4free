@@ -29,8 +29,7 @@ export const useLearnedLines = () => {
   }, [learnedLines]);
 
   const markLineAsLearned = useCallback((courseId: string, lineIndex: number, accuracy: number) => {
-    // Only mark as learned if accuracy >= 80%
-    if (accuracy < 80) return;
+    // Mark as learned immediately on first completion (no accuracy requirement)
 
     setLearnedLines(prev => {
       // Check if already exists
