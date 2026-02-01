@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings } from 'lucide-react';
 import { useBoardSettings } from '@/hooks/useBoardSettings';
 import BoardSettingsModal from '@/components/BoardSettingsModal';
+import confetti from 'canvas-confetti';
 
 interface Line {
   moves: string[];
@@ -134,6 +135,13 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           const lineAccuracy = lineTotalMoves > 0 
             ? Math.round(((lineCorrectMoves + 1) / (lineTotalMoves + 1)) * 100) 
             : 100;
+          
+          // Fire confetti celebration!
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+          });
           
           setTimeout(() => {
             setLinesCompleted(prev => prev + 1);
