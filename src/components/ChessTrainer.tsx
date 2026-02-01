@@ -173,6 +173,26 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   };
 
+  // Get legal moves for a piece and return highlight styles
+  const getLegalMoveStyles = (fromSquare: string): Record<string, Record<string, string | number>> => {
+    const moves = game.moves({ square: fromSquare as Square, verbose: true });
+    const styles: Record<string, Record<string, string | number>> = {
+      [fromSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.5)' },
+    };
+    
+    moves.forEach(move => {
+      const isCapture = move.captured;
+      styles[move.to] = {
+        background: isCapture 
+          ? 'radial-gradient(circle, transparent 60%, hsl(38, 95%, 55%, 0.6) 60%)'
+          : 'radial-gradient(circle, hsl(38, 95%, 55%, 0.5) 25%, transparent 25%)',
+        borderRadius: '50%',
+      };
+    });
+    
+    return styles;
+  };
+
   // Handle click-to-move
   const handleSquareClick = (square: string) => {
     if (!isPlayerTurn) return;
@@ -182,9 +202,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       const piece = game.get(square as Square);
       if (piece && piece.color === (playerColor === 'white' ? 'w' : 'b')) {
         setSelectedSquare(square);
-        setCustomSquareStyles({
-          [square]: { backgroundColor: 'hsl(152, 76%, 45%, 0.5)' },
-        });
+        // Show all legal moves for this piece
+        setCustomSquareStyles(getLegalMoveStyles(square));
       }
       return;
     }
@@ -206,9 +225,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         const targetPiece = game.get(square as Square);
         if (targetPiece && targetPiece.color === (playerColor === 'white' ? 'w' : 'b')) {
           setSelectedSquare(square);
-          setCustomSquareStyles({
-            [square]: { backgroundColor: 'hsl(152, 76%, 45%, 0.5)' },
-          });
+          // Show all legal moves for this piece
+          setCustomSquareStyles(getLegalMoveStyles(square));
           return;
         }
       }
