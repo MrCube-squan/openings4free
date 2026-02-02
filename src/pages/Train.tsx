@@ -2,12 +2,14 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import ChessTrainer from '@/components/ChessTrainer';
+import LineEditor from '@/components/LineEditor';
 import { courses } from '@/lib/courses';
 import { getTrainingLines } from '@/lib/courseLines';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Calendar, Flame, Trophy, BookOpen, Dumbbell } from 'lucide-react';
 import { useLearnedLines } from '@/hooks/useLearnedLines';
+import { useCustomLines } from '@/hooks/useCustomLines';
 import { useState, useMemo } from 'react';
 
 type TrainingMode = 'learn' | 'drill';
@@ -20,10 +22,17 @@ const Train = () => {
   const course = courseId ? courses.find((c) => c.id === courseId) : null;
   
   const [mode, setMode] = useState<TrainingMode>(initialMode || 'learn');
+  const [editingLine, setEditingLine] = useState<{ index: number; moves: string[]; name: string } | null>(null);
   const { markLineAsLearned, getLearnedLinesForCourse, getLearnedCount } = useLearnedLines();
+  const { customLines, addLine, updateLine } = useCustomLines(courseId || 'italian-game');
 
-  // Get training lines for the selected course
-  const allLines = getTrainingLines(courseId || 'italian-game');
+  // Get training lines for the selected course (including custom lines)
+  const builtInLines = getTrainingLines(courseId || 'italian-game');
+  const allLines = useMemo(() => {
+    const custom = customLines.map(cl => ({ name: cl.name, moves: cl.moves }));
+    return [...builtInLines, ...custom];
+  }, [builtInLines, customLines]);
+  
   const learnedLinesData = getLearnedLinesForCourse(courseId || 'italian-game');
   const learnedCount = getLearnedCount(courseId || 'italian-game');
   
@@ -40,6 +49,24 @@ const Train = () => {
     }
     return allLines;
   }, [mode, allLines, learnedLinesData]);
+
+  const handleEditLine = (lineIndex: number, lineMoves: string[], lineName: string) => {
+    setEditingLine({ index: lineIndex, moves: lineMoves, name: lineName });
+  };
+
+  const handleSaveEditedLine = (name: string, moves: string[], category: string) => {
+    if (editingLine) {
+      // If editing a custom line, update it; otherwise add as new custom line
+      const customLineIndex = editingLine.index - builtInLines.length;
+      if (customLineIndex >= 0 && customLineIndex < customLines.length) {
+        updateLine(customLines[customLineIndex].id, { name, moves, category });
+      } else {
+        // Adding moves to a built-in line creates a new custom line extending it
+        addLine(`${editingLine.name} (Extended)`, moves, category);
+      }
+    }
+    setEditingLine(null);
+  };
 
   const handleLineComplete = (lineIndex: number, accuracy: number) => {
     if (courseId) {
@@ -200,6 +227,7 @@ const Train = () => {
               courseId={courseId || 'italian-game'}
               onLineComplete={handleLineComplete}
               startLineIndex={startLineIndex}
+              onEditLine={handleEditLine}
             />
           </motion.div>
 
@@ -221,6 +249,16 @@ const Train = () => {
           </motion.div>
         </div>
       </main>
+
+      {/* Line Editor Modal */}
+      <LineEditor
+        open={editingLine !== null}
+        onClose={() => setEditingLine(null)}
+        onSave={handleSaveEditedLine}
+        courseColor={course?.color || 'white'}
+        initialMoves={editingLine?.moves}
+        initialName={editingLine?.name}
+      />
     </div>
   );
 };

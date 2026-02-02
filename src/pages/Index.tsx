@@ -49,12 +49,12 @@ const Index = () => {
               Stop memorizing engine lines nobody plays. Train openings from millions of real games at your rating.
             </motion.p>
 
-            {/* CTAs */}
+            {/* CTA */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
+              className="flex justify-center"
             >
               <Link to="/courses">
                 <Button variant="hero" size="xl">
@@ -62,32 +62,6 @@ const Index = () => {
                   <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
               </Link>
-              <Link to="/train">
-                <Button variant="outline" size="xl">
-                  Try Free Demo
-                </Button>
-              </Link>
-            </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="flex flex-wrap justify-center gap-8 mt-16 text-center"
-            >
-              {[
-                { value: '10M+', label: 'Games Analyzed' },
-                { value: '500+', label: 'Opening Lines' },
-                { value: '50K+', label: 'Active Trainers' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <div className="text-3xl md:text-4xl font-bold text-foreground">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-muted-foreground">{stat.label}</div>
-                </div>
-              ))}
             </motion.div>
           </div>
         </div>
