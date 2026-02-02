@@ -1,20 +1,160 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useState, useMemo } from 'react';
 import Navbar from '@/components/Navbar';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { courses } from '@/lib/courses';
-import { getTrainingLines } from '@/lib/courseLines';
+import { getTrainingLines, TrainingLine } from '@/lib/courseLines';
+import { categorizeLines, getSortedCategories, CategorizedLine } from '@/lib/lineCategories';
 import { useLearnedLines } from '@/hooks/useLearnedLines';
-import { ArrowLeft, BookOpen, Play, Dumbbell } from 'lucide-react';
+import { useCustomLines, CustomLineData } from '@/hooks/useCustomLines';
+import LineEditor from '@/components/LineEditor';
+import { ArrowLeft, BookOpen, Play, Dumbbell, Plus, Pencil, Trash2, Check, ChevronDown, ChevronRight } from 'lucide-react';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 const CourseDetail = () => {
   const { courseId } = useParams();
+  const navigate = useNavigate();
   const course = courses.find((c) => c.id === courseId);
-  const { getLearnedCount } = useLearnedLines();
+  const { getLearnedCount, isLineLearned } = useLearnedLines();
+  const { customLines, addLine, updateLine, deleteLine } = useCustomLines(courseId || '');
+  
+  const [editorOpen, setEditorOpen] = useState(false);
+  const [editingLine, setEditingLine] = useState<CustomLineData | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [lineToDelete, setLineToDelete] = useState<string | null>(null);
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['Mainline']));
   
   const allLines = courseId ? getTrainingLines(courseId) : [];
   const learnedCount = courseId ? getLearnedCount(courseId) : 0;
   const canDrill = learnedCount > 0;
+
+  // Categorize built-in lines
+  const categorizedBuiltInLines = useMemo(() => {
+    return categorizeLines(allLines);
+  }, [allLines]);
+
+  // Categorize custom lines
+  const categorizedCustomLines = useMemo(() => {
+    const customTrainingLines: TrainingLine[] = customLines.map(cl => ({
+      name: cl.name,
+      moves: cl.moves,
+    }));
+    return categorizeLines(customTrainingLines);
+  }, [customLines]);
+
+  // Merge categories
+  const allCategories = useMemo(() => {
+    const merged = new Map<string, CategorizedLine[]>();
+    
+    // Add built-in lines
+    categorizedBuiltInLines.forEach((lines, category) => {
+      merged.set(category, [...lines]);
+    });
+    
+    // Add custom lines
+    categorizedCustomLines.forEach((lines, category) => {
+      if (merged.has(category)) {
+        merged.get(category)!.push(...lines.map(l => ({
+          ...l,
+          index: allLines.length + customLines.findIndex(cl => cl.name === l.name),
+        })));
+      } else {
+        merged.set(category, lines.map(l => ({
+          ...l,
+          index: allLines.length + customLines.findIndex(cl => cl.name === l.name),
+        })));
+      }
+    });
+    
+    return merged;
+  }, [categorizedBuiltInLines, categorizedCustomLines, allLines, customLines]);
+
+  const sortedCategoryNames = useMemo(() => {
+    return getSortedCategories(allCategories);
+  }, [allCategories]);
+
+  // Get starting moves for the opening
+  const getStartingMoves = () => {
+    if (!course) return [];
+    // Parse the moves string like "1.e4 e5 2.Nf3 Nc6 3.Bc4"
+    const movesStr = course.moves;
+    const moves: string[] = [];
+    const regex = /(\d+\.+)?\s*([a-zA-Z0-9+#=\-]+)/g;
+    let match;
+    while ((match = regex.exec(movesStr)) !== null) {
+      if (match[2] && !match[2].match(/^\d+$/)) {
+        moves.push(match[2]);
+      }
+    }
+    return moves;
+  };
+
+  const handleStartLine = (lineIndex: number) => {
+    navigate(`/train?course=${courseId}&startLine=${lineIndex}`);
+  };
+
+  const handleSaveLine = (name: string, moves: string[], category: string) => {
+    if (editingLine) {
+      updateLine(editingLine.id, { name, moves, category });
+    } else {
+      addLine(name, moves, category);
+    }
+    setEditingLine(null);
+  };
+
+  const handleEditLine = (line: CustomLineData) => {
+    setEditingLine(line);
+    setEditorOpen(true);
+  };
+
+  const handleDeleteClick = (lineId: string) => {
+    setLineToDelete(lineId);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (lineToDelete) {
+      deleteLine(lineToDelete);
+      setLineToDelete(null);
+    }
+    setDeleteDialogOpen(false);
+  };
+
+  const toggleCategory = (category: string) => {
+    setExpandedCategories(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(category)) {
+        newSet.delete(category);
+      } else {
+        newSet.add(category);
+      }
+      return newSet;
+    });
+  };
+
+  const isCustomLine = (lineName: string) => {
+    return customLines.some(cl => cl.name === lineName);
+  };
+
+  const getCustomLineData = (lineName: string) => {
+    return customLines.find(cl => cl.name === lineName);
+  };
 
   if (!course) {
     return (
@@ -30,14 +170,7 @@ const CourseDetail = () => {
     );
   }
 
-  // Sample lines for this course
-  const sampleLines = [
-    { name: 'Main Line', moves: 8 },
-    { name: 'Classical Variation', moves: 10 },
-    { name: 'Modern Approach', moves: 7 },
-    { name: 'Anti-Theory Line', moves: 6 },
-    { name: 'Sharp Gambit', moves: 12 },
-  ];
+  const totalLines = allLines.length + customLines.length;
 
   return (
     <div className="min-h-screen bg-background">
@@ -78,14 +211,23 @@ const CourseDetail = () => {
                 </p>
 
                 {/* Stats */}
-                <div className="mb-8">
+                <div className="flex gap-4 mb-8">
                   <div className="inline-flex rounded-xl border border-border bg-card p-4">
                     <BookOpen className="h-5 w-5 text-primary mr-3" />
                     <div>
-                      <div className="text-2xl font-bold">{course.lines}</div>
-                      <div className="text-sm text-muted-foreground">Lines</div>
+                      <div className="text-2xl font-bold">{totalLines}</div>
+                      <div className="text-sm text-muted-foreground">Total Lines</div>
                     </div>
                   </div>
+                  {customLines.length > 0 && (
+                    <div className="inline-flex rounded-xl border border-border bg-card p-4">
+                      <Plus className="h-5 w-5 text-accent mr-3" />
+                      <div>
+                        <div className="text-2xl font-bold">{customLines.length}</div>
+                        <div className="text-sm text-muted-foreground">Custom Lines</div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Starting position */}
@@ -94,30 +236,130 @@ const CourseDetail = () => {
                   <code className="text-lg font-mono text-primary">{course.moves}</code>
                 </div>
 
-                {/* Sample lines */}
+                {/* All lines by category */}
                 <div>
-                  <h3 className="text-xl font-bold mb-4">Lines in this course</h3>
-                  <div className="space-y-2">
-                    {sampleLines.map((line, index) => (
-                      <motion.div
-                        key={line.name}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.05 }}
-                        className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:bg-card-hover transition-colors"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
-                            {index + 1}
-                          </div>
-                          <span className="font-medium">{line.name}</span>
-                        </div>
-                        <span className="text-sm text-muted-foreground">{line.moves} moves</span>
-                      </motion.div>
-                    ))}
-                    <div className="text-center text-muted-foreground text-sm py-4">
-                      + {course.lines - sampleLines.length} more lines
-                    </div>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-xl font-bold">Lines in this course</h3>
+                    <Button
+                      onClick={() => {
+                        setEditingLine(null);
+                        setEditorOpen(true);
+                      }}
+                      size="sm"
+                    >
+                      <Plus className="h-4 w-4 mr-1" />
+                      Add Line
+                    </Button>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    {sortedCategoryNames.map((category) => {
+                      const lines = allCategories.get(category) || [];
+                      const isExpanded = expandedCategories.has(category);
+                      
+                      return (
+                        <Collapsible
+                          key={category}
+                          open={isExpanded}
+                          onOpenChange={() => toggleCategory(category)}
+                        >
+                          <CollapsibleTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              className="w-full justify-between p-4 h-auto rounded-lg border border-border bg-card hover:bg-card-hover"
+                            >
+                              <div className="flex items-center gap-3">
+                                {isExpanded ? (
+                                  <ChevronDown className="h-4 w-4" />
+                                ) : (
+                                  <ChevronRight className="h-4 w-4" />
+                                )}
+                                <span className="font-semibold">{category}</span>
+                                <Badge variant="secondary">{lines.length}</Badge>
+                              </div>
+                            </Button>
+                          </CollapsibleTrigger>
+                          
+                          <CollapsibleContent className="mt-2 space-y-2 ml-4">
+                            {lines.map((line, idx) => {
+                              const isLearned = courseId && isLineLearned(courseId, line.index);
+                              const customData = isCustomLine(line.name) ? getCustomLineData(line.name) : null;
+                              
+                              return (
+                                <motion.div
+                                  key={`${category}-${line.name}-${idx}`}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  animate={{ opacity: 1, x: 0 }}
+                                  transition={{ delay: idx * 0.02 }}
+                                  className="flex items-center justify-between p-4 rounded-lg border border-border bg-card hover:bg-card-hover transition-colors group"
+                                >
+                                  <div className="flex items-center gap-3 flex-1 min-w-0">
+                                    <div className={`h-8 w-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
+                                      isLearned 
+                                        ? 'bg-primary/20 text-primary' 
+                                        : customData 
+                                          ? 'bg-accent/20 text-accent'
+                                          : 'bg-muted text-muted-foreground'
+                                    }`}>
+                                      {isLearned ? (
+                                        <Check className="h-4 w-4" />
+                                      ) : customData ? (
+                                        '★'
+                                      ) : (
+                                        line.index + 1
+                                      )}
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                      <span className="font-medium truncate block">{line.name}</span>
+                                      <span className="text-xs text-muted-foreground">
+                                        {line.moves.length} moves
+                                      </span>
+                                    </div>
+                                  </div>
+                                  
+                                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    {customData && (
+                                      <>
+                                        <Button
+                                          variant="ghost"
+                                          size="icon"
+                                          className="h-8 w-8"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleEditLine(customData);
+                                          }}
+                                        >
+                                          <Pencil className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                          variant="ghost"
+                                          size="icon"
+                                          className="h-8 w-8 text-destructive hover:text-destructive"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteClick(customData.id);
+                                          }}
+                                        >
+                                          <Trash2 className="h-4 w-4" />
+                                        </Button>
+                                      </>
+                                    )}
+                                    <Button
+                                      variant="secondary"
+                                      size="sm"
+                                      onClick={() => handleStartLine(line.index)}
+                                    >
+                                      <Play className="h-4 w-4 mr-1" />
+                                      Learn
+                                    </Button>
+                                  </div>
+                                </motion.div>
+                              );
+                            })}
+                          </CollapsibleContent>
+                        </Collapsible>
+                      );
+                    })}
                   </div>
                 </div>
               </motion.div>
@@ -141,12 +383,12 @@ const CourseDetail = () => {
                   {learnedCount > 0 && (
                     <div className="mb-4 p-3 rounded-lg bg-primary/10 border border-primary/20">
                       <div className="text-sm font-medium text-primary">
-                        {learnedCount} of {allLines.length} lines learned
+                        {learnedCount} of {totalLines} lines learned
                       </div>
                       <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
                         <div 
                           className="h-full bg-primary transition-all"
-                          style={{ width: `${(learnedCount / allLines.length) * 100}%` }}
+                          style={{ width: `${(learnedCount / totalLines) * 100}%` }}
                         />
                       </div>
                     </div>
@@ -177,6 +419,39 @@ const CourseDetail = () => {
           </div>
         </div>
       </main>
+
+      {/* Line Editor Modal */}
+      <LineEditor
+        open={editorOpen}
+        onClose={() => {
+          setEditorOpen(false);
+          setEditingLine(null);
+        }}
+        onSave={handleSaveLine}
+        initialName={editingLine?.name || ''}
+        initialMoves={editingLine?.moves || []}
+        initialCategory={editingLine?.category || 'Custom'}
+        courseColor={course.color}
+        startingMoves={getStartingMoves()}
+      />
+
+      {/* Delete Confirmation */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Line</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this custom line? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };
