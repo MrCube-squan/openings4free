@@ -19,6 +19,7 @@ interface ChessTrainerProps {
   courseName?: string;
   courseId?: string;
   onLineComplete?: (lineIndex: number, accuracy: number) => void;
+  startLineIndex?: number;
 }
 
 // Helper function to get arrow from SAN move
@@ -35,10 +36,11 @@ const getArrowFromMove = (game: Chess, sanMove: string): [Square, Square] | null
   return null;
 };
 
-const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete }: ChessTrainerProps) => {
+const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
-  const [currentLineIndex, setCurrentLineIndex] = useState(0);
-  const [lineHistory, setLineHistory] = useState<number[]>([0]);
+  const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
+  const [currentLineIndex, setCurrentLineIndex] = useState(initialLineIndex);
+  const [lineHistory, setLineHistory] = useState<number[]>([initialLineIndex]);
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
   const [showHint, setShowHint] = useState(false);

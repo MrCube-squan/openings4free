@@ -16,6 +16,7 @@ const Train = () => {
   const [searchParams] = useSearchParams();
   const courseId = searchParams.get('course');
   const initialMode = searchParams.get('mode') as TrainingMode | null;
+  const startLineParam = searchParams.get('startLine');
   const course = courseId ? courses.find((c) => c.id === courseId) : null;
   
   const [mode, setMode] = useState<TrainingMode>(initialMode || 'learn');
@@ -25,6 +26,9 @@ const Train = () => {
   const allLines = getTrainingLines(courseId || 'italian-game');
   const learnedLinesData = getLearnedLinesForCourse(courseId || 'italian-game');
   const learnedCount = getLearnedCount(courseId || 'italian-game');
+  
+  // Parse starting line index
+  const startLineIndex = startLineParam ? parseInt(startLineParam, 10) : undefined;
 
   // Filter lines based on mode
   const trainingLines = useMemo(() => {
@@ -195,6 +199,7 @@ const Train = () => {
               courseName={course?.name || 'Italian Game'}
               courseId={courseId || 'italian-game'}
               onLineComplete={handleLineComplete}
+              startLineIndex={startLineIndex}
             />
           </motion.div>
 
