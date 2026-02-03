@@ -4,6 +4,7 @@ import { Chessboard } from 'react-chessboard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Dialog,
   DialogContent,
@@ -57,6 +58,7 @@ const LineEditor = ({
   const [category, setCategory] = useState(initialCategory);
   const [moves, setMoves] = useState<string[]>(initialMoves);
   const [moveInput, setMoveInput] = useState('');
+  const [pgnInput, setPgnInput] = useState('');
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
   const { settings, currentTheme } = useBoardSettings();
@@ -241,7 +243,6 @@ const LineEditor = ({
     
     // Format with move numbers
     let formatted = '';
-    const startMoveNum = Math.floor(startingMoves.length / 2) + 1;
     const isBlackToMoveFirst = startingMoves.length % 2 === 1;
     
     allMoves.forEach((move, idx) => {
@@ -260,7 +261,62 @@ const LineEditor = ({
       }
     });
     
-    return formatted.trim() || 'No moves yet';
+    return formatted.trim();
+  };
+
+  // Update PGN input when moves change
+  useEffect(() => {
+    setPgnInput(formatMoveList());
+  }, [moves, game]);
+
+  // Parse PGN input and apply moves
+  const parsePgnAndApply = (pgn: string) => {
+    // Remove move numbers and clean up the PGN
+    const cleanedPgn = pgn
+      .replace(/\d+\.\.\./g, '') // Remove "1..." style notation
+      .replace(/\d+\./g, '')     // Remove "1." style notation
+      .replace(/\s+/g, ' ')      // Normalize whitespace
+      .trim();
+    
+    const moveTokens = cleanedPgn.split(' ').filter(m => m.length > 0);
+    
+    // Start from the opening position
+    const newGame = new Chess();
+    startingMoves.forEach(move => {
+      try {
+        newGame.move(move);
+      } catch (e) {
+        console.error('Invalid starting move:', move);
+      }
+    });
+    
+    // Apply each move from the PGN
+    const validMoves: string[] = [];
+    for (const moveToken of moveTokens) {
+      try {
+        const result = newGame.move(moveToken);
+        if (result) {
+          validMoves.push(result.san);
+        }
+      } catch (e) {
+        // Stop at first invalid move
+        break;
+      }
+    }
+    
+    setGame(newGame);
+    setMoves(validMoves);
+    setSelectedSquare(null);
+    setCustomSquareStyles({});
+  };
+
+  const handlePgnChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const newPgn = e.target.value;
+    setPgnInput(newPgn);
+  };
+
+  const handlePgnBlur = () => {
+    parsePgnAndApply(pgnInput);
   };
 
   return (
@@ -354,10 +410,18 @@ const LineEditor = ({
             </div>
 
             <div>
-              <Label>Moves ({moves.length} moves after opening)</Label>
-              <div className="mt-2 p-3 rounded-lg bg-muted text-sm font-mono min-h-[80px] max-h-[160px] overflow-y-auto">
-                {formatMoveList()}
-              </div>
+              <Label htmlFor="pgn-input">Moves ({moves.length} moves after opening)</Label>
+              <Textarea
+                id="pgn-input"
+                value={pgnInput}
+                onChange={handlePgnChange}
+                onBlur={handlePgnBlur}
+                placeholder="e.g., 1. e4 e5 2. Nf3 Nc6"
+                className="mt-2 font-mono text-sm min-h-[80px] max-h-[160px]"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Edit moves directly or use the board. Changes apply when you click outside.
+              </p>
             </div>
 
             <div className="text-sm text-muted-foreground">
