@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Chess } from 'chess.js';
+import { useState, useEffect, useRef } from 'react';
+import { Chess, Square } from 'chess.js';
 import { Chessboard } from 'react-chessboard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Undo2, RotateCcw, Save, X } from 'lucide-react';
+import { Undo2, RotateCcw, Save, X, Plus } from 'lucide-react';
 import { useBoardSettings } from '@/hooks/useBoardSettings';
 
 interface LineEditorProps {
@@ -56,7 +56,11 @@ const LineEditor = ({
   const [name, setName] = useState(initialName);
   const [category, setCategory] = useState(initialCategory);
   const [moves, setMoves] = useState<string[]>(initialMoves);
+  const [moveInput, setMoveInput] = useState('');
+  const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
+  const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
   const { settings, currentTheme } = useBoardSettings();
+  const moveInputRef = useRef<HTMLInputElement>(null);
 
   // Reset when dialog opens
   useEffect(() => {
@@ -88,6 +92,37 @@ const LineEditor = ({
     }
   }, [open, initialName, initialMoves, initialCategory, startingMoves]);
 
+  // Get legal moves for highlighting
+  const getLegalMoveStyles = (fromSquare: string): Record<string, Record<string, string | number>> => {
+    const legalMoves = game.moves({ square: fromSquare as Square, verbose: true });
+    const styles: Record<string, Record<string, string | number>> = {
+      [fromSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.5)' },
+    };
+    
+    legalMoves.forEach(move => {
+      const isCapture = move.captured;
+      styles[move.to] = {
+        background: isCapture 
+          ? 'radial-gradient(circle, transparent 60%, hsl(38, 95%, 55%, 0.6) 60%)'
+          : 'radial-gradient(circle, hsl(38, 95%, 55%, 0.5) 25%, transparent 25%)',
+        borderRadius: '50%',
+      };
+    });
+    
+    return styles;
+  };
+
+  const applyMove = (moveResult: ReturnType<typeof game.move>) => {
+    if (moveResult) {
+      const newGame = new Chess(game.fen());
+      setGame(newGame);
+      const newMoves = newGame.history().slice(startingMoves.length);
+      setMoves(newMoves);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+    }
+  };
+
   const handleMove = (sourceSquare: string, targetSquare: string, piece: string) => {
     try {
       const move = game.move({
@@ -97,19 +132,78 @@ const LineEditor = ({
       });
 
       if (move) {
-        setGame(new Chess(game.fen()));
-        // Only track moves after the starting position
-        const historyLength = game.history().length;
-        if (historyLength > startingMoves.length) {
-          const newMoves = game.history().slice(startingMoves.length);
-          setMoves(newMoves);
-        }
+        applyMove(move);
         return true;
       }
     } catch (e) {
       return false;
     }
     return false;
+  };
+
+  const handleSquareClick = (square: string) => {
+    // If no square selected, select this one if it has a piece
+    if (!selectedSquare) {
+      const piece = game.get(square as Square);
+      if (piece) {
+        setSelectedSquare(square);
+        setCustomSquareStyles(getLegalMoveStyles(square));
+      }
+      return;
+    }
+
+    // If clicking the same square, deselect
+    if (selectedSquare === square) {
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+      return;
+    }
+
+    // Try to make the move
+    try {
+      const move = game.move({
+        from: selectedSquare,
+        to: square,
+        promotion: 'q', // Always promote to queen
+      });
+
+      if (move) {
+        applyMove(move);
+        return;
+      }
+    } catch (e) {
+      // Invalid move, check if clicking another piece
+    }
+
+    // Check if clicking another piece to switch selection
+    const piece = game.get(square as Square);
+    if (piece) {
+      setSelectedSquare(square);
+      setCustomSquareStyles(getLegalMoveStyles(square));
+    } else {
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+    }
+  };
+
+  const handleMoveInput = () => {
+    if (!moveInput.trim()) return;
+    
+    try {
+      const move = game.move(moveInput.trim());
+      if (move) {
+        applyMove(move);
+        setMoveInput('');
+      }
+    } catch (e) {
+      // Invalid move - could show feedback
+    }
+  };
+
+  const handleMoveInputKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleMoveInput();
+    }
   };
 
   const undoMove = () => {
@@ -185,14 +279,31 @@ const LineEditor = ({
               <Chessboard
                 position={game.fen()}
                 onPieceDrop={handleMove}
+                onSquareClick={handleSquareClick}
                 boardOrientation={courseColor}
                 customLightSquareStyle={{ backgroundColor: currentTheme.light }}
                 customDarkSquareStyle={{ backgroundColor: currentTheme.dark }}
+                customSquareStyles={customSquareStyles}
                 showBoardNotation={settings.showCoordinates}
               />
             </div>
 
+            {/* Move input */}
             <div className="flex gap-2 mt-4">
+              <Input
+                ref={moveInputRef}
+                value={moveInput}
+                onChange={(e) => setMoveInput(e.target.value)}
+                onKeyDown={handleMoveInputKeyDown}
+                placeholder="Type move (e.g., e4, Nf3)"
+                className="flex-1"
+              />
+              <Button variant="secondary" size="icon" onClick={handleMoveInput}>
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="flex gap-2 mt-2">
               <Button
                 variant="outline"
                 size="sm"

@@ -3,7 +3,7 @@ import { Chessboard } from 'react-chessboard';
 import { Chess, Square } from 'chess.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Pencil } from 'lucide-react';
+import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Pencil, Undo2 } from 'lucide-react';
 import { useBoardSettings } from '@/hooks/useBoardSettings';
 import BoardSettingsModal from '@/components/BoardSettingsModal';
 import confetti from 'canvas-confetti';
@@ -237,6 +237,29 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setSelectedSquare(null);
   };
 
+  const goBackMove = () => {
+    if (currentMoveIndex > 0) {
+      // Rebuild game from scratch up to currentMoveIndex - 1
+      const newGame = new Chess();
+      const targetIndex = Math.max(0, currentMoveIndex - 1);
+      
+      for (let i = 0; i < targetIndex; i++) {
+        try {
+          newGame.move(currentLine.moves[i]);
+        } catch (e) {
+          break;
+        }
+      }
+      
+      setGame(newGame);
+      setCurrentMoveIndex(targetIndex);
+      setFeedback(null);
+      setShowHint(false);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+    }
+  };
+
   const resetLine = () => {
     setGame(new Chess());
     setCurrentMoveIndex(0);
@@ -434,8 +457,19 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             disabled={lineHistory.length <= 1}
             size="icon"
             className="shrink-0"
+            title="Previous Line"
           >
             <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={goBackMove} 
+            disabled={currentMoveIndex === 0}
+            size="icon"
+            className="shrink-0"
+            title="Go Back a Move"
+          >
+            <Undo2 className="h-4 w-4" />
           </Button>
           <Button variant="secondary" onClick={resetLine} className="flex-1">
             <RotateCcw className="h-4 w-4 mr-2" />

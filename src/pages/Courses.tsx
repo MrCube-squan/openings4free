@@ -10,12 +10,14 @@ const Courses = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [colorFilter, setColorFilter] = useState<'all' | 'white' | 'black'>('all');
 
-  const filteredCourses = courses.filter((course) => {
-    const matchesSearch = course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesColor = colorFilter === 'all' || course.color === colorFilter;
-    return matchesSearch && matchesColor;
-  });
+  const filteredCourses = courses
+    .filter((course) => {
+      const matchesSearch = course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        course.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesColor = colorFilter === 'all' || course.color === colorFilter;
+      return matchesSearch && matchesColor;
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <div className="min-h-screen bg-background">
@@ -33,7 +35,7 @@ const Courses = () => {
               Opening Courses
             </h1>
             <p className="text-lg text-muted-foreground">
-              Curated repertoires built from real games. Each line is battle-tested at your rating.
+              Curated repertoires built from real games.
             </p>
           </motion.div>
 
