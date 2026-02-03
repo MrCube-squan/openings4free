@@ -23,6 +23,7 @@ const Train = () => {
   
   const [mode, setMode] = useState<TrainingMode>(initialMode || 'learn');
   const [editingLine, setEditingLine] = useState<{ index: number; moves: string[]; name: string } | null>(null);
+  const [trainerKey, setTrainerKey] = useState(0); // Force trainer remount after edits
   const { markLineAsLearned, getLearnedLinesForCourse, getLearnedCount } = useLearnedLines();
   const { customLines, addLine, updateLine } = useCustomLines(courseId || 'italian-game');
 
@@ -64,6 +65,8 @@ const Train = () => {
         // Adding moves to a built-in line creates a new custom line extending it
         addLine(`${editingLine.name} (Extended)`, moves, category);
       }
+      // Force trainer to remount with new line data
+      setTrainerKey(prev => prev + 1);
     }
     setEditingLine(null);
   };
@@ -221,6 +224,7 @@ const Train = () => {
             transition={{ delay: 0.2 }}
           >
             <ChessTrainer
+              key={trainerKey}
               lines={trainingLines}
               playerColor={course?.color || 'white'}
               courseName={course?.name || 'Italian Game'}
