@@ -472,29 +472,32 @@ const LineEditor = ({
             </div>
 
             <div>
-              <Label htmlFor="pgn-input">Moves ({moves.length} moves after opening)</Label>
+              <Label htmlFor="pgn-input">
+                PGN Moves ({moves.length} moves after opening)
+              </Label>
               <Textarea
                 id="pgn-input"
                 value={pgnInput}
                 onChange={handlePgnChange}
                 onBlur={handlePgnBlur}
                 onPaste={handlePgnPaste}
-                placeholder="e.g., 1. e4 e5 2. Nf3 Nc6 — Select all, delete, or paste your own PGN"
-                className={`mt-2 font-mono text-sm min-h-[80px] max-h-[160px] ${pgnError ? 'border-destructive' : ''}`}
+                placeholder="Type or paste PGN here, e.g.: e4 e5 Nf3 Nc6 Bb5"
+                className={`mt-2 font-mono text-sm min-h-[120px] ${pgnError ? 'border-destructive' : ''}`}
               />
               {pgnError ? (
                 <p className="text-xs text-destructive mt-1">{pgnError}</p>
               ) : (
                 <p className="text-xs text-muted-foreground mt-1">
-                  Select all (Ctrl+A), delete, and paste your own PGN. Changes apply on blur.
+                  Edit freely: select all, delete, paste, or type. Board updates on blur.
                 </p>
               )}
             </div>
 
-            <div className="text-sm text-muted-foreground">
-              <p>• Click or drag pieces to add moves</p>
-              <p>• The line starts from the opening position</p>
-              <p>• Add moves for both sides</p>
+            <div className="text-xs text-muted-foreground space-y-1 border-t pt-3">
+              <p className="font-medium">Tips:</p>
+              <p>• The PGN field is the source of truth</p>
+              <p>• Board clicks also add moves to the PGN</p>
+              <p>• Move numbers are optional (e.g., "1. e4" or just "e4")</p>
             </div>
           </div>
         </div>
