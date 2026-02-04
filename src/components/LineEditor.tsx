@@ -116,7 +116,12 @@ const LineEditor = ({
 
   const applyMove = (moveResult: ReturnType<typeof game.move>) => {
     if (moveResult) {
-      const newGame = new Chess(game.fen());
+      // Get full history including the new move
+      const history = game.history();
+      // Create fresh game and replay all moves to preserve history
+      const newGame = new Chess();
+      history.forEach(m => newGame.move(m));
+      
       setGame(newGame);
       const newMoves = newGame.history().slice(startingMoves.length);
       setMoves(newMoves);
@@ -210,9 +215,14 @@ const LineEditor = ({
 
   const undoMove = () => {
     if (game.history().length > startingMoves.length) {
-      game.undo();
-      setGame(new Chess(game.fen()));
-      const newMoves = game.history().slice(startingMoves.length);
+      const history = game.history();
+      // Replay all moves except the last one
+      const newGame = new Chess();
+      for (let i = 0; i < history.length - 1; i++) {
+        newGame.move(history[i]);
+      }
+      setGame(newGame);
+      const newMoves = newGame.history().slice(startingMoves.length);
       setMoves(newMoves);
     }
   };
@@ -319,6 +329,14 @@ const LineEditor = ({
     parsePgnAndApply(pgnInput);
   };
 
+  const handlePgnPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    e.preventDefault();
+    const pastedText = e.clipboardData.getData('text');
+    setPgnInput(pastedText);
+    // Immediately parse and apply
+    parsePgnAndApply(pastedText);
+  };
+
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="max-w-3xl">
@@ -416,6 +434,7 @@ const LineEditor = ({
                 value={pgnInput}
                 onChange={handlePgnChange}
                 onBlur={handlePgnBlur}
+                onPaste={handlePgnPaste}
                 placeholder="e.g., 1. e4 e5 2. Nf3 Nc6"
                 className="mt-2 font-mono text-sm min-h-[80px] max-h-[160px]"
               />
