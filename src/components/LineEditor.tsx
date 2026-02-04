@@ -59,11 +59,11 @@ const LineEditor = ({
   const [moves, setMoves] = useState<string[]>(initialMoves);
   const [moveInput, setMoveInput] = useState('');
   const [pgnInput, setPgnInput] = useState('');
+  const [pgnError, setPgnError] = useState<string | null>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
   const { settings, currentTheme } = useBoardSettings();
   const moveInputRef = useRef<HTMLInputElement>(null);
-
   // Reset when dialog opens
   useEffect(() => {
     if (open) {
@@ -281,6 +281,26 @@ const LineEditor = ({
 
   // Parse PGN input and apply moves
   const parsePgnAndApply = (pgn: string) => {
+    // Clear previous error
+    setPgnError(null);
+    
+    // Handle empty input - reset to opening position
+    if (!pgn.trim()) {
+      const newGame = new Chess();
+      startingMoves.forEach(move => {
+        try {
+          newGame.move(move);
+        } catch (e) {
+          console.error('Invalid starting move:', move);
+        }
+      });
+      setGame(newGame);
+      setMoves([]);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+      return;
+    }
+    
     // Remove move numbers and clean up the PGN
     const cleanedPgn = pgn
       .replace(/\d+\.\.\./g, '') // Remove "1..." style notation
@@ -302,16 +322,31 @@ const LineEditor = ({
     
     // Apply each move from the PGN
     const validMoves: string[] = [];
-    for (const moveToken of moveTokens) {
+    let errorAtMove: string | null = null;
+    let errorIndex = -1;
+    
+    for (let i = 0; i < moveTokens.length; i++) {
+      const moveToken = moveTokens[i];
       try {
         const result = newGame.move(moveToken);
         if (result) {
           validMoves.push(result.san);
+        } else {
+          errorAtMove = moveToken;
+          errorIndex = i + 1;
+          break;
         }
       } catch (e) {
-        // Stop at first invalid move
+        errorAtMove = moveToken;
+        errorIndex = i + 1;
         break;
       }
+    }
+    
+    // Show error if we stopped before processing all moves
+    if (errorAtMove && errorIndex <= moveTokens.length) {
+      const totalMoves = moveTokens.length;
+      setPgnError(`Invalid move "${errorAtMove}" at position ${errorIndex}. ${validMoves.length} of ${totalMoves} moves applied.`);
     }
     
     setGame(newGame);
@@ -330,9 +365,18 @@ const LineEditor = ({
   };
 
   const handlePgnPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
-    e.preventDefault();
+    // Allow default paste behavior for proper cursor handling
     const pastedText = e.clipboardData.getData('text');
-    setPgnInput(pastedText);
+    const target = e.target as HTMLTextAreaElement;
+    const start = target.selectionStart;
+    const end = target.selectionEnd;
+    const currentValue = target.value;
+    
+    // Calculate the new value after paste
+    const newValue = currentValue.substring(0, start) + pastedText + currentValue.substring(end);
+    
+    e.preventDefault();
+    setPgnInput(newValue);
     // Immediately parse and apply
     parsePgnAndApply(pastedText);
   };
@@ -435,12 +479,16 @@ const LineEditor = ({
                 onChange={handlePgnChange}
                 onBlur={handlePgnBlur}
                 onPaste={handlePgnPaste}
-                placeholder="e.g., 1. e4 e5 2. Nf3 Nc6"
-                className="mt-2 font-mono text-sm min-h-[80px] max-h-[160px]"
+                placeholder="e.g., 1. e4 e5 2. Nf3 Nc6 — Select all, delete, or paste your own PGN"
+                className={`mt-2 font-mono text-sm min-h-[80px] max-h-[160px] ${pgnError ? 'border-destructive' : ''}`}
               />
-              <p className="text-xs text-muted-foreground mt-1">
-                Edit moves directly or use the board. Changes apply when you click outside.
-              </p>
+              {pgnError ? (
+                <p className="text-xs text-destructive mt-1">{pgnError}</p>
+              ) : (
+                <p className="text-xs text-muted-foreground mt-1">
+                  Select all (Ctrl+A), delete, and paste your own PGN. Changes apply on blur.
+                </p>
+              )}
             </div>
 
             <div className="text-sm text-muted-foreground">
