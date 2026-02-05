@@ -365,7 +365,6 @@ const LineEditor = ({
   };
 
   const handlePgnPaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
-    // Allow default paste behavior for proper cursor handling
     const pastedText = e.clipboardData.getData('text');
     const target = e.target as HTMLTextAreaElement;
     const start = target.selectionStart;
@@ -377,8 +376,8 @@ const LineEditor = ({
     
     e.preventDefault();
     setPgnInput(newValue);
-    // Immediately parse and apply
-    parsePgnAndApply(pastedText);
+    // Immediately parse and apply THE FULL NEW VALUE, not just the pasted text
+    parsePgnAndApply(newValue);
   };
 
   return (
