@@ -301,11 +301,17 @@ const LineEditor = ({
       return;
     }
     
-    // Remove move numbers and clean up the PGN
+    // Clean up the PGN - remove headers, comments, annotations, etc.
     const cleanedPgn = pgn
-      .replace(/\d+\.\.\./g, '') // Remove "1..." style notation
-      .replace(/\d+\./g, '')     // Remove "1." style notation
-      .replace(/\s+/g, ' ')      // Normalize whitespace
+      .replace(/\[.*?\]/g, '')           // Remove PGN headers [Event "..."]
+      .replace(/\{[^}]*\}/g, '')         // Remove comments {this is a comment}
+      .replace(/\([^)]*\)/g, '')         // Remove variations (1. e4 e5)
+      .replace(/\$\d+/g, '')             // Remove NAGs $1, $2, etc.
+      .replace(/1-0|0-1|1\/2-1\/2|\*/g, '') // Remove result markers
+      .replace(/\d+\.\.\./g, '')         // Remove "1..." style notation
+      .replace(/\d+\./g, '')             // Remove "1." style notation
+      .replace(/[?!]+/g, '')             // Remove move annotations ?!, !!, etc.
+      .replace(/\s+/g, ' ')              // Normalize whitespace
       .trim();
     
     const moveTokens = cleanedPgn.split(' ').filter(m => m.length > 0);
