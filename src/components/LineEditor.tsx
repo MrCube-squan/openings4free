@@ -64,13 +64,16 @@ const LineEditor = ({
   const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
   const { settings, currentTheme } = useBoardSettings();
   const moveInputRef = useRef<HTMLInputElement>(null);
-  // Reset when dialog opens
+  const wasOpenRef = useRef(false);
+  const shouldSyncPgnFromPositionRef = useRef(true);
+
+  // Reset when dialog opens (only on closed → open transition)
   useEffect(() => {
-    if (open) {
+    if (open && !wasOpenRef.current) {
       const newGame = new Chess();
-      
+
       // Apply starting moves (opening position)
-      startingMoves.forEach(move => {
+      startingMoves.forEach((move) => {
         try {
           newGame.move(move);
         } catch (e) {
@@ -79,7 +82,7 @@ const LineEditor = ({
       });
 
       // Apply line moves if editing
-      initialMoves.forEach(move => {
+      initialMoves.forEach((move) => {
         try {
           newGame.move(move);
         } catch (e) {
@@ -87,12 +90,20 @@ const LineEditor = ({
         }
       });
 
+      shouldSyncPgnFromPositionRef.current = true;
       setGame(newGame);
       setName(initialName);
       setCategory(initialCategory);
       setMoves(initialMoves);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+      setPgnError(null);
     }
-  }, [open, initialName, initialMoves, initialCategory, startingMoves]);
+
+    wasOpenRef.current = open;
+    // We intentionally snapshot initial props only when the dialog opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   // Get legal moves for highlighting
   const getLegalMoveStyles = (fromSquare: string): Record<string, Record<string, string | number>> => {
@@ -120,8 +131,9 @@ const LineEditor = ({
       const history = game.history();
       // Create fresh game and replay all moves to preserve history
       const newGame = new Chess();
-      history.forEach(m => newGame.move(m));
-      
+      history.forEach((m) => newGame.move(m));
+
+      shouldSyncPgnFromPositionRef.current = true;
       setGame(newGame);
       const newMoves = newGame.history().slice(startingMoves.length);
       setMoves(newMoves);
@@ -221,116 +233,171 @@ const LineEditor = ({
       for (let i = 0; i < history.length - 1; i++) {
         newGame.move(history[i]);
       }
+      shouldSyncPgnFromPositionRef.current = true;
       setGame(newGame);
       const newMoves = newGame.history().slice(startingMoves.length);
       setMoves(newMoves);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
     }
   };
 
   const resetLine = () => {
     const newGame = new Chess();
-    startingMoves.forEach(move => {
+    startingMoves.forEach((move) => {
       try {
         newGame.move(move);
       } catch (e) {
         console.error('Invalid starting move:', move);
       }
     });
+    shouldSyncPgnFromPositionRef.current = true;
     setGame(newGame);
     setMoves([]);
+    setSelectedSquare(null);
+    setCustomSquareStyles({});
+    setPgnError(null);
   };
 
-  const handleSave = () => {
-    if (name.trim() && moves.length > 0) {
-      onSave(name.trim(), moves, category);
-      onClose();
+  const sanitizePgnText = (raw: string) => {
+    return raw
+      // Users sometimes accidentally copy the label text along with the moves
+      .replace(/^\s*PGN\s+Moves\s*\([^)]*\)\s*/i, '')
+      .replace(/^\s*PGN[:\s]+/i, '')
+      .replace(/\u200B/g, '')
+      .trim();
+  };
+
+  const tryParseFullPgnFromStart = (
+    raw: string,
+  ): { game: Chess; moves: string[] } | null => {
+    try {
+      const g = new Chess();
+      const anyG = g as any;
+      const load = anyG.loadPgn ?? anyG.load_pgn;
+
+      if (typeof load !== 'function') return null;
+
+      const result = load.call(g, raw, { sloppy: true });
+      if (result === false) return null;
+
+      const moves = g.history();
+      if (!moves.length) return null;
+
+      return { game: g, moves };
+    } catch {
+      return null;
     }
   };
 
-  const formatMoveList = () => {
-    const fullHistory = game.history();
-    const allMoves = fullHistory.slice(startingMoves.length);
-    
-    // Format with move numbers
-    let formatted = '';
-    const isBlackToMoveFirst = startingMoves.length % 2 === 1;
-    
-    allMoves.forEach((move, idx) => {
-      const absoluteIdx = startingMoves.length + idx;
-      const moveNum = Math.floor(absoluteIdx / 2) + 1;
-      const isWhite = absoluteIdx % 2 === 0;
-      
-      if (isWhite) {
-        formatted += `${moveNum}. ${move} `;
-      } else {
-        if (idx === 0 && isBlackToMoveFirst) {
-          formatted += `${moveNum}... ${move} `;
-        } else {
-          formatted += `${move} `;
-        }
-      }
-    });
-    
-    return formatted.trim();
+  const isPrefix = (prefix: string[], full: string[]) => {
+    if (prefix.length > full.length) return false;
+    for (let i = 0; i < prefix.length; i++) {
+      if (prefix[i] !== full[i]) return false;
+    }
+    return true;
   };
 
-  // Update PGN input when moves change
-  useEffect(() => {
-    setPgnInput(formatMoveList());
-  }, [moves, game]);
+  const tokenizePgn = (raw: string) => {
+    const cleaned = raw
+      .replace(/\[.*?\]/g, '') // PGN headers
+      .replace(/\{[^}]*\}/g, '') // comments
+      .replace(/\([^)]*\)/g, '') // variations
+      .replace(/\$\d+/g, '') // NAGs
+      .replace(/1-0|0-1|1\/2-1\/2|\*/g, '') // results
+      .replace(/\d+\.\.\./g, '') // 1... style
+      .replace(/\d+\./g, '') // 1. style
+      .replace(/[?!]+/g, '') // annotations
+      .replace(/\s+/g, ' ')
+      .trim();
 
-  // Parse PGN input and apply moves
-  const parsePgnAndApply = (pgn: string) => {
-    // Clear previous error
-    setPgnError(null);
-    
-    // Handle empty input - reset to opening position
-    if (!pgn.trim()) {
+    if (!cleaned) return [];
+
+    // Extra guard: ignore stray "PGN" tokens if they slip through
+    return cleaned
+      .split(' ')
+      .map((t) => t.trim())
+      .filter((t) => t.length > 0 && t.toLowerCase() !== 'pgn');
+  };
+
+  const parsePgn = (raw: string) => {
+    const sanitized = sanitizePgnText(raw);
+
+    // Empty input means: back to the course opening position
+    if (!sanitized) {
+      const baseGame = new Chess();
+      startingMoves.forEach((move) => {
+        try {
+          baseGame.move(move);
+        } catch (e) {
+          console.error('Invalid starting move:', move);
+        }
+      });
+
+      return {
+        game: baseGame,
+        movesAfterOpening: [] as string[],
+        error: null as string | null,
+      };
+    }
+
+    // If the user pasted a full PGN (starting from move 1), parse it from the initial position
+    // and strip the course's starting moves if they match.
+    const fullParse = tryParseFullPgnFromStart(sanitized);
+    if (fullParse && isPrefix(startingMoves, fullParse.moves)) {
+      const remainder = fullParse.moves.slice(startingMoves.length);
+
       const newGame = new Chess();
-      startingMoves.forEach(move => {
+      startingMoves.forEach((move) => {
         try {
           newGame.move(move);
         } catch (e) {
           console.error('Invalid starting move:', move);
         }
       });
-      setGame(newGame);
-      setMoves([]);
-      setSelectedSquare(null);
-      setCustomSquareStyles({});
-      return;
+
+      const applied: string[] = [];
+      for (let i = 0; i < remainder.length; i++) {
+        const token = remainder[i];
+        try {
+          const result = newGame.move(token);
+          if (result) {
+            applied.push(result.san);
+          } else {
+            return {
+              game: newGame,
+              movesAfterOpening: applied,
+              error: `Invalid move "${token}" at position ${i + 1}. ${applied.length} of ${remainder.length} moves applied.`,
+            };
+          }
+        } catch {
+          return {
+            game: newGame,
+            movesAfterOpening: applied,
+            error: `Invalid move "${token}" at position ${i + 1}. ${applied.length} of ${remainder.length} moves applied.`,
+          };
+        }
+      }
+
+      return { game: newGame, movesAfterOpening: applied, error: null };
     }
-    
-    // Clean up the PGN - remove headers, comments, annotations, etc.
-    const cleanedPgn = pgn
-      .replace(/\[.*?\]/g, '')           // Remove PGN headers [Event "..."]
-      .replace(/\{[^}]*\}/g, '')         // Remove comments {this is a comment}
-      .replace(/\([^)]*\)/g, '')         // Remove variations (1. e4 e5)
-      .replace(/\$\d+/g, '')             // Remove NAGs $1, $2, etc.
-      .replace(/1-0|0-1|1\/2-1\/2|\*/g, '') // Remove result markers
-      .replace(/\d+\.\.\./g, '')         // Remove "1..." style notation
-      .replace(/\d+\./g, '')             // Remove "1." style notation
-      .replace(/[?!]+/g, '')             // Remove move annotations ?!, !!, etc.
-      .replace(/\s+/g, ' ')              // Normalize whitespace
-      .trim();
-    
-    const moveTokens = cleanedPgn.split(' ').filter(m => m.length > 0);
-    
-    // Start from the opening position
+
+    // Otherwise treat the input as a continuation from the course opening position.
+    const moveTokens = tokenizePgn(sanitized);
+
     const newGame = new Chess();
-    startingMoves.forEach(move => {
+    startingMoves.forEach((move) => {
       try {
         newGame.move(move);
       } catch (e) {
         console.error('Invalid starting move:', move);
       }
     });
-    
-    // Apply each move from the PGN
+
     const validMoves: string[] = [];
     let errorAtMove: string | null = null;
     let errorIndex = -1;
-    
+
     for (let i = 0; i < moveTokens.length; i++) {
       const moveToken = moveTokens[i];
       try {
@@ -342,21 +409,83 @@ const LineEditor = ({
           errorIndex = i + 1;
           break;
         }
-      } catch (e) {
+      } catch {
         errorAtMove = moveToken;
         errorIndex = i + 1;
         break;
       }
     }
-    
-    // Show error if we stopped before processing all moves
-    if (errorAtMove && errorIndex <= moveTokens.length) {
-      const totalMoves = moveTokens.length;
-      setPgnError(`Invalid move "${errorAtMove}" at position ${errorIndex}. ${validMoves.length} of ${totalMoves} moves applied.`);
+
+    const error = errorAtMove
+      ? `Invalid move "${errorAtMove}" at position ${errorIndex}. ${validMoves.length} of ${moveTokens.length} moves applied.`
+      : null;
+
+    return { game: newGame, movesAfterOpening: validMoves, error };
+  };
+
+  const handleSave = () => {
+    if (!name.trim()) return;
+
+    const parsed = parsePgn(pgnInput);
+
+    if (parsed.error) {
+      setPgnError(parsed.error);
+      return;
     }
-    
-    setGame(newGame);
-    setMoves(validMoves);
+
+    if (parsed.movesAfterOpening.length === 0) {
+      setPgnError('Please enter at least one move to save this line.');
+      return;
+    }
+
+    // Save exactly what the user typed (PGN is the source of truth)
+    onSave(name.trim(), parsed.movesAfterOpening, category);
+    onClose();
+  };
+
+  const formatMoveList = () => {
+    const fullHistory = game.history();
+    const allMoves = fullHistory.slice(startingMoves.length);
+
+    // Format with move numbers
+    let formatted = '';
+    const isBlackToMoveFirst = startingMoves.length % 2 === 1;
+
+    allMoves.forEach((move, idx) => {
+      const absoluteIdx = startingMoves.length + idx;
+      const moveNum = Math.floor(absoluteIdx / 2) + 1;
+      const isWhite = absoluteIdx % 2 === 0;
+
+      if (isWhite) {
+        formatted += `${moveNum}. ${move} `;
+      } else {
+        if (idx === 0 && isBlackToMoveFirst) {
+          formatted += `${moveNum}... ${move} `;
+        } else {
+          formatted += `${move} `;
+        }
+      }
+    });
+
+    return formatted.trim();
+  };
+
+  // Keep PGN in sync with board-driven changes, but NEVER overwrite user-typed PGN.
+  useEffect(() => {
+    if (!shouldSyncPgnFromPositionRef.current) return;
+    setPgnInput(formatMoveList());
+  }, [moves, game]);
+
+  // Parse PGN input and apply moves
+  const parsePgnAndApply = (pgn: string) => {
+    const parsed = parsePgn(pgn);
+
+    setPgnError(parsed.error);
+
+    // Don’t normalize/overwrite what the user typed after parsing.
+    shouldSyncPgnFromPositionRef.current = false;
+    setGame(parsed.game);
+    setMoves(parsed.movesAfterOpening);
     setSelectedSquare(null);
     setCustomSquareStyles({});
   };
@@ -376,10 +505,13 @@ const LineEditor = ({
     const start = target.selectionStart;
     const end = target.selectionEnd;
     const currentValue = target.value;
-    
+
     // Calculate the new value after paste
-    const newValue = currentValue.substring(0, start) + pastedText + currentValue.substring(end);
-    
+    const newValue =
+      currentValue.substring(0, start) +
+      pastedText +
+      currentValue.substring(end);
+
     e.preventDefault();
     setPgnInput(newValue);
     // Immediately parse and apply THE FULL NEW VALUE, not just the pasted text
