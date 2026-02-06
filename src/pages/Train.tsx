@@ -57,13 +57,14 @@ const Train = () => {
 
   const handleSaveEditedLine = (name: string, moves: string[], category: string) => {
     if (editingLine) {
-      // If editing a custom line, update it; otherwise add as new custom line
+      // If editing a custom line, update it
       const customLineIndex = editingLine.index - builtInLines.length;
       if (customLineIndex >= 0 && customLineIndex < customLines.length) {
         updateLine(customLines[customLineIndex].id, { name, moves, category });
       } else {
-        // Adding moves to a built-in line creates a new custom line extending it
-        addLine(`${editingLine.name} (Extended)`, moves, category);
+        // Editing a built-in line: save as a custom line that replaces it
+        // Use the exact same name so it effectively overrides the built-in
+        addLine(name, moves, category);
       }
       // Force trainer to remount with new line data
       setTrainerKey(prev => prev + 1);
