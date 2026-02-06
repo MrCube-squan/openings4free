@@ -243,15 +243,6 @@ const CourseDetail = () => {
                       <div className="text-sm text-muted-foreground">Total Lines</div>
                     </div>
                   </div>
-                  {customLines.length > 0 && (
-                    <div className="inline-flex rounded-xl border border-border bg-card p-4">
-                      <Plus className="h-5 w-5 text-accent mr-3" />
-                      <div>
-                        <div className="text-2xl font-bold">{customLines.length}</div>
-                        <div className="text-sm text-muted-foreground">Custom Lines</div>
-                      </div>
-                    </div>
-                  )}
                 </div>
 
                 {/* Starting position */}
