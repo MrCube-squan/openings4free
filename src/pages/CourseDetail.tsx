@@ -10,7 +10,7 @@ import { categorizeLines, getSortedCategories, CategorizedLine } from '@/lib/lin
 import { useLearnedLines } from '@/hooks/useLearnedLines';
 import { useCustomLines, CustomLineData } from '@/hooks/useCustomLines';
 import LineEditor from '@/components/LineEditor';
-import { ArrowLeft, BookOpen, Play, Dumbbell, Plus, Pencil, Trash2, Check, ChevronDown, ChevronRight } from 'lucide-react';
+import { ArrowLeft, BookOpen, Play, Dumbbell, Plus, Pencil, Trash2, Check, ChevronDown, ChevronRight, X } from 'lucide-react';
 import {
   Collapsible,
   CollapsibleContent,
@@ -38,7 +38,22 @@ const CourseDetail = () => {
   const [editingLine, setEditingLine] = useState<CustomLineData | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [lineToDelete, setLineToDelete] = useState<string | null>(null);
+  const [isBuiltInDelete, setIsBuiltInDelete] = useState(false);
+  const [hiddenLines, setHiddenLines] = useState<Set<string>>(() => {
+    if (typeof window === 'undefined') return new Set();
+    const stored = localStorage.getItem(`openings4free_hidden_lines_${courseId}`);
+    return stored ? new Set(JSON.parse(stored)) : new Set();
+  });
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['Mainline']));
+
+  const addHiddenLine = (lineId: string) => {
+    setHiddenLines(prev => {
+      const newSet = new Set(prev);
+      newSet.add(lineId);
+      localStorage.setItem(`openings4free_hidden_lines_${courseId}`, JSON.stringify([...newSet]));
+      return newSet;
+    });
+  };
   
   const allLines = courseId ? getTrainingLines(courseId) : [];
   const learnedCount = courseId ? getLearnedCount(courseId) : 0;
@@ -58,13 +73,16 @@ const CourseDetail = () => {
     return categorizeLines(customTrainingLines);
   }, [customLines]);
 
-  // Merge categories
+  // Merge categories and filter hidden lines
   const allCategories = useMemo(() => {
     const merged = new Map<string, CategorizedLine[]>();
     
-    // Add built-in lines
+    // Add built-in lines (filter out hidden ones)
     categorizedBuiltInLines.forEach((lines, category) => {
-      merged.set(category, [...lines]);
+      const visibleLines = lines.filter(l => !hiddenLines.has(`builtin_${l.index}`));
+      if (visibleLines.length > 0) {
+        merged.set(category, [...visibleLines]);
+      }
     });
     
     // Add custom lines
@@ -83,7 +101,7 @@ const CourseDetail = () => {
     });
     
     return merged;
-  }, [categorizedBuiltInLines, categorizedCustomLines, allLines, customLines]);
+  }, [categorizedBuiltInLines, categorizedCustomLines, allLines, customLines, hiddenLines]);
 
   const sortedCategoryNames = useMemo(() => {
     return getSortedCategories(allCategories);
@@ -123,15 +141,21 @@ const CourseDetail = () => {
     setEditorOpen(true);
   };
 
-  const handleDeleteClick = (lineId: string) => {
+  const handleDeleteClick = (lineId: string, isBuiltIn: boolean = false) => {
     setLineToDelete(lineId);
+    setIsBuiltInDelete(isBuiltIn);
     setDeleteDialogOpen(true);
   };
 
   const confirmDelete = () => {
     if (lineToDelete) {
-      deleteLine(lineToDelete);
+      if (isBuiltInDelete) {
+        addHiddenLine(lineToDelete);
+      } else {
+        deleteLine(lineToDelete);
+      }
       setLineToDelete(null);
+      setIsBuiltInDelete(false);
     }
     setDeleteDialogOpen(false);
   };
@@ -297,53 +321,48 @@ const CourseDetail = () => {
                                     <div className={`h-8 w-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
                                       isLearned 
                                         ? 'bg-primary/20 text-primary' 
-                                        : customData 
-                                          ? 'bg-accent/20 text-accent'
-                                          : 'bg-muted text-muted-foreground'
+                                        : 'bg-muted text-muted-foreground'
                                     }`}>
                                       {isLearned ? (
                                         <Check className="h-4 w-4" />
-                                      ) : customData ? (
-                                        '★'
                                       ) : (
-                                        line.index + 1
+                                        <X className="h-4 w-4" />
                                       )}
                                     </div>
                                     <div className="min-w-0 flex-1">
                                       <span className="font-medium truncate block">{line.name}</span>
                                       <span className="text-xs text-muted-foreground">
                                         {line.moves.length} moves
+                                        {customData && <span className="ml-1 text-accent">★ Custom</span>}
                                       </span>
                                     </div>
                                   </div>
                                   
                                   <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     {customData && (
-                                      <>
-                                        <Button
-                                          variant="ghost"
-                                          size="icon"
-                                          className="h-8 w-8"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleEditLine(customData);
-                                          }}
-                                        >
-                                          <Pencil className="h-4 w-4" />
-                                        </Button>
-                                        <Button
-                                          variant="ghost"
-                                          size="icon"
-                                          className="h-8 w-8 text-destructive hover:text-destructive"
-                                          onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleDeleteClick(customData.id);
-                                          }}
-                                        >
-                                          <Trash2 className="h-4 w-4" />
-                                        </Button>
-                                      </>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8"
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleEditLine(customData);
+                                        }}
+                                      >
+                                        <Pencil className="h-4 w-4" />
+                                      </Button>
                                     )}
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-8 w-8 text-destructive hover:text-destructive"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleDeleteClick(customData?.id || `builtin_${line.index}`, !customData);
+                                      }}
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
                                     <Button
                                       variant="secondary"
                                       size="sm"
