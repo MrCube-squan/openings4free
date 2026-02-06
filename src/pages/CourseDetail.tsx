@@ -10,7 +10,7 @@ import { categorizeLines, getSortedCategories, CategorizedLine } from '@/lib/lin
 import { useLearnedLines } from '@/hooks/useLearnedLines';
 import { useCustomLines, CustomLineData } from '@/hooks/useCustomLines';
 import LineEditor from '@/components/LineEditor';
-import { ArrowLeft, BookOpen, Play, Dumbbell, Plus, Pencil, Trash2, Check, ChevronDown, ChevronRight, X } from 'lucide-react';
+import { ArrowLeft, BookOpen, Play, Dumbbell, Plus, Pencil, Trash2, Check, ChevronDown, ChevronRight, X as XIcon } from 'lucide-react';
 import {
   Collapsible,
   CollapsibleContent,
@@ -326,7 +326,7 @@ const CourseDetail = () => {
                                       {isLearned ? (
                                         <Check className="h-4 w-4" />
                                       ) : (
-                                        <X className="h-4 w-4" />
+                                        <XIcon className="h-4 w-4" />
                                       )}
                                     </div>
                                     <div className="min-w-0 flex-1">
