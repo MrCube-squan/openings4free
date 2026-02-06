@@ -333,7 +333,6 @@ const CourseDetail = () => {
                                       <span className="font-medium truncate block">{line.name}</span>
                                       <span className="text-xs text-muted-foreground">
                                         {line.moves.length} moves
-                                        {customData && <span className="ml-1 text-accent">★ Custom</span>}
                                       </span>
                                     </div>
                                   </div>
