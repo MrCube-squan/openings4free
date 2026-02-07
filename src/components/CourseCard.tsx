@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Course } from '@/lib/courses';
 import { BookOpen } from 'lucide-react';
+import { getLineCount } from '@/lib/lineCount';
 
 interface CourseCardProps {
   course: Course;
@@ -9,6 +10,7 @@ interface CourseCardProps {
 }
 
 const CourseCard = ({ course, index = 0 }: CourseCardProps) => {
+  const lineCount = getLineCount(course.id);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -42,7 +44,7 @@ const CourseCard = ({ course, index = 0 }: CourseCardProps) => {
           <div className="flex items-center gap-4 text-xs">
             <div className="flex items-center gap-1.5 text-muted-foreground">
               <BookOpen className="h-3.5 w-3.5" />
-              <span>{course.lines} lines</span>
+              <span>{lineCount} {lineCount === 1 ? 'line' : 'lines'}</span>
             </div>
           </div>
 

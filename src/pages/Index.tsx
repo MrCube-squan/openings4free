@@ -46,7 +46,7 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto"
             >
-              Stop memorizing engine lines nobody plays. Train openings from millions of real games at your rating.
+              Stop memorizing engine lines nobody plays. Train openings from millions of real games.
             </motion.p>
 
             {/* CTA */}
@@ -79,7 +79,7 @@ const Index = () => {
               Why openings4free works
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              No more "this never happens in my games." Every line is built from real moves at your level.
+              No more "this never happens in my games." Every line is built from real moves.
             </p>
           </div>
 
@@ -88,7 +88,7 @@ const Index = () => {
               {
                 icon: Target,
                 title: 'Real-Game Lines',
-                description: 'Moves extracted from millions of Lichess games at your rating. Learn what you\'ll actually face.',
+                description: 'Moves extracted from millions of Lichess games. Learn what you\'ll actually face.',
               },
               {
                 icon: Brain,
