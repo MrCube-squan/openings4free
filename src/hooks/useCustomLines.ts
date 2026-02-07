@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from './useAuth';
 import { TrainingLine } from '@/lib/courseLines';
 
 export interface CustomLineData extends TrainingLine {
@@ -8,108 +10,148 @@ export interface CustomLineData extends TrainingLine {
   updatedAt: string;
 }
 
-const STORAGE_KEY = 'openings4free_custom_lines';
-
 export const useCustomLines = (courseId: string) => {
-  const [customLines, setCustomLines] = useState<CustomLineData[]>(() => {
-    if (typeof window === 'undefined') return [];
-    
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        const allLines: CustomLineData[] = JSON.parse(stored);
-        return allLines.filter(l => l.id.startsWith(`${courseId}_`));
-      } catch {
-        return [];
-      }
-    }
-    return [];
-  });
+  const { user, isAuthenticated } = useAuth();
+  const [customLines, setCustomLines] = useState<CustomLineData[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Reload when courseId changes
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        const allLines: CustomLineData[] = JSON.parse(stored);
-        setCustomLines(allLines.filter(l => l.id.startsWith(`${courseId}_`)));
-      } catch {
-        setCustomLines([]);
-      }
-    } else {
+  // Fetch custom lines from database
+  const fetchCustomLines = useCallback(async () => {
+    if (!isAuthenticated || !user) {
       setCustomLines([]);
+      setLoading(false);
+      return;
     }
-  }, [courseId]);
 
-  const saveToStorage = useCallback((lines: CustomLineData[]) => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    let allLines: CustomLineData[] = [];
-    
-    if (stored) {
+    try {
+      const { data, error } = await supabase
+        .from('custom_lines')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('course_id', courseId);
+
+      if (error) throw error;
+
+      setCustomLines(
+        (data || []).map((row) => ({
+          id: row.id,
+          name: row.name,
+          moves: row.moves,
+          category: row.category,
+          createdAt: row.created_at,
+          updatedAt: row.updated_at,
+        }))
+      );
+    } catch (error) {
+      console.error('Error fetching custom lines:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [user, isAuthenticated, courseId]);
+
+  useEffect(() => {
+    fetchCustomLines();
+  }, [fetchCustomLines]);
+
+  const addLine = useCallback(
+    async (name: string, moves: string[], category: string = 'Custom') => {
+      if (!isAuthenticated || !user) return null;
+
       try {
-        allLines = JSON.parse(stored);
-        // Remove lines for this course
-        allLines = allLines.filter(l => !l.id.startsWith(`${courseId}_`));
-      } catch {
-        allLines = [];
+        const { data, error } = await supabase
+          .from('custom_lines')
+          .insert({
+            user_id: user.id,
+            course_id: courseId,
+            name,
+            moves,
+            category,
+          })
+          .select()
+          .single();
+
+        if (error) throw error;
+
+        const newLine: CustomLineData = {
+          id: data.id,
+          name: data.name,
+          moves: data.moves,
+          category: data.category,
+          createdAt: data.created_at,
+          updatedAt: data.updated_at,
+        };
+
+        setCustomLines((prev) => [...prev, newLine]);
+        return newLine;
+      } catch (error) {
+        console.error('Error adding custom line:', error);
+        return null;
       }
-    }
-    
-    // Add updated lines for this course
-    allLines = [...allLines, ...lines];
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(allLines));
-  }, [courseId]);
+    },
+    [user, isAuthenticated, courseId]
+  );
 
-  const addLine = useCallback((name: string, moves: string[], category: string = 'Custom') => {
-    const newLine: CustomLineData = {
-      id: `${courseId}_${Date.now()}`,
-      name,
-      moves,
-      category,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+  const updateLine = useCallback(
+    async (
+      id: string,
+      updates: Partial<Pick<CustomLineData, 'name' | 'moves' | 'category'>>
+    ) => {
+      if (!isAuthenticated || !user) return;
 
-    setCustomLines(prev => {
-      const updated = [...prev, newLine];
-      saveToStorage(updated);
-      return updated;
-    });
+      try {
+        const { error } = await supabase
+          .from('custom_lines')
+          .update(updates)
+          .eq('id', id)
+          .eq('user_id', user.id);
 
-    return newLine;
-  }, [courseId, saveToStorage]);
+        if (error) throw error;
 
-  const updateLine = useCallback((id: string, updates: Partial<Pick<CustomLineData, 'name' | 'moves' | 'category'>>) => {
-    setCustomLines(prev => {
-      const updated = prev.map(line => {
-        if (line.id === id) {
-          return {
-            ...line,
-            ...updates,
-            updatedAt: new Date().toISOString(),
-          };
-        }
-        return line;
-      });
-      saveToStorage(updated);
-      return updated;
-    });
-  }, [saveToStorage]);
+        setCustomLines((prev) =>
+          prev.map((line) =>
+            line.id === id
+              ? { ...line, ...updates, updatedAt: new Date().toISOString() }
+              : line
+          )
+        );
+      } catch (error) {
+        console.error('Error updating custom line:', error);
+      }
+    },
+    [user, isAuthenticated]
+  );
 
-  const deleteLine = useCallback((id: string) => {
-    setCustomLines(prev => {
-      const updated = prev.filter(line => line.id !== id);
-      saveToStorage(updated);
-      return updated;
-    });
-  }, [saveToStorage]);
+  const deleteLine = useCallback(
+    async (id: string) => {
+      if (!isAuthenticated || !user) return;
 
-  const getLineById = useCallback((id: string) => {
-    return customLines.find(line => line.id === id);
-  }, [customLines]);
+      try {
+        const { error } = await supabase
+          .from('custom_lines')
+          .delete()
+          .eq('id', id)
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+
+        setCustomLines((prev) => prev.filter((line) => line.id !== id));
+      } catch (error) {
+        console.error('Error deleting custom line:', error);
+      }
+    },
+    [user, isAuthenticated]
+  );
+
+  const getLineById = useCallback(
+    (id: string) => {
+      return customLines.find((line) => line.id === id);
+    },
+    [customLines]
+  );
 
   return {
     customLines,
+    loading,
     addLine,
     updateLine,
     deleteLine,
@@ -117,17 +159,44 @@ export const useCustomLines = (courseId: string) => {
   };
 };
 
-// Get all custom lines for all courses
-export const getAllCustomLines = (): CustomLineData[] => {
-  if (typeof window === 'undefined') return [];
-  
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    try {
-      return JSON.parse(stored);
-    } catch {
-      return [];
-    }
-  }
-  return [];
+// Get all custom lines for all courses (for the current user)
+export const useAllCustomLines = () => {
+  const { user, isAuthenticated } = useAuth();
+  const [customLines, setCustomLines] = useState<(CustomLineData & { courseId: string })[]>([]);
+
+  useEffect(() => {
+    const fetchAll = async () => {
+      if (!isAuthenticated || !user) {
+        setCustomLines([]);
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('custom_lines')
+          .select('*')
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+
+        setCustomLines(
+          (data || []).map((row) => ({
+            id: row.id,
+            courseId: row.course_id,
+            name: row.name,
+            moves: row.moves,
+            category: row.category,
+            createdAt: row.created_at,
+            updatedAt: row.updated_at,
+          }))
+        );
+      } catch (error) {
+        console.error('Error fetching all custom lines:', error);
+      }
+    };
+
+    fetchAll();
+  }, [user, isAuthenticated]);
+
+  return customLines;
 };

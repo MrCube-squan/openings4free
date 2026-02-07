@@ -1,12 +1,15 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Crown, Menu, X } from 'lucide-react';
+import { Crown, Menu, X, LogOut, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, loading, signOut, isAuthenticated } = useAuth();
 
   const navLinks = [
     { path: '/courses', label: 'Courses' },
@@ -14,6 +17,11 @@ const Navbar = () => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
@@ -47,12 +55,32 @@ const Navbar = () => {
 
           {/* Right side */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="sm">
-              Log in
-            </Button>
-            <Button variant="default" size="sm">
-              Sign up free
-            </Button>
+            {loading ? (
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+            ) : isAuthenticated ? (
+              <>
+                <span className="text-sm text-muted-foreground truncate max-w-[150px]">
+                  {user?.email}
+                </span>
+                <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4 mr-1" />
+                  Log out
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/auth">
+                  <Button variant="ghost" size="sm">
+                    Log in
+                  </Button>
+                </Link>
+                <Link to="/auth">
+                  <Button variant="default" size="sm">
+                    Sign up free
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -90,12 +118,34 @@ const Navbar = () => {
                 </Link>
               ))}
               <div className="flex gap-2 mt-2 pt-2 border-t border-border/50">
-                <Button variant="ghost" className="flex-1">
-                  Log in
-                </Button>
-                <Button variant="default" className="flex-1">
-                  Sign up
-                </Button>
+                {loading ? (
+                  <div className="flex-1 flex items-center justify-center">
+                    <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  </div>
+                ) : isAuthenticated ? (
+                  <>
+                    <span className="flex-1 text-sm text-muted-foreground flex items-center truncate">
+                      {user?.email}
+                    </span>
+                    <Button variant="ghost" onClick={handleSignOut}>
+                      <LogOut className="h-4 w-4 mr-1" />
+                      Log out
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/auth" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="ghost" className="w-full">
+                        Log in
+                      </Button>
+                    </Link>
+                    <Link to="/auth" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
+                      <Button variant="default" className="w-full">
+                        Sign up
+                      </Button>
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>

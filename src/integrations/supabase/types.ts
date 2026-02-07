@@ -14,13 +14,114 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      custom_courses: {
+        Row: {
+          color: string
+          created_at: string
+          description: string
+          eco: string
+          id: string
+          moves: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color: string
+          created_at?: string
+          description?: string
+          eco: string
+          id?: string
+          moves?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          description?: string
+          eco?: string
+          id?: string
+          moves?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      custom_lines: {
+        Row: {
+          category: string
+          course_id: string
+          created_at: string
+          id: string
+          moves: string[]
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category?: string
+          course_id: string
+          created_at?: string
+          id?: string
+          moves: string[]
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          course_id?: string
+          created_at?: string
+          id?: string
+          moves?: string[]
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      learned_lines: {
+        Row: {
+          accuracy: number
+          completed_at: string
+          course_id: string
+          created_at: string
+          id: string
+          line_index: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          accuracy?: number
+          completed_at?: string
+          course_id: string
+          created_at?: string
+          id?: string
+          line_index: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          accuracy?: number
+          completed_at?: string
+          course_id?: string
+          created_at?: string
+          id?: string
+          line_index?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_owner: { Args: { record_user_id: string }; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
