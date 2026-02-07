@@ -9,6 +9,7 @@ import { getTrainingLines, TrainingLine } from '@/lib/courseLines';
 import { categorizeLines, getSortedCategories, CategorizedLine } from '@/lib/lineCategories';
 import { useLearnedLines } from '@/hooks/useLearnedLines';
 import { useCustomLines, CustomLineData } from '@/hooks/useCustomLines';
+import { useAuth } from '@/hooks/useAuth';
 import LineEditor from '@/components/LineEditor';
 import { ArrowLeft, BookOpen, Play, Dumbbell, Plus, Pencil, Trash2, Check, ChevronDown, ChevronRight, X as XIcon } from 'lucide-react';
 import {
@@ -33,6 +34,7 @@ const CourseDetail = () => {
   const course = courses.find((c) => c.id === courseId);
   const { getLearnedCount, isLineLearned } = useLearnedLines();
   const { customLines, addLine, updateLine, deleteLine } = useCustomLines(courseId || '');
+  const { isAuthenticated } = useAuth();
   
   const [editorOpen, setEditorOpen] = useState(false);
   const [editingLine, setEditingLine] = useState<CustomLineData | null>(null);
@@ -255,16 +257,18 @@ const CourseDetail = () => {
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold">Lines in this course</h3>
-                    <Button
-                      onClick={() => {
-                        setEditingLine(null);
-                        setEditorOpen(true);
-                      }}
-                      size="sm"
-                    >
-                      <Plus className="h-4 w-4 mr-1" />
-                      Add Line
-                    </Button>
+                    {isAuthenticated && (
+                      <Button
+                        onClick={() => {
+                          setEditingLine(null);
+                          setEditorOpen(true);
+                        }}
+                        size="sm"
+                      >
+                        <Plus className="h-4 w-4 mr-1" />
+                        Add Line
+                      </Button>
+                    )}
                   </div>
                   
                   <div className="space-y-4">

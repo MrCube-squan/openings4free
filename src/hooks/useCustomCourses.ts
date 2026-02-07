@@ -1,4 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from './useAuth';
 
 export interface CustomCourse {
   id: string;
@@ -6,110 +8,160 @@ export interface CustomCourse {
   eco: string;
   color: 'white' | 'black';
   description: string;
-  moves: string; // Starting position moves
+  moves: string;
   createdAt: string;
   updatedAt: string;
 }
 
-const STORAGE_KEY = 'openings4free_custom_courses';
-
 export const useCustomCourses = () => {
-  const [customCourses, setCustomCourses] = useState<CustomCourse[]>(() => {
-    if (typeof window === 'undefined') return [];
-    
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch {
-        return [];
-      }
-    }
-    return [];
-  });
+  const { user, isAuthenticated } = useAuth();
+  const [customCourses, setCustomCourses] = useState<CustomCourse[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Sync with localStorage
+  // Fetch custom courses from database
+  const fetchCustomCourses = useCallback(async () => {
+    if (!isAuthenticated || !user) {
+      setCustomCourses([]);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('custom_courses')
+        .select('*')
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setCustomCourses(
+        (data || []).map((row) => ({
+          id: row.id,
+          name: row.name,
+          eco: row.eco,
+          color: row.color as 'white' | 'black',
+          description: row.description,
+          moves: row.moves,
+          createdAt: row.created_at,
+          updatedAt: row.updated_at,
+        }))
+      );
+    } catch (error) {
+      console.error('Error fetching custom courses:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [user, isAuthenticated]);
+
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
+    fetchCustomCourses();
+  }, [fetchCustomCourses]);
+
+  const addCourse = useCallback(
+    async (course: Omit<CustomCourse, 'id' | 'createdAt' | 'updatedAt'>) => {
+      if (!isAuthenticated || !user) return null;
+
       try {
-        setCustomCourses(JSON.parse(stored));
-      } catch {
-        setCustomCourses([]);
+        const { data, error } = await supabase
+          .from('custom_courses')
+          .insert({
+            user_id: user.id,
+            name: course.name,
+            eco: course.eco,
+            color: course.color,
+            description: course.description,
+            moves: course.moves,
+          })
+          .select()
+          .single();
+
+        if (error) throw error;
+
+        const newCourse: CustomCourse = {
+          id: data.id,
+          name: data.name,
+          eco: data.eco,
+          color: data.color as 'white' | 'black',
+          description: data.description,
+          moves: data.moves,
+          createdAt: data.created_at,
+          updatedAt: data.updated_at,
+        };
+
+        setCustomCourses((prev) => [...prev, newCourse]);
+        return newCourse;
+      } catch (error) {
+        console.error('Error adding custom course:', error);
+        return null;
       }
-    }
-  }, []);
+    },
+    [user, isAuthenticated]
+  );
 
-  const saveToStorage = useCallback((courses: CustomCourse[]) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
-  }, []);
+  const updateCourse = useCallback(
+    async (
+      id: string,
+      updates: Partial<Omit<CustomCourse, 'id' | 'createdAt'>>
+    ) => {
+      if (!isAuthenticated || !user) return;
 
-  const addCourse = useCallback((course: Omit<CustomCourse, 'id' | 'createdAt' | 'updatedAt'>) => {
-    const newCourse: CustomCourse = {
-      ...course,
-      id: `custom_${Date.now()}`,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
+      try {
+        const { error } = await supabase
+          .from('custom_courses')
+          .update(updates)
+          .eq('id', id)
+          .eq('user_id', user.id);
 
-    setCustomCourses(prev => {
-      const updated = [...prev, newCourse];
-      saveToStorage(updated);
-      return updated;
-    });
+        if (error) throw error;
 
-    return newCourse;
-  }, [saveToStorage]);
+        setCustomCourses((prev) =>
+          prev.map((course) =>
+            course.id === id
+              ? { ...course, ...updates, updatedAt: new Date().toISOString() }
+              : course
+          )
+        );
+      } catch (error) {
+        console.error('Error updating custom course:', error);
+      }
+    },
+    [user, isAuthenticated]
+  );
 
-  const updateCourse = useCallback((id: string, updates: Partial<Omit<CustomCourse, 'id' | 'createdAt'>>) => {
-    setCustomCourses(prev => {
-      const updated = prev.map(course => {
-        if (course.id === id) {
-          return {
-            ...course,
-            ...updates,
-            updatedAt: new Date().toISOString(),
-          };
-        }
-        return course;
-      });
-      saveToStorage(updated);
-      return updated;
-    });
-  }, [saveToStorage]);
+  const deleteCourse = useCallback(
+    async (id: string) => {
+      if (!isAuthenticated || !user) return;
 
-  const deleteCourse = useCallback((id: string) => {
-    setCustomCourses(prev => {
-      const updated = prev.filter(course => course.id !== id);
-      saveToStorage(updated);
-      return updated;
-    });
-  }, [saveToStorage]);
+      try {
+        const { error } = await supabase
+          .from('custom_courses')
+          .delete()
+          .eq('id', id)
+          .eq('user_id', user.id);
 
-  const getCourseById = useCallback((id: string) => {
-    return customCourses.find(course => course.id === id);
-  }, [customCourses]);
+        if (error) throw error;
+
+        setCustomCourses((prev) => prev.filter((course) => course.id !== id));
+      } catch (error) {
+        console.error('Error deleting custom course:', error);
+      }
+    },
+    [user, isAuthenticated]
+  );
+
+  const getCourseById = useCallback(
+    (id: string) => {
+      return customCourses.find((course) => course.id === id);
+    },
+    [customCourses]
+  );
 
   return {
     customCourses,
+    loading,
     addCourse,
     updateCourse,
     deleteCourse,
     getCourseById,
   };
-};
-
-// Static function to get all custom courses
-export const getAllCustomCourses = (): CustomCourse[] => {
-  if (typeof window === 'undefined') return [];
-  
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored) {
-    try {
-      return JSON.parse(stored);
-    } catch {
-      return [];
-    }
-  }
-  return [];
 };

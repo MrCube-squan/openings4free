@@ -22,12 +22,12 @@ const CreateCourseModal = ({ open, onOpenChange }: CreateCourseModalProps) => {
   const [description, setDescription] = useState('');
   const [moves, setMoves] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!name.trim()) return;
 
-    const newCourse = addCourse({
+    const newCourse = await addCourse({
       name: name.trim(),
       eco: eco.trim() || 'A00',
       color,
@@ -44,8 +44,10 @@ const CreateCourseModal = ({ open, onOpenChange }: CreateCourseModalProps) => {
     
     onOpenChange(false);
     
-    // Navigate to the new course
-    navigate(`/course/${newCourse.id}`);
+    // Navigate to the new course if created successfully
+    if (newCourse) {
+      navigate(`/course/${newCourse.id}`);
+    }
   };
 
   const handleClose = () => {

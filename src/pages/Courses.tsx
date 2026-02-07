@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/Navbar';
 import CourseCard from '@/components/CourseCard';
 import { courses, Course } from '@/lib/courses';
 import { Button } from '@/components/ui/button';
 import { Search, Filter, X, Plus } from 'lucide-react';
 import { useCustomCourses } from '@/hooks/useCustomCourses';
+import { useAuth } from '@/hooks/useAuth';
 import CreateCourseModal from '@/components/CreateCourseModal';
 
 const Courses = () => {
@@ -13,6 +15,7 @@ const Courses = () => {
   const [colorFilter, setColorFilter] = useState<'all' | 'white' | 'black'>('all');
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const { customCourses } = useCustomCourses();
+  const { isAuthenticated } = useAuth();
 
   // Convert custom courses to Course format
   const allCourses: Course[] = [
@@ -59,18 +62,34 @@ const Courses = () => {
             </p>
           </motion.div>
 
-          {/* Create button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
-            className="mb-8"
-          >
-            <Button onClick={() => setCreateModalOpen(true)} variant="default">
-              <Plus className="h-4 w-4 mr-2" />
-              Create Opening
-            </Button>
-          </motion.div>
+          {/* Create button - only for authenticated users */}
+          {isAuthenticated && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="mb-8"
+            >
+              <Button onClick={() => setCreateModalOpen(true)} variant="default">
+                <Plus className="h-4 w-4 mr-2" />
+                Create Opening
+              </Button>
+            </motion.div>
+          )}
+          
+          {/* Sign in prompt for unauthenticated users */}
+          {!isAuthenticated && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="mb-8 p-4 rounded-lg border border-primary/20 bg-primary/5"
+            >
+              <p className="text-sm text-muted-foreground">
+                <Link to="/auth" className="text-primary font-medium hover:underline">Sign in</Link> to create your own openings and track your progress.
+              </p>
+            </motion.div>
+          )}
 
           {/* Filters */}
           <motion.div
