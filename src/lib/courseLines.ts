@@ -60,7 +60,6 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Yugoslav: Soltis Variation', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'Bc4', 'Bd7', 'O-O-O', 'Rc8', 'Bb3', 'Ne5', 'h4', 'h5', 'Bh6', 'Bxh6', 'Qxh6', 'Rxc3'] },
     { name: 'Yugoslav: Topalov Variation', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'O-O-O', 'Rb8', 'Bb3', 'Na5', 'Bh6', 'Bxh6', 'Qxh6', 'b5'] },
     { name: 'Yugoslav: 9.O-O-O Dragadorf', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'O-O-O', 'd5', 'exd5', 'Nxd5', 'Nxc6', 'bxc6', 'Bd4', 'Bxd4', 'Qxd4'] },
-    { name: 'Yugoslav: Rauser Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'O-O-O', 'Nxd4', 'Bxd4', 'Be6', 'Kb1', 'Qc7', 'h4', 'Rfc8', 'h5'] },
     { name: 'Yugoslav: 12.h4 Main', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'Bc4', 'Bd7', 'O-O-O', 'Rc8', 'h4', 'Ne5', 'Bb3', 'h5', 'Bg5', 'Rc5'] },
     { name: 'Yugoslav: g4 Push', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'g4', 'Be6', 'Nxe6', 'fxe6', 'O-O-O', 'Ne5', 'h4', 'Qa5', 'a3'] },
     // Classical Lines (16-25)
@@ -83,9 +82,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Anti-Dragon: 6.Bg5', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Bg5', 'Bg7', 'Qd2', 'Nc6', 'O-O-O', 'O-O', 'Nb3', 'a6', 'Bh6', 'Bxh6', 'Qxh6', 'Qb6', 'Kb1'] },
     { name: 'Anti-Dragon: 6.f4', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Bg7', 'e5', 'Nfd7', 'Bb5', 'O-O', 'Bxd7', 'Bxd7', 'exd6', 'exd6', 'O-O', 'Nc6'] },
     { name: 'Sicilian Dragon: Bc4 Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Bc4', 'Bg7', 'O-O', 'O-O', 'Re1', 'Nc6', 'Nxc6', 'bxc6', 'e5', 'dxe5', 'Rxe5', 'Qb6'] },
-    { name: 'Dragon: Early Kingside Fianchetto', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'g3', 'Nc6', 'Nde2', 'Bg7', 'Bg2', 'O-O', 'O-O', 'Bd7', 'h3', 'Rc8', 'Be3', 'a6'] },
     { name: 'Dragon: Be2 Quiet System', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'Nc6', 'Be3', 'O-O', 'Qd2', 'd5', 'exd5', 'Nxd5', 'Nxc6', 'bxc6', 'Nxd5', 'cxd5'] },
-    { name: 'Dragon: 6.h3 Slow Build', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'h3', 'Bg7', 'Be3', 'O-O', 'g4', 'Nc6', 'g5', 'Nd7', 'Qd2', 'Nxd4', 'Bxd4', 'Bxd4', 'Qxd4', 'e5'] },
     { name: 'Dragon: Karpov Variation', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'O-O', 'Re1', 'Nc6', 'Nb3', 'a6', 'Bf1', 'b5', 'a4', 'b4', 'Nd5', 'Nxd5', 'exd5'] },
     { name: 'Dragon: Exchange Variation', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'Nxc6', 'bxc6', 'Bh6', 'Bxh6', 'Qxh6', 'Qa5', 'Bd3', 'Rb8', 'O-O'] },
   ],
