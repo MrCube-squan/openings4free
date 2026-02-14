@@ -408,7 +408,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Stafford: Fish In Pole Trap', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','Be2','h5','O-O','Ng4','h3','Qd6','g3','Qxg3+','Kh1','Qh2#'] },
     { name: 'Stafford: Ruthless Sacrifices', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','Nc3','Bc5','Be2','Ng4','O-O','Qh4','h3','Nxf2','Rxf2','Bxf2+','Kf1','Bd4','Qe1','Qxh3','gxh3','Bxh3#'] },
     { name: 'Stafford: Mate In 8', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','Bg5','Nxe4','Bxd8','Bxf2+','Ke2','Bg4#'] },
-    { name: 'Stafford: e5 Main Tabia', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','e5','Ne4','d4','Be7','Bd3','f5','O-O','O-O'] },
+    { name: 'Stafford: e5 Main Tabia', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','e5','Ne4','d4','Qh4','Qf3','Be7'] },
     { name: 'Stafford: e5 Qf3 Critical', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','e5','Ne4','Qf3','Ng5','Qg3','Be7','h4','Ne6'] },
     { name: 'Stafford: d4 Solid White', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d4','Nxe4','Bd3','Bf5','O-O','Be7','Re1','Nd6'] },
     { name: 'Stafford: d3 Classical Setup', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','Be2','O-O','O-O','Re8','Nd2','a5'] },
