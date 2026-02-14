@@ -60,20 +60,20 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Yugoslav: Soltis Variation', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'Bc4', 'Bd7', 'O-O-O', 'Rc8', 'Bb3', 'Ne5', 'h4', 'h5', 'Bh6', 'Bxh6', 'Qxh6', 'Rxc3', 'bxc3', 'Qa5'] },
     { name: 'Yugoslav: 9.O-O-O Dragadorf', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'O-O-O', 'd5', 'exd5', 'Nxd5', 'Nxc6', 'bxc6', 'Bd4', 'Bxd4', 'Qxd4', 'Qb6', 'Na4', 'Qc7'] },
     { name: 'Yugoslav: 12.h4 Main', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'Bc4', 'Bd7', 'O-O-O', 'Rc8', 'h4', 'Ne5', 'Bb3', 'h5', 'Bg5', 'Rc5'] },
-    { name: 'Yugoslav: g4 Push', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'g4', 'Be6', 'Nxe6', 'fxe6', 'O-O-O', 'Ne5', 'h4', 'Qa5', 'a3'] },
+    { name: 'Yugoslav: g4 Push', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'f3', 'O-O', 'Qd2', 'Nc6', 'g4', 'Be6', 'Nxe6', 'fxe6', 'O-O-O', 'Ne5', 'Be2', 'Qc8'] },
     // Classical Lines (16-25)
-    { name: 'Classical: Main Line', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'O-O', 'Be3', 'Nc6', 'Nb3', 'Be6', 'f4', 'Na5', 'f5', 'Bc4'] },
+    { name: 'Classical: Main Line', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'O-O', 'Be3', 'Nc6', 'Nb3', 'Be6', 'f4', 'Na5', 'f5', 'Bc4', 'Nxa5', 'Bxe2', 'Qxe2', 'Qxa5'] },
     { name: 'Classical: Richter Variation', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'Be3', 'O-O', 'O-O', 'Nc6', 'Qd2', 'Ng4', 'Bxg4', 'Bxg4', 'f3', 'Bd7', 'Nxc6', 'bxc6'] },
     { name: 'Classical: Rauzer Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'O-O', 'Bg5', 'Nc6', 'Nb3', 'Be6', 'Kh1', 'Rc8', 'f4', 'Na5'] },
     { name: 'Classical: Sozin Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Bc4', 'Bg7', 'Be3', 'O-O', 'Bb3', 'Nc6', 'f3', 'Bd7', 'Qd2', 'Rc8', 'O-O-O', 'Ne5'] },
     { name: 'Levenfish: Main Line', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Nc6', 'Nxc6', 'bxc6', 'e5', 'Nd7', 'exd6', 'exd6', 'Be3', 'Be7', 'Qf3', 'O-O'] },
-    { name: 'Levenfish: Fierce Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Bg7', 'e5', 'Nfd7', 'Nb5', 'dxe5', 'Nd6+', 'Ke7', 'Nxc8+', 'Qxc8', 'fxe5'] },
-    { name: 'Dragon: Fianchetto Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'g3', 'Bg7', 'Bg2', 'O-O', 'O-O', 'Nc6', 'Nxc6', 'bxc6', 'Bh6', 'Bxh6', 'Qxd6', 'Qb6'] },
+    { name: 'Levenfish: Fierce Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Nc6', 'Be3', 'Bg7', 'Be2', 'O-O ] },
     // Accelerated Dragon (26-32)
     { name: 'Accelerated: Maróczy Bind', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'O-O', 'Be2', 'd6', 'O-O', 'Bd7', 'Qd2', 'Nxd4', 'Bxd4', 'Bc6'] },
     { name: 'Accelerated: Gurgenidze System', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Nf6', 'Nc3', 'd6', 'f3', 'Nxd4', 'Qxd4', 'Bg7', 'Be3', 'O-O', 'Qd2', 'Be6', 'Rc1'] },
-    { name: 'Hyper-Accelerated: Main Line', moves: ['e4', 'c5', 'Nf3', 'g6', 'd4', 'cxd4', 'Nxd4', 'Nc6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'O-O', 'Be2', 'd6', 'O-O', 'Bd7', 'f3', 'Nxd4', 'Bxd4'] },
-    { name: 'Accelerated: Simagin Variation', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'Ng4', 'Qxg4', 'Nxd4', 'Qd1', 'Ne6', 'Rc1', 'O-O', 'Be2', 'd6'] },
+    { name: 'Accelerated: Simagin Variation-Declined', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'Ng4', 'Qxg4', 'Nxd4', 'Qd1', 'Ne6', 'Rc1', 'O-O', 'Be2', 'd6'] },
+    { name: 'Accelerated: Simagin Variation-Declined', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'Ng4', 'Qxg4', 'Nxd4', 'Bxd4', 'Bxd4', 'O-O-O', 'Bxc3', 'bxc3', 'Qa5'] },
+
     { name: 'Accelerated: Modern Maróczy', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Nc2', 'd6', 'Be2', 'Nf6', 'Nc3', 'O-O', 'O-O', 'Nd7', 'Bd2', 'a5', 'Rb1', 'Nc5'] },
     { name: 'Accelerated: Gallagher Variation', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'Nc3', 'Bg7', 'Be3', 'Nf6', 'Bc4', 'O-O', 'Bb3', 'd6', 'f3', 'Bd7', 'Qd2', 'Qa5', 'O-O-O', 'Rfc8', 'Kb1'] },
     { name: 'Accelerated: Breyer Variation', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'd6', 'Be2', 'O-O', 'O-O', 'Bd7', 'Qd2', 'Nxd4', 'Bxd4', 'Bc6', 'f3'] },
@@ -290,7 +290,6 @@ export const courseLines: Record<string, TrainingLine[]> = {
     // Qa5 Lines (1-15)
     { name: 'Scandinavian: Qa5 Main Line', moves: ['e4', 'd5', 'exd5', 'Qxd5', 'Nc3', 'Qa5', 'd4', 'Nf6', 'Nf3', 'Bf5', 'Bc4', 'e6', 'Bd2', 'c6', 'Nd5', 'Qd8', 'Nxf6+', 'Qxf6', 'Qe2', 'Nd7', 'O-O-O'] },
     { name: 'Scandinavian: Bronstein Variation', moves: ['e4', 'd5', 'exd5', 'Qxd5', 'Nc3', 'Qa5', 'd4', 'Nf6', 'Nf3', 'Bf5', 'Ne5', 'c6', 'g4', 'Be6', 'f4', 'Nbd7', 'Nxd7', 'Nxd7', 'g5', 'Nb6', 'Bd3'] },
-    { name: 'Scandinavian: Mieses-Kotrč', moves: ['e4', 'd5', 'exd5', 'Qxd5', 'Nc3', 'Qa5', 'd4', 'c6', 'Nf3', 'Nf6', 'Bc4', 'Bf5', 'Bd2', 'e6', 'Qe2', 'Bb4', 'a3', 'Bxc3', 'Bxc3', 'Qc7', 'O-O-O', 'Nbd7'] },
     { name: 'Scandinavian: 5.Bd2 Variation', moves: ['e4', 'd5', 'exd5', 'Qxd5', 'Nc3', 'Qa5', 'd4', 'Nf6', 'Bd2', 'c6', 'Nf3', 'Bf5', 'Bc4', 'e6', 'Nd5', 'Qd8', 'Nxf6+', 'Qxf6', 'O-O', 'Nd7', 'Re1'] },
     { name: 'Scandinavian: Tartakower', moves: ['e4', 'd5', 'exd5', 'Qxd5', 'Nc3', 'Qa5', 'd4', 'Nf6', 'Nf3', 'c6', 'Ne5', 'Bf5', 'g4', 'Be6', 'Nc4', 'Qc7', 'g5', 'Nfd7', 'Bf4', 'Qb6'] },
     { name: 'Scandinavian: Grünfeld Variation', moves: ['e4', 'd5', 'exd5', 'Qxd5', 'Nc3', 'Qa5', 'd4', 'e5', 'dxe5', 'Bb4', 'Bd2', 'Nc6', 'Nf3', 'Nge7', 'a3', 'Bxc3', 'Bxc3', 'Qxe5+', 'Be2', 'O-O'] },
@@ -411,7 +410,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     // Main Traps (1-15)
     { name: 'Stafford: Nc6 Trap Main Line', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'e5', 'Ne4', 'd4', 'Qh4', 'g3', 'Nxg3', 'fxg3', 'Qe4+', 'Qe2', 'Qxh1', 'Nc3', 'Bf5', 'Be3'] },
     { name: 'Stafford: Mate In 8', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'd3', 'Bc5', 'Bg5', 'Nxe4', 'Bxd8', 'Bxf2+', 'Ke2', 'Bg4#'] },
-    { name: 'Stafford: Bishop Trap', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'd3', 'Bc5', 'Be2', 'h5', 'O-O', 'Ng4', 'h3', 'Qd6', 'g3', 'Qxg3+', 'Kh1', 'Qh2#'] },
+    { name: 'Stafford: Fish In Pole Trap', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'd3', 'Bc5', 'Be2', 'h5', 'O-O', 'Ng4', 'h3', 'Qd6', 'g3', 'Qxg3+', 'Kh1', 'Qh2#'] },
     { name: 'Stafford: Ruthless Sacrifices', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'Nc3', 'Bc5', 'Be2', 'Ng4', 'O-O', 'Qh4', 'h3', 'Nxf2', 'Rxf2', 'Bxf2+', 'Kf1', 'Bd4', 'Qe1', 'Qxh3', 'gxh3', 'Bxh3#'] },
     { name: 'Stafford: Qe2 Defense', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'e5', 'Ne4', 'd3', 'Bc5', 'dxe4', 'Bxf2+', 'Kxf2', 'Qxd1', 'Be3', 'Qxc2+', 'Nd2', 'Qxb2', 'Rb1', 'Qxe5'] },
     { name: 'Stafford: Kingside Attack', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'Nc3', 'Bc5', 'd3', 'Ng4', 'Be2', 'Qf6', 'O-O', 'Bxf2+', 'Rxf2', 'Nxf2', 'Kxf2', 'Qd4+', 'Kf1', 'Qxa1'] },
