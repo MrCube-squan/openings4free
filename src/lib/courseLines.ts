@@ -72,8 +72,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Accelerated: Maróczy Bind', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'O-O', 'Be2', 'd6', 'O-O', 'Bd7', 'Qd2', 'Nxd4', 'Bxd4', 'Bc6'] },
     { name: 'Accelerated: Gurgenidze System', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Nf6', 'Nc3', 'd6', 'f3', 'Nxd4', 'Qxd4', 'Bg7', 'Be3', 'O-O', 'Qd2', 'Be6', 'Rc1'] },
     { name: 'Accelerated: Simagin Variation-Declined', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'Ng4', 'Qxg4', 'Nxd4', 'Qd1', 'Ne6', 'Rc1', 'O-O', 'Be2', 'd6'] },
-    { name: 'Accelerated: Simagin Variation-Declined', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'Ng4', 'Qxg4', 'Nxd4', 'Bxd4', 'Bxd4', 'O-O-O', 'Bxc3', 'bxc3', 'Qa5'] },
-
+    { name: 'Accelerated: Simagin Variation-Accepted', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'Ng4', 'Qxg4', 'Nxd4', 'Bxd4', 'Bxd4', 'O-O-O', 'Bxc3', 'bxc3', 'Qa5'] },
     { name: 'Accelerated: Modern Maróczy', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Nc2', 'd6', 'Be2', 'Nf6', 'Nc3', 'O-O', 'O-O', 'Nd7', 'Bd2', 'a5', 'Rb1', 'Nc5'] },
     { name: 'Accelerated: Gallagher Variation', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'Nc3', 'Bg7', 'Be3', 'Nf6', 'Bc4', 'O-O', 'Bb3', 'd6', 'f3', 'Bd7', 'Qd2', 'Qa5', 'O-O-O', 'Rfc8', 'Kb1'] },
     { name: 'Accelerated: Breyer Variation', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'd6', 'Be2', 'O-O', 'O-O', 'Bd7', 'Qd2', 'Nxd4', 'Bxd4', 'Bc6', 'f3'] },
