@@ -410,9 +410,9 @@ export const courseLines: Record<string, TrainingLine[]> = {
   'stafford-gambit': [
     // Main Traps (1-15)
     { name: 'Stafford: Nc6 Trap Main Line', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'e5', 'Ne4', 'd4', 'Qh4', 'g3', 'Nxg3', 'fxg3', 'Qe4+', 'Qe2', 'Qxh1', 'Nc3', 'Bf5', 'Be3'] },
-    { name: 'Stafford: Oh No My Queen', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'd3', 'Bc5', 'Bg5', 'Nxe4', 'Bxd8', 'Bxf2+', 'Ke2', 'Bg4#'] },
-    { name: 'Stafford: Bishop Trap', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'd3', 'Bc5', 'Be2', 'h5', 'O-O', 'Ng4', 'h3', 'Qd6', 'g3', 'Qxg3+', 'fxg3', 'Bxh3'] },
-    { name: 'Stafford: Qh4 Attack', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'Nc3', 'Bc5', 'Be2', 'Ng4', 'O-O', 'Qh4', 'h3', 'Nxf2', 'Rxf2', 'Bxf2+', 'Kxf2', 'Qf4+', 'Kg1'] },
+    { name: 'Stafford: Mate In 8', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'd3', 'Bc5', 'Bg5', 'Nxe4', 'Bxd8', 'Bxf2+', 'Ke2', 'Bg4#'] },
+    { name: 'Stafford: Bishop Trap', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'd3', 'Bc5', 'Be2', 'h5', 'O-O', 'Ng4', 'h3', 'Qd6', 'g3', 'Qxg3+', 'Kh1', 'Qh2#'] },
+    { name: 'Stafford: Ruthless Sacrifices', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'Nc3', 'Bc5', 'Be2', 'Ng4', 'O-O', 'Qh4', 'h3', 'Nxf2', 'Rxf2', 'Bxf2+', 'Kf1', 'Bd4', 'Qe1', 'Qxh3', 'gxh3', 'Bxh3#'] },
     { name: 'Stafford: d4 Refutation Line', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'd4', 'Nxe4', 'Bd3', 'Bd6', 'O-O', 'O-O', 'Re1', 'Bf5', 'Qh5', 'Qf6', 'Nd2', 'Nxd2', 'Bxd2'] },
     { name: 'Stafford: Qe2 Defense', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'e5', 'Ne4', 'd3', 'Bc5', 'dxe4', 'Bxf2+', 'Kxf2', 'Qxd1', 'Be3', 'Qxb1', 'Bc4', 'Qxa1'] },
     { name: 'Stafford: Kingside Attack', moves: ['e4', 'e5', 'Nf3', 'Nf6', 'Nxe5', 'Nc6', 'Nxc6', 'dxc6', 'Nc3', 'Bc5', 'd3', 'Ng4', 'Be2', 'Qf6', 'O-O', 'Bxf2+', 'Rxf2', 'Nxf2', 'Kxf2', 'Qd4+', 'Kf1', 'Qxa1'] },
