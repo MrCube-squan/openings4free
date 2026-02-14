@@ -67,7 +67,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Classical: Rauzer Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'O-O', 'Bg5', 'Nc6', 'Nb3', 'Be6', 'Kh1', 'Rc8', 'f4', 'Na5'] },
     { name: 'Classical: Sozin Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Bc4', 'Bg7', 'Be3', 'O-O', 'Bb3', 'Nc6', 'f3', 'Bd7', 'Qd2', 'Rc8', 'O-O-O', 'Ne5'] },
     { name: 'Levenfish: Main Line', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Nc6', 'Nxc6', 'bxc6', 'e5', 'Nd7', 'exd6', 'exd6', 'Be3', 'Be7', 'Qf3', 'O-O'] },
-    { name: 'Levenfish: Fierce Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Nc6', 'Be3', 'Bg7', 'Be2', 'O-O' ] },
+    { name: 'Levenfish: Delayed Fianchetto', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Nc6', 'Be3', 'Bg7', 'Be2', 'O-O' ] },
     // Accelerated Dragon (26-32)
     { name: 'Accelerated: Maróczy Bind', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Bg7', 'Be3', 'Nf6', 'Nc3', 'O-O', 'Be2', 'd6', 'O-O', 'Bd7', 'Qd2', 'Nxd4', 'Bxd4', 'Bc6'] },
     { name: 'Accelerated: Gurgenidze System', moves: ['e4', 'c5', 'Nf3', 'Nc6', 'd4', 'cxd4', 'Nxd4', 'g6', 'c4', 'Nf6', 'Nc3', 'd6', 'f3', 'Nxd4', 'Qxd4', 'Bg7', 'Be3', 'O-O', 'Qd2', 'Be6', 'Rc1'] },
