@@ -64,7 +64,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     // Classical Lines (16-25)
     { name: 'Classical: Main Line', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'O-O', 'Be3', 'Nc6', 'Nb3', 'Be6', 'f4', 'Na5', 'f5', 'Bc4', 'Nxa5', 'Bxe2', 'Qxe2', 'Qxa5'] },
     { name: 'Classical: Richter Variation', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'Be3', 'O-O', 'O-O', 'Nc6', 'Qd2', 'Ng4', 'Bxg4', 'Bxg4', 'f3', 'Bd7', 'Nxc6', 'bxc6'] },
-    { name: 'Classical: Rauzer Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'O-O', 'Bg5', 'Nc6', 'Nb3', 'Be6', 'Kh1', 'Rc8', 'f4', 'Na5'] },
+    { name: 'Classical: Rauzer Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Be2', 'Bg7', 'O-O', 'O-O', 'Bg5', 'Nc6', 'Nb3', 'Be6', 'Kh1', 'Rc8', 'f4', 'a6'] },
     { name: 'Classical: Sozin Attack', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'Bc4', 'Bg7', 'Be3', 'O-O', 'Bb3', 'Nc6', 'f3', 'Bd7', 'Qd2', 'Rc8', 'O-O-O', 'Ne5'] },
     { name: 'Levenfish: Main Line', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Nc6', 'Nxc6', 'bxc6', 'e5', 'Nd7', 'exd6', 'exd6', 'Be3', 'Be7', 'Qf3', 'O-O'] },
     { name: 'Levenfish: Delayed Fianchetto', moves: ['e4', 'c5', 'Nf3', 'd6', 'd4', 'cxd4', 'Nxd4', 'Nf6', 'Nc3', 'g6', 'f4', 'Nc6', 'Be3', 'Bg7', 'Be2', 'O-O' ] },
