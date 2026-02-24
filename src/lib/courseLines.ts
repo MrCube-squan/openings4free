@@ -84,7 +84,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
   ],
   'caro-kann': [
     // Advance Variation (1-12)
-        { name: 'Caro-Kann: Line 1', moves: ['e4','c6','d4','d5','e5','Bf5'] },
+    { name: 'Caro-Kann: Line 1', moves: ['e4','c6','d4','d5','e5','Bf5'] },
     { name: 'Caro-Kann: Line 2', moves: ['e4','c6','d4','d5','exd5','cxd5','Bd3','Nc6','c3','Nf6','Bf4','g6','Nf3','Bg7','Nbd2','O-O','O-O','Bf5','Bxf5','gxf5','Ne5','Nxe5','Bxe5','e6','a4','Kh8','Bxf6','Bxf6','Re1','Rg8','Qh5','Rg6','Nf3','Qg8'] },
     { name: 'Caro-Kann: Line 3', moves: ['e4','c6','d4','d5','exd5','cxd5','c4','Nf6','Nc3','g6','Qb3','Bg7','cxd5','O-O','Be2','Nbd7','Bf3','Nb6','Bf4','Bg4','Bxg4','Nxg4','Nf3','Nf6','d6','exd6','O-O','Qd7','Rfe1','Rfe8','a4','Rxe1+','Rxe1','Re8','Rxe8+','Nxe8'] },
     { name: 'Caro-Kann: Line 4', moves: ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Nxf6+','exf6','c3','Bd6','Bd3','O-O','Ne2','Re8','Qc2','h6','O-O','Nd7','Be3','Nf8','Rfe1','Be6'] },
