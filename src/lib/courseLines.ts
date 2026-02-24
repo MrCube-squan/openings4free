@@ -11,7 +11,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     // Mainlines (1-10)
     { name: 'Italian Game: Main Line', moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','c3','Nf6','d4','exd4','cxd4','Bb4+','Bd2','Bxd2+','Nbxd2','d5','exd5','Nxd5','Qb3','Na5','Qa4+','Nc6'] },
     { name: 'Italian Game: Line 2', moves: ['e4','e5','Nf3','Nc6','Bc4','Nf6','d4','exd4','e5','d5','exd6','Nxd5','O-O','Be7'] },
-    { name: 'Italian Game: Line 3', moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','c3','Nf6','d4','exd4','cxd4','Bb4+','Bd2','Bxd2+','Nbxd2','d6','O-O','Bg4','h3','Bh5','g4','Bg6'] },
+    { name: 'Italian Game: Line 3', moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','c3','Nf6','d4','exd4','cxd4','Bb4+','Bd2','Bxd2+','Nbxd2','d6','O-O','Bg4','h3','Bh5','d5'] },
     { name: 'Italian Game: Line 4', moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','c3','Nf6','d4','exd4','cxd4','Bb6','Nc3','O-O','Bg5','h6','Bh4','Re8','Nd5'] },
     { name: 'Italian Game: Line 5', moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','c3','Nf6','d4','exd4','cxd4','Bb6','Nc3','d6','Bg5','Bg4','Nd5','Bxf3','Qxf3','Nxd4','Qd3'] },
     { name: 'Italian Game: Line 6', moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','c3','Nf6','d4','exd4','cxd4','Bb6','Nc3','O-O','Bg5','h6','Bh4','g5','Nxg5','hxg5','Bxg5','Kg7','Nd5'] },
