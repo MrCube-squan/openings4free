@@ -46,7 +46,7 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto">
 
-              Stop spending hours watching videos of poeople explaining openings. You'll never remember that.
+              Don’t waste hours on opening theory videos. Train lines you’ll remember over the board.
             </motion.p>
 
             {/* CTA */}
