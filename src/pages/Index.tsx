@@ -35,7 +35,7 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
 
-              Master openings with{' '}
+              Master openings The{' '}
               <span className="text-gradient">Best Way</span>
             </motion.h1>
 
@@ -46,7 +46,7 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto">
 
-              Stop memorizing engine lines nobody plays. Train openings from millions of real games.
+              Stop spending hours watching videos of poeople explaining openings. You'll never remember that.
             </motion.p>
 
             {/* CTA */}
@@ -79,7 +79,7 @@ const Index = () => {
               Why openings4free works
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              No more "this never happens in my games." Every line is built from real moves.
+              No more "my opponent doesn't follow the lines." Every line is built from real moves.
             </p>
           </div>
 
@@ -151,7 +151,7 @@ const Index = () => {
                 Ready to stop blundering the opening?
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-                Join thousands of players who've turned opening prep from a chore into a game.
+                Use ChessOpenings4Free to learn all the correct theory you'll need.
               </p>
               <Link to="/courses">
                 <Button variant="hero" size="xl">
