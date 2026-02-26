@@ -13,7 +13,7 @@ export interface Course {
 export const courses: Course[] = [
   {
     id: 'italian-game',
-    name: 'The Italian Game',
+    name: 'Italian Game',
     eco: 'C50',
     color: 'white',
     lines: 40,
