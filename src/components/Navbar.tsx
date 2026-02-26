@@ -12,9 +12,9 @@ const Navbar = () => {
   const { user, loading, signOut, isAuthenticated } = useAuth();
 
   const navLinks = [
-    { path: '/courses', label: 'Courses' },
-    { path: '/train', label: 'Train' },
-  ];
+  { path: '/courses', label: 'Courses' },
+  { path: '/train', label: 'Train' }];
+
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -33,32 +33,32 @@ const Navbar = () => {
               <Crown className="h-5 w-5 text-primary transition-transform group-hover:scale-110" />
               <div className="absolute inset-0 rounded-lg bg-primary/20 opacity-0 blur-md transition-opacity group-hover:opacity-100" />
             </div>
-            <span className="text-xl font-bold">
-              openings<span className="text-primary">4free</span>
+            <span className="text-xl font-bold">Openings4free
+              <span className="text-primary">4Free</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link key={link.path} to={link.path}>
+            {navLinks.map((link) =>
+            <Link key={link.path} to={link.path}>
                 <Button
-                  variant={isActive(link.path) ? 'secondary' : 'ghost'}
-                  size="sm"
-                  className={isActive(link.path) ? 'bg-primary/10 text-primary' : ''}
-                >
+                variant={isActive(link.path) ? 'secondary' : 'ghost'}
+                size="sm"
+                className={isActive(link.path) ? 'bg-primary/10 text-primary' : ''}>
+
                   {link.label}
                 </Button>
               </Link>
-            ))}
+            )}
           </div>
 
           {/* Right side */}
           <div className="hidden md:flex items-center gap-3">
-            {loading ? (
-              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-            ) : isAuthenticated ? (
-              <>
+            {loading ?
+            <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /> :
+            isAuthenticated ?
+            <>
                 <span className="text-sm text-muted-foreground truncate max-w-[150px]">
                   {user?.email}
                 </span>
@@ -66,9 +66,9 @@ const Navbar = () => {
                   <LogOut className="h-4 w-4 mr-1" />
                   Log out
                 </Button>
-              </>
-            ) : (
-              <>
+              </> :
+
+            <>
                 <Link to="/auth">
                   <Button variant="ghost" size="sm">
                     Log in
@@ -80,14 +80,14 @@ const Navbar = () => {
                   </Button>
                 </Link>
               </>
-            )}
+            }
           </div>
 
           {/* Mobile menu button */}
           <button
             className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+
             {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
@@ -95,35 +95,35 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-xl"
-          >
+        {mobileMenuOpen &&
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-xl">
+
             <div className="container mx-auto px-4 py-4 flex flex-col gap-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+              {navLinks.map((link) =>
+            <Link
+              key={link.path}
+              to={link.path}
+              onClick={() => setMobileMenuOpen(false)}>
+
                   <Button
-                    variant={isActive(link.path) ? 'secondary' : 'ghost'}
-                    className={`w-full justify-start ${isActive(link.path) ? 'bg-primary/10 text-primary' : ''}`}
-                  >
+                variant={isActive(link.path) ? 'secondary' : 'ghost'}
+                className={`w-full justify-start ${isActive(link.path) ? 'bg-primary/10 text-primary' : ''}`}>
+
                     {link.label}
                   </Button>
                 </Link>
-              ))}
+            )}
               <div className="flex gap-2 mt-2 pt-2 border-t border-border/50">
-                {loading ? (
-                  <div className="flex-1 flex items-center justify-center">
+                {loading ?
+              <div className="flex-1 flex items-center justify-center">
                     <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-                  </div>
-                ) : isAuthenticated ? (
-                  <>
+                  </div> :
+              isAuthenticated ?
+              <>
                     <span className="flex-1 text-sm text-muted-foreground flex items-center truncate">
                       {user?.email}
                     </span>
@@ -131,9 +131,9 @@ const Navbar = () => {
                       <LogOut className="h-4 w-4 mr-1" />
                       Log out
                     </Button>
-                  </>
-                ) : (
-                  <>
+                  </> :
+
+              <>
                     <Link to="/auth" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
                       <Button variant="ghost" className="w-full">
                         Log in
@@ -145,14 +145,14 @@ const Navbar = () => {
                       </Button>
                     </Link>
                   </>
-                )}
+              }
               </div>
             </div>
           </motion.div>
-        )}
+        }
       </AnimatePresence>
-    </nav>
-  );
+    </nav>);
+
 };
 
 export default Navbar;

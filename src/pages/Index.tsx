@@ -23,7 +23,7 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium mb-8">
-              
+
               <Zap className="h-4 w-4" />
               Train like you play
             </motion.div>
@@ -75,8 +75,8 @@ const Index = () => {
       <section className="py-24 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Why openings4free works
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Openings4Free works
+
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               No more "my opponent doesn't follow the lines." Every line is built from real moves.
@@ -169,12 +169,12 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold">
-                openings<span className="text-primary">4free</span>
+              <span className="text-xl font-bold">Openings4free
+                <span className="text-primary">4Free</span>
               </span>
             </div>
-            <div className="text-sm text-muted-foreground">
-              © 2025 openings4free. Train like you play.
+            <div className="text-sm text-muted-foreground">© 2025 Openings4Free. Train like you play.
+
             </div>
           </div>
         </div>
