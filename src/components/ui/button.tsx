@@ -10,42 +10,42 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-glow hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0",
+        "bg-primary text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary-glow hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 active:translate-y-0",
         destructive:
-          "bg-destructive text-destructive-foreground shadow-md hover:bg-destructive/90",
+        "bg-destructive text-destructive-foreground shadow-md hover:bg-destructive/90",
         outline:
-          "border-2 border-primary/50 bg-transparent text-primary hover:bg-primary/10 hover:border-primary",
+        "border-2 border-primary/50 bg-transparent text-primary hover:bg-primary/10 hover:border-primary",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost:
-          "hover:bg-muted hover:text-foreground",
+        "hover:bg-muted hover:text-foreground",
         link:
-          "text-primary underline-offset-4 hover:underline",
+        "text-primary underline-offset-4 hover:underline",
         hero:
-          "bg-gradient-to-r from-primary to-primary-glow text-primary-foreground font-bold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-1 active:translate-y-0 transition-all duration-300",
+        "bg-gradient-to-r from-primary to-primary-glow text-primary-foreground font-bold shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-1 active:translate-y-0 transition-all duration-300",
         accent:
-          "bg-accent text-accent-foreground font-bold shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/35 hover:-translate-y-0.5",
+        "bg-accent text-accent-foreground font-bold shadow-lg shadow-accent/25 hover:shadow-xl hover:shadow-accent/35 hover:-translate-y-0.5",
         muted:
-          "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground",
+        "bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground"
       },
       size: {
         default: "h-11 px-5 py-2",
         sm: "h-9 rounded-md px-4 text-xs",
         lg: "h-12 rounded-lg px-8 text-base",
         xl: "h-14 rounded-xl px-10 text-lg",
-        icon: "h-10 w-10",
-      },
+        icon: "h-10 w-10"
+      }
     },
     defaultVariants: {
       variant: "default",
-      size: "default",
-    },
+      size: "default"
+    }
   }
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
@@ -56,9 +56,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        {...props}
-      />
-    );
+        {...props} />);
+
+
   }
 );
 Button.displayName = "Button";
