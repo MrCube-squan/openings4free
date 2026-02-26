@@ -151,7 +151,7 @@ const Index = () => {
                 Ready to stop blundering the opening?
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-                Use ChessOpenings4Free to learn all the correct theory you'll need.
+                Use Openings4Free to learn all the correct theory you'll need.
               </p>
               <Link to="/courses">
                 <Button variant="hero" size="xl">
