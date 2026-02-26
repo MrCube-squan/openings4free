@@ -22,8 +22,8 @@ const Index = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium mb-8"
-            >
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium mb-8">
+
               <Zap className="h-4 w-4" />
               Train like you play
             </motion.div>
@@ -33,10 +33,10 @@ const Index = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
-            >
+              className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+
               Master openings with{' '}
-              <span className="text-gradient">real moves</span>
+              <span className="text-gradient">Best Way</span>
             </motion.h1>
 
             {/* Subheadline */}
@@ -44,8 +44,8 @@ const Index = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto"
-            >
+              className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto">
+
               Stop memorizing engine lines nobody plays. Train openings from millions of real games.
             </motion.p>
 
@@ -54,8 +54,8 @@ const Index = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex justify-center"
-            >
+              className="flex justify-center">
+
               <Link to="/courses">
                 <Button variant="hero" size="xl">
                   Browse Courses
@@ -85,52 +85,52 @@ const Index = () => {
 
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {[
-              {
-                icon: Target,
-                title: 'Real-Game Lines',
-                description: 'Moves extracted from millions of Lichess games. Learn what you\'ll actually face.',
-              },
-              {
-                icon: Brain,
-                title: 'Spaced Repetition',
-                description: 'Smart scheduling based on your accuracy. Difficult lines come back more often until they stick.',
-              },
-              {
-                icon: TrendingUp,
-                title: 'Progress Tracking',
-                description: 'See exactly which lines you\'ve mastered and which need work. Watch your accuracy climb.',
-              },
-              {
-                icon: BookOpen,
-                title: 'Curated Courses',
-                description: 'Pre-built repertoires with punchy descriptions. From London to Sicilian Dragon.',
-              },
-              {
-                icon: Zap,
-                title: 'Fast Reps',
-                description: 'Quick, focused drilling. 5 minutes a day builds permanent opening knowledge.',
-              },
-              {
-                icon: Users,
-                title: 'Community Courses',
-                description: 'Create your own repertoires or train courses made by other players.',
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="group p-6 rounded-xl border border-border bg-card hover:border-primary/30 hover:bg-card-hover transition-all duration-300"
-              >
+            {
+              icon: Target,
+              title: 'Real-Game Lines',
+              description: 'Moves extracted from millions of Lichess games. Learn what you\'ll actually face.'
+            },
+            {
+              icon: Brain,
+              title: 'Spaced Repetition',
+              description: 'Smart scheduling based on your accuracy. Difficult lines come back more often until they stick.'
+            },
+            {
+              icon: TrendingUp,
+              title: 'Progress Tracking',
+              description: 'See exactly which lines you\'ve mastered and which need work. Watch your accuracy climb.'
+            },
+            {
+              icon: BookOpen,
+              title: 'Curated Courses',
+              description: 'Pre-built repertoires with punchy descriptions. From London to Sicilian Dragon.'
+            },
+            {
+              icon: Zap,
+              title: 'Fast Reps',
+              description: 'Quick, focused drilling. 5 minutes a day builds permanent opening knowledge.'
+            },
+            {
+              icon: Users,
+              title: 'Community Courses',
+              description: 'Create your own repertoires or train courses made by other players.'
+            }].
+            map((feature, index) =>
+            <motion.div
+              key={feature.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              viewport={{ once: true }}
+              className="group p-6 rounded-xl border border-border bg-card hover:border-primary/30 hover:bg-card-hover transition-all duration-300">
+
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                   <feature.icon className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
                 <p className="text-muted-foreground text-sm">{feature.description}</p>
               </motion.div>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -143,8 +143,8 @@ const Index = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="relative max-w-4xl mx-auto rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-accent/5 p-12 text-center overflow-hidden"
-          >
+            className="relative max-w-4xl mx-auto rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-accent/5 p-12 text-center overflow-hidden">
+
             <div className="absolute inset-0 bg-gradient-radial from-primary/5 to-transparent" />
             <div className="relative">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -179,8 +179,8 @@ const Index = () => {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Index;
