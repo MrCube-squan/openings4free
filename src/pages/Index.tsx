@@ -169,7 +169,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <span className="text-xl font-bold">Openings4free
+              <span className="text-xl font-bold">Openings4Free
                 <span className="text-primary">4Free</span>
               </span>
             </div>
