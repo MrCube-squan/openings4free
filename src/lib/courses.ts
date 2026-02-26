@@ -18,7 +18,7 @@ export const courses: Course[] = [
     color: 'white',
     lines: 40,
     difficulty: 'beginner',
-    description: " An OG opening created in the late 15th and early 16th centuries.",
+    description: " An OG opening created in the late 15th and early 16th centuries. I like pizza",
     popularity: 89,
     moves: '1.e4 e5 2.Nf3 Nc6 3.Bc4',
   },
