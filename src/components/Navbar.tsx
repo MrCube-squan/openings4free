@@ -33,7 +33,7 @@ const Navbar = () => {
               <Crown className="h-5 w-5 text-primary transition-transform group-hover:scale-110" />
               <div className="absolute inset-0 rounded-lg bg-primary/20 opacity-0 blur-md transition-opacity group-hover:opacity-100" />
             </div>
-            <span className="text-xl font-bold">Openings4Free
+            <span className="text-xl font-bold">Openings
               <span className="text-primary">4Free</span>
             </span>
           </Link>
