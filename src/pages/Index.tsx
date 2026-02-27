@@ -24,10 +24,6 @@ const Index = () => {
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium mb-8">
 
-              <Zap className="h-4 w-4" />
-              Train like you play
-            </motion.div>
-
             {/* Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
