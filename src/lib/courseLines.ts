@@ -315,8 +315,8 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Closed Variation (4. e3)', moves: ['d4','Nf6','c4','g6','Nc3','d5','e3','Bg7','Nf3','O-O','Bd3','c5','O-O','cxd4','exd4','Nc6'] },
   ],
   'vienna-game': [
-    { name: 'Vienna Gambit: Main Accepted (7. Nd5 Qd8 8. d4) 1', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','d4','dxe5','Qxe5+','Be6','Nxc7+','Kd7','Nxe6','fxe6'] },
-    { name: 'Vienna Gambit: Accepted (7. Nd5 Qd8 8. Nxf4) 2', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','Nxf4','dxe5','Qxe5+','Qe7','d4','Nc6','Bb5'] },
+    { name: 'Vienna Gambit: Main Accepted (7. Nd5 Qd7) 1', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd7','exd6+','Ne7','Nxc7+','Kd8','dxe7+','Bxe7','Nxa8'] },
+    { name: 'Vienna Gambit: Accepted (7. Nd5 Qd8) 2', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','exd6+','Be6','Nxc7+','Kd7','Ne5+','Kxd6','Nxe6','Kxe6','Nc6+','Kd7','Qd3+','Kxc6','Qxd8'] },
     { name: 'Vienna Gambit: Accepted (8. d4 c6) 3', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','d4','c6','Nxf4','dxe5','dxe5','Bg4','Bd2'] },
     { name: 'Vienna Gambit: Accepted (8. d4 Be6) 4', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','d4','Be6','Nxf4','dxe5','Nxe6','fxe6','Qxe5'] },
     { name: 'Vienna Gambit: Accepted (8. d4 Ne7) 5', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','d4','Ne7','Nxf4','dxe5','Nxe5','Qxd4','c3'] },
