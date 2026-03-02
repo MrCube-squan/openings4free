@@ -501,6 +501,39 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Semi-Scheveningen (Najdorf Move Order)', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','Be2','e6','f4','Be7','O-O','O-O','Kh1','Qc7'] },
     { name: 'English Attack (Gorelov Variation)', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','e6','Be3','a6','f3','b5','g4','h6','h4','b4','Na4','Nbd7'] },
   ],
+  'trompowsky': [
+    { name: 'Trompowsky: Main Line (2...Ne4 3.Bf4 d5)', moves: ['d4','Nf6','Bg5','Ne4','Bf4','d5','f3','Nf6','e4','dxe4','fxe4','Nxe4','Bd3','Nf6','Nf3','e6','O-O','Be7','Nc3','O-O','Qe2'] },
+  ],
+  'catalan': [
+    { name: 'Catalan: Open Variation (4...dxc4 5.Bg2)', moves: ['d4','Nf6','c4','e6','g3','d5','Bg2','dxc4','Nf3','Be7','O-O','O-O','Qc2','a6','Qxc4','b5','Qc2','Bb7','Bd2','Nc6'] },
+  ],
+  'scotch-game': [
+    { name: 'Scotch: Classical (4...Bc5 5.Be3)', moves: ['e4','e5','Nf3','Nc6','d4','exd4','Nxd4','Bc5','Be3','Qf6','c3','Nge7','Bc4','O-O','O-O','Bb6','Na3','d5','exd5','Nxd5'] },
+  ],
+  'nimzo-indian': [
+    { name: 'Nimzo-Indian: Classical (4.Qc2 O-O 5.a3)', moves: ['d4','Nf6','c4','e6','Nc3','Bb4','Qc2','O-O','a3','Bxc3+','Qxc3','b6','Bg5','Bb7','f3','d5','e3','Nbd7','cxd5','exd5'] },
+  ],
+  'elephant-gambit': [
+    { name: 'Elephant Gambit: Main (3.exd5 Bd6)', moves: ['e4','e5','Nf3','d5','exd5','Bd6','d4','e4','Ne5','Nf6','Bc4','O-O','O-O','Nxd5','Nc3','Nxc3','bxc3'] },
+  ],
+  'traxler-counterattack': [
+    { name: 'Traxler: Main Sacrifice (5.Nxf7 Bxf2+)', moves: ['e4','e5','Nf3','Nc6','Bc4','Nf6','Ng5','Bc5','Nxf7','Bxf2+','Kxf2','Nxe4+','Kg1','Qh4','g3','Nxg3','hxg3','Qxg3+','Kf1','Rf8','Qh5','d5'] },
+  ],
+  'rousseau-gambit': [
+    { name: 'Rousseau Gambit: Main Line (4.d3 fxe4)', moves: ['e4','e5','Nf3','Nc6','Bc4','f5','d3','fxe4','dxe4','Nf6','O-O','Bc5','Nc3','d6','Bg5','O-O'] },
+  ],
+  'englund-gambit': [
+    { name: 'Englund Gambit: Main Trap (2.dxe5 Nc6)', moves: ['d4','e5','dxe5','Nc6','Nf3','Qe7','Bf4','Qb4+','Bd2','Qxb2','Nc3','Bb4','Rb1','Qa3','Nd5','Bxd2+','Qxd2'] },
+  ],
+  'bishops-opening': [
+    { name: "Bishop's Opening: Vienna Hybrid (2...Nf6 3.d3)", moves: ['e4','e5','Bc4','Nf6','d3','Nc6','Nf3','Be7','O-O','O-O','Re1','d6','a4','Na5','Ba2','c5','c3','Nc6','Nbd2'] },
+  ],
+  'alekhine-defense': [
+    { name: "Alekhine: Four Pawns Attack (Main)", moves: ['e4','Nf6','e5','Nd5','d4','d6','c4','Nb6','f4','dxe5','fxe5','Nc6','Be3','Bf5','Nc3','e6','Nf3','Be7','Be2','O-O'] },
+  ],
+  'danish-gambit': [
+    { name: 'Danish Gambit: Accepted (3...dxc3 4.Bc4)', moves: ['e4','e5','d4','exd4','c3','dxc3','Bc4','cxb2','Bxb2','d5','Bxd5','Nf6','Bxf7+','Kxf7','Qxd8','Bb4+','Qd2','Bxd2+','Nxd2'] },
+  ],
 };
 
 

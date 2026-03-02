@@ -23,6 +23,8 @@ const Index = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium mb-8">
+              Free Opening Trainer
+            </motion.div>
 
             {/* Headline */}
             <motion.h1
