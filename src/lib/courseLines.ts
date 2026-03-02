@@ -6,7 +6,18 @@ export interface TrainingLine {
   moves: string[];
 }
 
-export const courseLines: Record<string, TrainingLine[]> = {
+// Support both { name, moves } and { "Line Name": [...moves] } formats
+type RawLine = TrainingLine | Record<string, string[]>;
+
+function normalizeLine(raw: RawLine): TrainingLine {
+  if ('name' in raw && 'moves' in raw) {
+    return raw as TrainingLine;
+  }
+  const key = Object.keys(raw)[0];
+  return { name: key, moves: (raw as Record<string, string[]>)[key] };
+}
+
+const rawCourseLines: Record<string, RawLine[]> = {
   'italian-game': [
     { name: 'Giuoco Pianissimo (Main Line)', moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','d3','Nf6','O-O','d6','c3','a6','a4','Ba7','Re1','O-O','h3','h6','Nbd2','Re8'] },
     { name: 'Evans Gambit Accepted', moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','b4','Bxb4','c3','Ba5','d4','d6','Qb3','Qd7','dxe5','Bb6','Nbd2','Na5','Qc2'] },
@@ -596,8 +607,10 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { "Scotch Game, Potter Variation, 6... O-O": ['e4','e5','Nf3','Nc6','d4','exd4','Nxd4','Bc5','Nb3','Bb6','Nc3','Nf6','Qe2','O-O','Bg5','h6'] },
     { "Scotch Game, Potter Variation, 6... Qe7": ['e4','e5','Nf3','Nc6','d4','exd4','Nxd4','Bc5','Nb3','Bb6','Qe2','Qe7','Nc3','Nf6','Bg5','h6'] },
     { "Scotch Game, Potter Variation, 7. Nd5 Exchange": ['e4','e5','Nf3','Nc6','d4','exd4','Nxd4','Bc5','Nb3','Bb6','Nc3','Nf6','Qe2','d6','Nd5','Nxd5','exd5+','Ne7'] },
+  ],
   'nimzo-indian': [
-    
+    { "Nimzo-Indian Defense, Classical Variation": ['d4','Nf6','c4','e6','Nc3','Bb4','Qc2','O-O','a3','Bxc3+','Qxc3','b6','Bg5','Bb7'] },
+  ],
   'elephant-gambit': [
     { "Elephant Gambit, Paulsen Variation": ['e4','e5','Nf3','d5','exd5','e4','Qe2','Nf6','d3','Qxd5','Nbd2','Be7','dxe4','Qe6'] },
     { "Elephant Gambit, Maróczy Variation": ['e4','e5','Nf3','d5','exd5','Bd6','d4','e4','Ne5','Nf6','Nc3','O-O','Bg5','Bf5'] },
@@ -661,6 +674,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { "Traxler Counter-Attack, 5. Nxf7 Bxf2+ 6. Kxf2 Nxe4+ 7. Ke3 d5": ['e4','e5','Nf3','Nc6','Bc4','Nf6','Ng5','Bc5','Nxf7','Bxf2+','Kxf2','Nxe4+','Ke3','d5','Bxd5','Qxd5','Nxh8','Qd4+'] },
     { "Traxler Counter-Attack, 5. Bxf7+ Ke7 6. Bd5 Rf8 7. Nf3 d6 8. d3": ['e4','e5','Nf3','Nc6','Bc4','Nf6','Ng5','Bc5','Bxf7+','Ke7','Bd5','Rf8','Nf3','d6','d3','Qe8','h3'] },
     { "Traxler Counter-Attack, 5. Nxf7 Bxf2+ 6. Kxf2 Nxe4+ 7. Kg1 Qh4 8. Qf1": ['e4','e5','Nf3','Nc6','Bc4','Nf6','Ng5','Bc5','Nxf7','Bxf2+','Kxf2','Nxe4+','Kg1','Qh4','Qf1','Rf8','d3'] },
+  ],
   'rousseau-gambit': [
     { "Rousseau Gambit, 4. d3 Nf6 5. Nc3": ['e4','e5','Nf3','Nc6','Bc4','f5','d3','Nf6','Nc3','Bb4','O-O','Bxc3','bxc3','d6'] },
     { "Rousseau Gambit, 4. d3 Nf6 5. O-O": ['e4','e5','Nf3','Nc6','Bc4','f5','d3','Nf6','O-O','d6','Ng5','d5','exd5','Na5'] },
@@ -724,6 +738,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { "Englund Gambit, 4. Qd5 Nb4": ['d4','e5','dxe5','Nc6','Nf3','Qe7','Qd5','Nb4','Qb3','Qc5','Nc3','d5','Be3','Qa5','O-O-O'] },
     { "Englund Gambit, 4. Bf4 Qb4+ 5. Bd2 Qxb2 6. e4": ['d4','e5','dxe5','Nc6','Nf3','Qe7','Bf4','Qb4+','Bd2','Qxb2','e4','Nb4','Bd3','Nxd3+','cxd3','Qxa1'] },
     { "Englund Gambit, 3. dxe5 Nc6 4. Nf3 Qe7 5. e3": ['d4','e5','dxe5','Nc6','Nf3','Qe7','e3','Nxe5','Nxe5','Qxe5','Bd3','Nf6','O-O','d5','c4','Bd6'] },
+  ],
   'bishops-opening': [
     { "Bishop's Opening, Berlin Defense": ['e4','e5','Bc4','Nf6','d3','c6','Nf3','d5','Bb3','Bd6','Nc3','dxe4','Ng5','O-O','Ncxe4'] },
     { "Bishop's Opening, Classical Defense": ['e4','e5','Bc4','Bc5','c3','Nf6','d4','exd4','e5','d5','Bb3','Ne4','cxd4','Bb4+'] },
@@ -755,7 +770,8 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { "Bishop's Opening, 2... Bc5 3. Nf3": ['e4','e5','Bc4','Bc5','Nf3','d6','O-O','Nf6','d3','O-O','c3','Bb6','Nbd2','c6','Bb3'] },
     { "Bishop's Opening, Lewis Gambit, 5. Nf3": ['e4','e5','Bc4','Bc5','d4','Bxd4','Nf3','Nc6','c3','Bb6','Ng5','Nh6','Qh5','O-O','O-O','d6'] },
     { "Bishop's Opening, 2... c6 3. Nf3 d5": ['e4','e5','Bc4','c6','Nf3','d5','exd5','cxd5','Bb3','Bd6','O-O','Ne7','d4','e4','Ne5','O-O'] },
-  'Alien Gambit': [
+  ],
+  'alekhine-defense': [
     { "Alien Gambit, Main Line, 6. Nxf7": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','e6','Bd3','Bd6','O-O','Rf8','Ne5+','Kg8'] },
     { "Alien Gambit, 7... Bf5 Variation": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','Bf5','Ne5+','Kg8','Bc4+','e6','g4','Be4','Bxe6+','Kh7'] },
     { "Alien Gambit, 7... Be6 Variation": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','Be6','Ne5+','Kg8','Bd3','Nbd7','Ng6','Bf7','Nxh8','Kxh8'] },
@@ -821,7 +837,10 @@ export const courseLines: Record<string, TrainingLine[]> = {
   ],
 };
 
-
+// Normalized course lines
+export const courseLines: Record<string, TrainingLine[]> = Object.fromEntries(
+  Object.entries(rawCourseLines).map(([key, lines]) => [key, lines.map(normalizeLine)])
+);
 
 // Get training lines for a course, with fallback
 export const getTrainingLines = (courseId: string): TrainingLine[] => {
