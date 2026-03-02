@@ -322,7 +322,7 @@ export const courseLines: Record<string, TrainingLine[]> = {
     { name: 'Vienna Gambit: Accepted (8. d4 Ne7) 5', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','d4','Ne7','Nxf4','dxe5','Nxe5','Qxd4','c3'] },
     { name: 'Vienna Gambit: Accepted (9. Qxe5+ Be7) 6', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','d4','dxe5','Qxe5+','Be7','Bxf4','Nc6','Nxc7+'] },
     { name: 'Vienna Gambit: Accepted (7. Nd5 Kd8) 7', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Kd8','d4','c6','Nxf4','dxe5','dxe5','Bg4'] },
-    { name: 'Vienna Gambit: Accepted (Alternative 6... c6) 8', moves: ['e4','e5','Nc3','Nf6','f4','exxf4','e5','Qe7','Qe2','Ng8','Nf3','c6','d4','d5','Bxf4','Bg4','O-O-O','Nd7'] },
+    { name: 'Vienna Gambit: Accepted (Alternative 6... c6) 8', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','c6','d4','d5','Bxf4','Bg4','O-O-O','Nd7'] },
     { name: 'Vienna Gambit: Accepted (Alternative 4. e5 Ng4) 9', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Ng4','Nf3','d6','d4','dxe5','h3','Ne3','Bxe3','fxe3','Bc4','exd4','O-O'] },
     { name: 'Vienna Gambit: Accepted (Alternative 4. e5 Ne4) 10', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Ne4','Nxe4','d5','Nf2','Nc6','d4','g5','h4','Be7','hxg5','Bxg5','Nf3'] },
     { name: 'Vienna Gambit: Declined (Main 3... d5) 11', moves: ['e4','e5','Nc3','Nf6','f4','d5','fxe5','Nxe4','Nf3','Be7','d4','O-O','Bd3','f5','exf6','Bxf6','O-O','Bf5','Qe2'] },
