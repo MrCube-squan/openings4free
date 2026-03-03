@@ -299,9 +299,9 @@ export const courses: Course[] = [
   },
   {
     id: 'alekhine-defense',
-    name: "Alekhine's Defense",
+    name: 'Alien Gambit',
     eco: 'B02',
-    color: 'black',
+    color: 'white',
     lines: 1,
     difficulty: 'intermediate',
     description: "Provoke the pawns forward, then strike back. Alien-level strategy.",
