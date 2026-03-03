@@ -2,42 +2,21 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
-import { ArrowRight, Zap, Target, TrendingUp, Users, BookOpen, Brain } from 'lucide-react';
-
-const features = [
-  {
-    icon: Target,
-    title: 'Real-Game Lines',
-    description: "Moves extracted from millions of Lichess games. Learn what you'll actually face.",
-  },
-  {
-    icon: Brain,
-    title: 'Spaced Repetition',
-    description: 'Smart scheduling based on your accuracy. Difficult lines come back more often until they stick.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Progress Tracking',
-    description: "See exactly which lines you've mastered and which need work. Watch your accuracy climb.",
-  },
-  {
-    icon: BookOpen,
-    title: 'Curated Courses',
-    description: 'Pre-built repertoires with punchy descriptions. From London to Sicilian Dragon.',
-  },
-  {
-    icon: Zap,
-    title: 'Fast Reps',
-    description: 'Quick, focused drilling. 5 minutes a day builds permanent opening knowledge.',
-  },
-  {
-    icon: Users,
-    title: 'Community Courses',
-    description: 'Create your own repertoires or train courses made by other players.',
-  },
-];
+import { ArrowRight, Zap, Target, TrendingUp, Users, BookOpen, Brain, Mail } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
+  const { t } = useLanguage();
+
+  const features = [
+    { icon: Target, titleKey: 'feature.realGameLines' as const, descKey: 'feature.realGameLinesDesc' as const },
+    { icon: Brain, titleKey: 'feature.spacedRepetition' as const, descKey: 'feature.spacedRepetitionDesc' as const },
+    { icon: TrendingUp, titleKey: 'feature.progressTracking' as const, descKey: 'feature.progressTrackingDesc' as const },
+    { icon: BookOpen, titleKey: 'feature.curatedCourses' as const, descKey: 'feature.curatedCoursesDesc' as const },
+    { icon: Zap, titleKey: 'feature.fastReps' as const, descKey: 'feature.fastRepsDesc' as const },
+    { icon: Users, titleKey: 'feature.communityCourses' as const, descKey: 'feature.communityCoursesDesc' as const },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -55,7 +34,7 @@ const Index = () => {
               transition={{ duration: 0.5 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium mb-8"
             >
-              Free Opening Trainer
+              {t('home.badge')}
             </motion.div>
 
             <motion.h1
@@ -64,8 +43,8 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
             >
-              Master openings The{' '}
-              <span className="text-gradient">Best Way</span>
+              {t('home.title')}
+              <span className="text-gradient">{t('home.titleHighlight')}</span>
             </motion.h1>
 
             <motion.p
@@ -74,7 +53,7 @@ const Index = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
               className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl mx-auto"
             >
-              Don't waste hours on opening theory videos. Train lines you'll remember over the board.
+              {t('home.subtitle')}
             </motion.p>
 
             <motion.div
@@ -85,7 +64,7 @@ const Index = () => {
             >
               <Link to="/courses">
                 <Button variant="hero" size="xl">
-                  Browse Courses
+                  {t('home.browseCourses')}
                   <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
               </Link>
@@ -101,16 +80,16 @@ const Index = () => {
       <section className="py-24 relative">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Openings4Free works</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('home.whyWorks')}</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              No more "my opponent doesn't follow the lines." Every line is built from real moves.
+              {t('home.whyWorksSubtitle')}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {features.map((feature, index) => (
               <motion.div
-                key={feature.title}
+                key={feature.titleKey}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
@@ -120,8 +99,8 @@ const Index = () => {
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
                   <feature.icon className="h-6 w-6 text-primary" />
                 </div>
-                <h3 className="text-lg font-bold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm">{feature.description}</p>
+                <h3 className="text-lg font-bold mb-2">{t(feature.titleKey)}</h3>
+                <p className="text-muted-foreground text-sm">{t(feature.descKey)}</p>
               </motion.div>
             ))}
           </div>
@@ -141,14 +120,14 @@ const Index = () => {
             <div className="absolute inset-0 bg-gradient-radial from-primary/5 to-transparent" />
             <div className="relative">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to stop blundering the opening?
+                {t('home.ctaTitle')}
               </h2>
               <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
-                Use Openings4Free to learn all the correct theory you'll need.
+                {t('home.ctaSubtitle')}
               </p>
               <Link to="/courses">
                 <Button variant="hero" size="xl">
-                  Start Training Free
+                  {t('home.ctaButton')}
                   <ArrowRight className="h-5 w-5 ml-2" />
                 </Button>
               </Link>
@@ -160,12 +139,30 @@ const Index = () => {
       {/* Footer */}
       <footer className="py-12 border-t border-border">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex flex-col items-center gap-6">
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold">
                 Openings<span className="text-primary">4Free</span>
               </span>
             </div>
+            
+            {/* Credit */}
+            <p className="text-sm text-muted-foreground text-center">
+              {t('home.credit')}
+            </p>
+
+            {/* Contact */}
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Mail className="h-4 w-4" />
+              <span>{t('home.contact')}</span>
+              <a 
+                href="mailto:mr.cubek6j@gmail.com" 
+                className="text-primary hover:underline"
+              >
+                mr.cubek6j@gmail.com
+              </a>
+            </div>
+
             <div className="text-sm text-muted-foreground">
               © 2025 Openings4Free. Train like you play.
             </div>
