@@ -31,7 +31,7 @@ const CourseCard = ({ course, index = 0 }: CourseCardProps) => {
               </h3>
             </div>
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-muted text-2xl">
-              {course.color === 'white' ? '♔' : '♚'}
+              {course.color === 'white' ? '♚' : '♔'}
             </div>
           </div>
 

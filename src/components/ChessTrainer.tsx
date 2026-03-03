@@ -55,6 +55,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     Record<string, Record<string, string | number>>
   >({});
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
 
   const { settings, updateSettings, currentTheme } = useBoardSettings();
 
@@ -74,7 +75,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     return [];
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
-  // Make opponent moves automatically
+  // Make opponent moves automatically, then execute any queued premove
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
       const move = currentLine.moves[currentMoveIndex];
@@ -84,19 +85,45 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           newGame.move(move);
           setGame(newGame);
           setCurrentMoveIndex(prev => prev + 1);
+          
+          // Execute pending premove after opponent plays
+          if (pendingPremove) {
+            setTimeout(() => {
+              setPendingPremove(null);
+            }, 50);
+          }
         } catch (e) {
           console.error('Invalid move:', move);
         }
       }, 500);
     }
-  }, [game, currentLine, currentMoveIndex, isPlayerTurn]);
+  }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove]);
 
   useEffect(() => {
     makeOpponentMove();
   }, [makeOpponentMove]);
 
+  // Execute pending premove when it becomes player's turn
+  useEffect(() => {
+    if (isPlayerTurn && pendingPremove) {
+      const { from, to, piece } = pendingPremove;
+      setPendingPremove(null);
+      setTimeout(() => {
+        handlePieceDrop(from, to, piece);
+      }, 100);
+    }
+  }, [isPlayerTurn, pendingPremove]);
+
   const handlePieceDrop = (sourceSquare: string, targetSquare: string, piece: string): boolean => {
-    if (!isPlayerTurn) return false;
+    // Queue premove if not player's turn
+    if (!isPlayerTurn) {
+      setPendingPremove({ from: sourceSquare, to: targetSquare, piece });
+      setCustomSquareStyles({
+        [sourceSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
+        [targetSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
+      });
+      return false;
+    }
 
     const expectedMove = currentLine.moves[currentMoveIndex];
     const newGame = new Chess(game.fen());
