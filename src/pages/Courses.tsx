@@ -130,7 +130,7 @@ const Courses = () => {
                 >
                   {color === 'all' ? 'All Colors' : (
                     <span className="flex items-center gap-1.5">
-                      <span className="text-lg">{color === 'white' ? '♔' : '♚'}</span>
+                      <span className="text-lg">{color === 'white' ? '♚' : '♔'}</span>
                       {color}
                     </span>
                   )}
