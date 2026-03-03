@@ -32,7 +32,7 @@ const CourseDetail = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const course = courses.find((c) => c.id === courseId);
-  const { getLearnedCount, isLineLearned } = useLearnedLines();
+  const { getLearnedCount, isLineLearned, getLearnedLinesForCourse } = useLearnedLines();
   const { customLines, addLine, updateLine, deleteLine } = useCustomLines(courseId || '');
   const { isAuthenticated } = useAuth();
   
@@ -46,7 +46,7 @@ const CourseDetail = () => {
     const stored = localStorage.getItem(`openings4free_hidden_lines_${courseId}`);
     return stored ? new Set(JSON.parse(stored)) : new Set();
   });
-  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['Mainline']));
+  const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['Lines 1–10']));
 
   const addHiddenLine = (lineId: string) => {
     setHiddenLines(prev => {
@@ -223,7 +223,7 @@ const CourseDetail = () => {
                 {/* Header */}
                 <div className="flex items-start gap-4 mb-6">
                   <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-muted text-4xl">
-                    {course.color === 'white' ? '♔' : '♚'}
+                    {course.color === 'white' ? '♚' : '♔'}
                   </div>
                   <div>
                     <span className="text-sm font-mono text-muted-foreground">{course.eco}</span>
@@ -325,7 +325,10 @@ const CourseDetail = () => {
                                       )}
                                     </div>
                                     <div className="min-w-0 flex-1">
-                                      <span className="font-medium truncate block">{line.name}</span>
+                                      <span className="font-medium truncate block">
+                                        <span className="text-muted-foreground font-mono text-xs mr-2">#{line.index + 1}</span>
+                                        {line.name}
+                                      </span>
                                       <span className="text-xs text-muted-foreground">
                                         {line.moves.length} moves
                                       </span>
@@ -407,12 +410,24 @@ const CourseDetail = () => {
                     </div>
                   )}
                   
-                  <Link to={`/train?course=${course.id}`}>
-                    <Button variant="hero" size="lg" className="w-full">
-                      <Play className="h-5 w-5 mr-2" />
-                      Learn New Lines
-                    </Button>
-                  </Link>
+                  {(() => {
+                    const learnedSet = new Set(getLearnedLinesForCourse(course.id).map(l => l.lineIndex));
+                    const firstUnlearned = Array.from({ length: totalLines }, (_, i) => i).find(i => !learnedSet.has(i));
+                    const allLearned = firstUnlearned === undefined;
+                    return allLearned ? (
+                      <Button variant="hero" size="lg" className="w-full" disabled>
+                        <Check className="h-5 w-5 mr-2" />
+                        All Lines Learned!
+                      </Button>
+                    ) : (
+                      <Link to={`/train?course=${course.id}&startLine=${firstUnlearned}`}>
+                        <Button variant="hero" size="lg" className="w-full">
+                          <Play className="h-5 w-5 mr-2" />
+                          Learn New Lines
+                        </Button>
+                      </Link>
+                    );
+                  })()}
                   
                   {/* Drill button */}
                   <Link to={`/train?course=${course.id}&mode=drill`}>
