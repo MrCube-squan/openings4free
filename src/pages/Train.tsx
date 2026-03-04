@@ -7,7 +7,7 @@ import { courses } from '@/lib/courses';
 import { getTrainingLines } from '@/lib/courseLines';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Calendar, Flame, Trophy, BookOpen, Dumbbell } from 'lucide-react';
+import { ArrowLeft, BookOpen, Dumbbell } from 'lucide-react';
 import { useLearnedLines } from '@/hooks/useLearnedLines';
 import { useCustomLines } from '@/hooks/useCustomLines';
 import { useState, useMemo } from 'react';
@@ -178,24 +178,6 @@ const Train = () => {
                 </div>
               )}
 
-              {/* Quick stats */}
-              <div className="flex gap-4">
-                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border">
-                  <Flame className="h-4 w-4 text-streak" />
-                  <span className="font-bold">3</span>
-                  <span className="text-sm text-muted-foreground">day streak</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border">
-                  <Calendar className="h-4 w-4 text-primary" />
-                  <span className="font-bold">12</span>
-                  <span className="text-sm text-muted-foreground">due today</span>
-                </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-card border border-border">
-                  <Trophy className="h-4 w-4 text-xp" />
-                  <span className="font-bold">450</span>
-                  <span className="text-sm text-muted-foreground">XP</span>
-                </div>
-              </div>
             </motion.div>
           </div>
 
