@@ -2,7 +2,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import ChessTrainer from '@/components/ChessTrainer';
-import LineEditor from '@/components/LineEditor';
+
 import { courses } from '@/lib/courses';
 import { getTrainingLines } from '@/lib/courseLines';
 import { Button } from '@/components/ui/button';
@@ -22,10 +22,9 @@ const Train = () => {
   const course = courseId ? courses.find((c) => c.id === courseId) : null;
   
   const [mode, setMode] = useState<TrainingMode>(initialMode || 'learn');
-  const [editingLine, setEditingLine] = useState<{ index: number; moves: string[]; name: string } | null>(null);
-  const [trainerKey, setTrainerKey] = useState(0); // Force trainer remount after edits
+  const [trainerKey, setTrainerKey] = useState(0);
   const { markLineAsLearned, getLearnedLinesForCourse, getLearnedCount } = useLearnedLines();
-  const { customLines, addLine, updateLine } = useCustomLines(courseId || 'italian-game');
+  const { customLines } = useCustomLines(courseId || 'italian-game');
 
   // Get training lines for the selected course (including custom lines)
   const builtInLines = getTrainingLines(courseId || 'italian-game');
@@ -50,27 +49,6 @@ const Train = () => {
     }
     return allLines;
   }, [mode, allLines, learnedLinesData]);
-
-  const handleEditLine = (lineIndex: number, lineMoves: string[], lineName: string) => {
-    setEditingLine({ index: lineIndex, moves: lineMoves, name: lineName });
-  };
-
-  const handleSaveEditedLine = (name: string, moves: string[], category: string) => {
-    if (editingLine) {
-      // If editing a custom line, update it
-      const customLineIndex = editingLine.index - builtInLines.length;
-      if (customLineIndex >= 0 && customLineIndex < customLines.length) {
-        updateLine(customLines[customLineIndex].id, { name, moves, category });
-      } else {
-        // Editing a built-in line: save as a custom line that replaces it
-        // Use the exact same name so it effectively overrides the built-in
-        addLine(name, moves, category);
-      }
-      // Force trainer to remount with new line data
-      setTrainerKey(prev => prev + 1);
-    }
-    setEditingLine(null);
-  };
 
   const handleLineComplete = (lineIndex: number, accuracy: number) => {
     if (courseId) {
@@ -214,7 +192,7 @@ const Train = () => {
               courseId={courseId || 'italian-game'}
               onLineComplete={handleLineComplete}
               startLineIndex={startLineIndex}
-              onEditLine={handleEditLine}
+              
             />
           </motion.div>
 
@@ -227,25 +205,16 @@ const Train = () => {
           >
             <h3 className="font-bold mb-2">How to train</h3>
             <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• Make the correct move for your color ({course?.color === 'black' ? 'Black' : 'White'} in this course)</li>
+              <li>• Make the correct move for your colour ({course?.color === 'black' ? 'Black' : 'White'} in this course)</li>
               <li>• The opponent's moves are played automatically</li>
               <li>• Wrong moves show feedback and you can try again</li>
-              <li>• Use the hint button if you're stuck (shows an arrow on the board!)</li>
+              <li>• Use the show move button if you're stuck (shows an arrow on the board!)</li>
               <li>• Complete lines with 80%+ accuracy to unlock Drill mode</li>
             </ul>
           </motion.div>
         </div>
       </main>
 
-      {/* Line Editor Modal */}
-      <LineEditor
-        open={editingLine !== null}
-        onClose={() => setEditingLine(null)}
-        onSave={handleSaveEditedLine}
-        courseColor={course?.color || 'white'}
-        initialMoves={editingLine?.moves}
-        initialName={editingLine?.name}
-      />
     </div>
   );
 };

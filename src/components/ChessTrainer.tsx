@@ -3,7 +3,7 @@ import { Chessboard } from 'react-chessboard';
 import { Chess, Square } from 'chess.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Pencil, Undo2 } from 'lucide-react';
+import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Undo2 } from 'lucide-react';
 import { useBoardSettings } from '@/hooks/useBoardSettings';
 import BoardSettingsModal from '@/components/BoardSettingsModal';
 import confetti from 'canvas-confetti';
@@ -20,7 +20,7 @@ interface ChessTrainerProps {
   courseId?: string;
   onLineComplete?: (lineIndex: number, accuracy: number) => void;
   startLineIndex?: number;
-  onEditLine?: (lineIndex: number, lineMoves: string[], lineName: string) => void;
+  
 }
 
 // Helper function to get arrow from SAN move
@@ -37,7 +37,7 @@ const getArrowFromMove = (game: Chess, sanMove: string): [Square, Square] | null
   return null;
 };
 
-const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex, onEditLine }: ChessTrainerProps) => {
+const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
   const [currentLineIndex, setCurrentLineIndex] = useState(initialLineIndex);
@@ -454,7 +454,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
                 className="w-full border-accent/30 text-accent hover:bg-accent/10"
               >
                 <Lightbulb className="h-4 w-4 mr-2" />
-                Show Hint
+                Show Move
               </Button>
             )}
           </div>
@@ -508,17 +508,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           </Button>
         </div>
 
-        {/* Edit button */}
-        {onEditLine && (
-          <Button 
-            variant="outline" 
-            onClick={() => onEditLine(currentLineIndex, currentLine.moves, currentLine.name)}
-            className="w-full"
-          >
-            <Pencil className="h-4 w-4 mr-2" />
-            Edit Line
-          </Button>
-        )}
       </div>
 
       {/* Settings Modal */}
