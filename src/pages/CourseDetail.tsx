@@ -8,39 +8,21 @@ import { courses } from '@/lib/courses';
 import { getTrainingLines, TrainingLine } from '@/lib/courseLines';
 import { categorizeLines, getSortedCategories, CategorizedLine } from '@/lib/lineCategories';
 import { useLearnedLines } from '@/hooks/useLearnedLines';
-import { useCustomLines, CustomLineData } from '@/hooks/useCustomLines';
-import { useAuth } from '@/hooks/useAuth';
-import LineEditor from '@/components/LineEditor';
-import { ArrowLeft, BookOpen, Play, Dumbbell, Plus, Pencil, Trash2, Check, ChevronDown, ChevronRight, X as XIcon } from 'lucide-react';
+import { useCustomLines } from '@/hooks/useCustomLines';
+import { ArrowLeft, BookOpen, Play, Dumbbell, Check, ChevronDown, ChevronRight, X as XIcon } from 'lucide-react';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
 
 const CourseDetail = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const course = courses.find((c) => c.id === courseId);
   const { getLearnedCount, isLineLearned, getLearnedLinesForCourse } = useLearnedLines();
-  const { customLines, addLine, updateLine, deleteLine } = useCustomLines(courseId || '');
-  const { isAuthenticated } = useAuth();
+  const { customLines } = useCustomLines(courseId || '');
   
-  const [editorOpen, setEditorOpen] = useState(false);
-  const [editingLine, setEditingLine] = useState<CustomLineData | null>(null);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [lineToDelete, setLineToDelete] = useState<string | null>(null);
-  const [isBuiltInDelete, setIsBuiltInDelete] = useState(false);
   const [hiddenLines, setHiddenLines] = useState<Set<string>>(() => {
     if (typeof window === 'undefined') return new Set();
     const stored = localStorage.getItem(`openings4free_hidden_lines_${courseId}`);
@@ -129,38 +111,6 @@ const CourseDetail = () => {
     navigate(`/train?course=${courseId}&startLine=${lineIndex}`);
   };
 
-  const handleSaveLine = (name: string, moves: string[], category: string) => {
-    if (editingLine) {
-      updateLine(editingLine.id, { name, moves, category });
-    } else {
-      addLine(name, moves, category);
-    }
-    setEditingLine(null);
-  };
-
-  const handleEditLine = (line: CustomLineData) => {
-    setEditingLine(line);
-    setEditorOpen(true);
-  };
-
-  const handleDeleteClick = (lineId: string, isBuiltIn: boolean = false) => {
-    setLineToDelete(lineId);
-    setIsBuiltInDelete(isBuiltIn);
-    setDeleteDialogOpen(true);
-  };
-
-  const confirmDelete = () => {
-    if (lineToDelete) {
-      if (isBuiltInDelete) {
-        addHiddenLine(lineToDelete);
-      } else {
-        deleteLine(lineToDelete);
-      }
-      setLineToDelete(null);
-      setIsBuiltInDelete(false);
-    }
-    setDeleteDialogOpen(false);
-  };
 
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => {
@@ -174,13 +124,6 @@ const CourseDetail = () => {
     });
   };
 
-  const isCustomLine = (lineName: string) => {
-    return customLines.some(cl => cl.name === lineName);
-  };
-
-  const getCustomLineData = (lineName: string) => {
-    return customLines.find(cl => cl.name === lineName);
-  };
 
   if (!course) {
     return (
@@ -257,18 +200,6 @@ const CourseDetail = () => {
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-xl font-bold">Lines in this course</h3>
-                    {isAuthenticated && (
-                      <Button
-                        onClick={() => {
-                          setEditingLine(null);
-                          setEditorOpen(true);
-                        }}
-                        size="sm"
-                      >
-                        <Plus className="h-4 w-4 mr-1" />
-                        Add Line
-                      </Button>
-                    )}
                   </div>
                   
                   <div className="space-y-4">
@@ -302,7 +233,7 @@ const CourseDetail = () => {
                           <CollapsibleContent className="mt-2 space-y-2 ml-4">
                             {lines.map((line, idx) => {
                               const isLearned = courseId && isLineLearned(courseId, line.index);
-                              const customData = isCustomLine(line.name) ? getCustomLineData(line.name) : null;
+                              
                               
                               return (
                                 <motion.div
@@ -335,31 +266,7 @@ const CourseDetail = () => {
                                     </div>
                                   </div>
                                   
-                                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    {customData && (
-                                      <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        className="h-8 w-8"
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleEditLine(customData);
-                                        }}
-                                      >
-                                        <Pencil className="h-4 w-4" />
-                                      </Button>
-                                    )}
-                                    <Button
-                                      variant="ghost"
-                                      size="icon"
-                                      className="h-8 w-8 text-destructive hover:text-destructive"
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleDeleteClick(customData?.id || `builtin_${line.index}`, !customData);
-                                      }}
-                                    >
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
+                                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <Button
                                       variant="secondary"
                                       size="sm"
@@ -448,38 +355,6 @@ const CourseDetail = () => {
         </div>
       </main>
 
-      {/* Line Editor Modal */}
-      <LineEditor
-        open={editorOpen}
-        onClose={() => {
-          setEditorOpen(false);
-          setEditingLine(null);
-        }}
-        onSave={handleSaveLine}
-        initialName={editingLine?.name || ''}
-        initialMoves={editingLine?.moves || []}
-        initialCategory={editingLine?.category || 'Custom'}
-        courseColor={course.color}
-        startingMoves={getStartingMoves()}
-      />
-
-      {/* Delete Confirmation */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Line</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete this custom line? This action cannot be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 };
