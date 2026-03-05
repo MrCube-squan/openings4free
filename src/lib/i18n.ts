@@ -90,7 +90,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.ctaSubtitle': "Use Openings4Free to learn all the correct theory you'll need.",
     'home.ctaButton': 'Start Training Free',
     'home.credit': 'Created by Mr.Cube_k6j on YouTube and TikTok',
-    'home.contact': 'Found errors in theory or have problems? Email us at',
+    'home.contact': 'Found errors in theory or have problems? Email me at',
     'feature.realGameLines': 'Real-Game Lines',
     'feature.realGameLinesDesc': "Moves extracted from millions of Lichess games. Learn what you'll actually face.",
     'feature.spacedRepetition': 'Spaced Repetition',
