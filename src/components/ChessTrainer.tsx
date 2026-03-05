@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Undo2 } from 'lucide-react';
 import { useBoardSettings } from '@/hooks/useBoardSettings';
 import BoardSettingsModal from '@/components/BoardSettingsModal';
+import EvalBar from '@/components/EvalBar';
 import confetti from 'canvas-confetti';
 
 interface Line {
@@ -50,6 +51,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [totalMoves, setTotalMoves] = useState(0);
   const [lineCorrectMoves, setLineCorrectMoves] = useState(0);
   const [lineTotalMoves, setLineTotalMoves] = useState(0);
+  const [hadMistake, setHadMistake] = useState(false);
+  const [repeatPending, setRepeatPending] = useState(false);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<
     Record<string, Record<string, string | number>>
@@ -75,6 +78,36 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     return [];
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
+  // Check for line completion (works for both player and opponent ending)
+  const checkLineComplete = useCallback((moveIdx: number) => {
+    if (moveIdx >= currentLine.moves.length) {
+      const lineAccuracy = lineTotalMoves > 0 
+        ? Math.round((lineCorrectMoves / lineTotalMoves) * 100) 
+        : 100;
+      
+      // Fire confetti celebration!
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
+      
+      setTimeout(() => {
+        setLinesCompleted(prev => prev + 1);
+        if (onLineComplete) {
+          onLineComplete(currentLineIndex, lineAccuracy);
+        }
+        // If the user made a mistake, repeat the line instead of advancing
+        if (hadMistake) {
+          setRepeatPending(true);
+          resetLine();
+        } else {
+          nextLine();
+        }
+      }, 1000);
+    }
+  }, [currentLine.moves.length, lineTotalMoves, lineCorrectMoves, onLineComplete, currentLineIndex, hadMistake]);
+
   // Make opponent moves automatically, then execute any queued premove
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
@@ -84,7 +117,11 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         try {
           newGame.move(move);
           setGame(newGame);
-          setCurrentMoveIndex(prev => prev + 1);
+          const newMoveIndex = currentMoveIndex + 1;
+          setCurrentMoveIndex(newMoveIndex);
+          
+          // Check if line is complete after opponent's move
+          checkLineComplete(newMoveIndex);
           
           // Execute pending premove after opponent plays
           if (pendingPremove) {
@@ -97,7 +134,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         }
       }, 500);
     }
-  }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove]);
+  }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove, checkLineComplete]);
 
   useEffect(() => {
     makeOpponentMove();
@@ -160,31 +197,13 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           setCustomSquareStyles({});
         }, 500);
 
-        // Check if line is complete
-        if (currentMoveIndex + 1 >= currentLine.moves.length) {
-          const lineAccuracy = lineTotalMoves > 0 
-            ? Math.round(((lineCorrectMoves + 1) / (lineTotalMoves + 1)) * 100) 
-            : 100;
-          
-          // Fire confetti celebration!
-          confetti({
-            particleCount: 100,
-            spread: 70,
-            origin: { y: 0.6 }
-          });
-          
-          setTimeout(() => {
-            setLinesCompleted(prev => prev + 1);
-            if (onLineComplete) {
-              onLineComplete(currentLineIndex, lineAccuracy);
-            }
-            nextLine();
-          }, 1000);
-        }
+        // Check if line is complete after player's move
+        checkLineComplete(currentMoveIndex + 1);
 
         return true;
       } else {
         // Wrong move
+        setHadMistake(true);
         setFeedback('incorrect');
         setCustomSquareStyles({
           [sourceSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
@@ -296,6 +315,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setCustomSquareStyles({});
     setLineCorrectMoves(0);
     setLineTotalMoves(0);
+    setHadMistake(false);
+    setRepeatPending(false);
   };
 
   const previousLine = () => {
@@ -328,6 +349,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setCustomSquareStyles({});
     setLineCorrectMoves(0);
     setLineTotalMoves(0);
+    setHadMistake(false);
+    setRepeatPending(false);
   };
 
   const revealHint = () => {
@@ -338,8 +361,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
-      {/* Chessboard */}
-      <div className="relative w-full max-w-[500px] mx-auto lg:mx-0">
+      {/* Eval bar + Chessboard */}
+      <div className="flex gap-2 items-stretch w-full max-w-[540px] mx-auto lg:mx-0">
+        <EvalBar fen={game.fen()} orientation={playerColor} />
+        <div className="relative flex-1">
         <div className="chess-board relative">
           <Chessboard
             position={game.fen()}
@@ -390,6 +415,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
 
       {/* Controls and info */}

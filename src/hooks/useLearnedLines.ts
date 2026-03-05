@@ -10,41 +10,54 @@ export interface LearnedLineData {
   accuracy: number;
 }
 
+const LOCAL_STORAGE_KEY = 'openings4free_learned_lines';
+
+const getLocalLearnedLines = (): LearnedLineData[] => {
+  try {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+const setLocalLearnedLines = (lines: LearnedLineData[]) => {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(lines));
+};
+
 export const useLearnedLines = () => {
   const { user, isAuthenticated } = useAuth();
   const [learnedLines, setLearnedLines] = useState<LearnedLineData[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch learned lines from database
+  // Fetch learned lines from database or localStorage
   const fetchLearnedLines = useCallback(async () => {
-    if (!isAuthenticated || !user) {
-      setLearnedLines([]);
-      setLoading(false);
-      return;
+    if (isAuthenticated && user) {
+      try {
+        const { data, error } = await supabase
+          .from('learned_lines')
+          .select('*')
+          .eq('user_id', user.id);
+
+        if (error) throw error;
+
+        setLearnedLines(
+          (data || []).map((row) => ({
+            id: row.id,
+            courseId: row.course_id,
+            lineIndex: row.line_index,
+            completedAt: row.completed_at,
+            accuracy: Number(row.accuracy),
+          }))
+        );
+      } catch (error) {
+        console.error('Error fetching learned lines:', error);
+      }
+    } else {
+      // Use localStorage for non-authenticated users
+      setLearnedLines(getLocalLearnedLines());
     }
-
-    try {
-      const { data, error } = await supabase
-        .from('learned_lines')
-        .select('*')
-        .eq('user_id', user.id);
-
-      if (error) throw error;
-
-      setLearnedLines(
-        (data || []).map((row) => ({
-          id: row.id,
-          courseId: row.course_id,
-          lineIndex: row.line_index,
-          completedAt: row.completed_at,
-          accuracy: Number(row.accuracy),
-        }))
-      );
-    } catch (error) {
-      console.error('Error fetching learned lines:', error);
-    } finally {
-      setLoading(false);
-    }
+    setLoading(false);
   }, [user, isAuthenticated]);
 
   useEffect(() => {
@@ -53,63 +66,91 @@ export const useLearnedLines = () => {
 
   const markLineAsLearned = useCallback(
     async (courseId: string, lineIndex: number, accuracy: number) => {
-      if (!isAuthenticated || !user) return;
+      if (isAuthenticated && user) {
+        try {
+          const existing = learnedLines.find(
+            (l) => l.courseId === courseId && l.lineIndex === lineIndex
+          );
 
-      try {
-        // Check if already exists
+          if (existing) {
+            if (accuracy > existing.accuracy) {
+              const { error } = await supabase
+                .from('learned_lines')
+                .update({
+                  accuracy,
+                  completed_at: new Date().toISOString(),
+                })
+                .eq('id', existing.id);
+
+              if (error) throw error;
+
+              setLearnedLines((prev) =>
+                prev.map((l) =>
+                  l.id === existing.id
+                    ? { ...l, accuracy, completedAt: new Date().toISOString() }
+                    : l
+                )
+              );
+            }
+          } else {
+            const { data, error } = await supabase
+              .from('learned_lines')
+              .insert({
+                user_id: user.id,
+                course_id: courseId,
+                line_index: lineIndex,
+                accuracy,
+              })
+              .select()
+              .single();
+
+            if (error) throw error;
+
+            setLearnedLines((prev) => [
+              ...prev,
+              {
+                id: data.id,
+                courseId: data.course_id,
+                lineIndex: data.line_index,
+                completedAt: data.completed_at,
+                accuracy: Number(data.accuracy),
+              },
+            ]);
+          }
+        } catch (error) {
+          console.error('Error marking line as learned:', error);
+        }
+      } else {
+        // localStorage fallback for non-authenticated users
         const existing = learnedLines.find(
           (l) => l.courseId === courseId && l.lineIndex === lineIndex
         );
 
+        let updated: LearnedLineData[];
         if (existing) {
-          // Update if new accuracy is better
           if (accuracy > existing.accuracy) {
-            const { error } = await supabase
-              .from('learned_lines')
-              .update({
-                accuracy,
-                completed_at: new Date().toISOString(),
-              })
-              .eq('id', existing.id);
-
-            if (error) throw error;
-
-            setLearnedLines((prev) =>
-              prev.map((l) =>
-                l.id === existing.id
-                  ? { ...l, accuracy, completedAt: new Date().toISOString() }
-                  : l
-              )
+            updated = learnedLines.map((l) =>
+              l.courseId === courseId && l.lineIndex === lineIndex
+                ? { ...l, accuracy, completedAt: new Date().toISOString() }
+                : l
             );
+          } else {
+            return;
           }
         } else {
-          // Insert new
-          const { data, error } = await supabase
-            .from('learned_lines')
-            .insert({
-              user_id: user.id,
-              course_id: courseId,
-              line_index: lineIndex,
-              accuracy,
-            })
-            .select()
-            .single();
-
-          if (error) throw error;
-
-          setLearnedLines((prev) => [
-            ...prev,
+          updated = [
+            ...learnedLines,
             {
-              id: data.id,
-              courseId: data.course_id,
-              lineIndex: data.line_index,
-              completedAt: data.completed_at,
-              accuracy: Number(data.accuracy),
+              id: `local-${Date.now()}`,
+              courseId,
+              lineIndex,
+              completedAt: new Date().toISOString(),
+              accuracy,
             },
-          ]);
+          ];
         }
-      } catch (error) {
-        console.error('Error marking line as learned:', error);
+        setLearnedLines(updated);
+        setLocalLearnedLines(updated);
       }
     },
     [user, isAuthenticated, learnedLines]
