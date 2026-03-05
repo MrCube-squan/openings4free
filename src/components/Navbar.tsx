@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Crown, Menu, X, LogOut, Loader2, Globe } from 'lucide-react';
+import { Menu, X, LogOut, Loader2, Globe } from 'lucide-react';
+import logo from '@/assets/logo.png';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
@@ -39,13 +40,7 @@ const Navbar = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10">
-              <Crown className="h-5 w-5 text-primary transition-transform group-hover:scale-110" />
-              <div className="absolute inset-0 rounded-lg bg-primary/20 opacity-0 blur-md transition-opacity group-hover:opacity-100" />
-            </div>
-            <span className="text-xl font-bold">Openings
-              <span className="text-primary">4Free</span>
-            </span>
+            <img src={logo} alt="Openings4Free" className="h-10 w-10 transition-transform group-hover:scale-110" />
           </Link>
 
           {/* Desktop Navigation */}
