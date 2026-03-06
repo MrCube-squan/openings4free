@@ -1,24 +1,40 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, Loader2, Globe } from 'lucide-react';
+import { Menu, X, LogOut, Loader2, Globe, Trash2, Flame } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
+import { useStreak } from '@/hooks/useStreak';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { languages } from '@/lib/i18n';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, loading, signOut, isAuthenticated } = useAuth();
+  const { streak } = useStreak();
   const { language, setLanguage, t } = useLanguage();
 
   const navLinks = [
@@ -32,6 +48,25 @@ const Navbar = () => {
   const handleSignOut = async () => {
     await signOut();
     navigate('/');
+  };
+
+  const handleDeleteAccount = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast.error('Not authenticated');
+        return;
+      }
+      const res = await supabase.functions.invoke('delete-account', {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (res.error) throw res.error;
+      await supabase.auth.signOut();
+      toast.success('Account deleted successfully');
+      navigate('/');
+    } catch (e: any) {
+      toast.error(e.message || 'Failed to delete account');
+    }
   };
 
   return (
@@ -63,6 +98,15 @@ const Navbar = () => {
 
           {/* Right side */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Streak badge */}
+            {isAuthenticated && streak > 0 && (
+              <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20">
+                <Flame className="h-4 w-4 text-accent" />
+                <span className="text-sm font-bold text-accent">{streak}</span>
+                <span className="text-xs text-muted-foreground">{t('nav.streak')}</span>
+              </div>
+            )}
+
             {/* Language Switcher */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -92,19 +136,50 @@ const Navbar = () => {
                 <span className="text-sm text-muted-foreground truncate max-w-[150px]">
                   {user?.email}
                 </span>
-                <Button variant="ghost" size="sm" onClick={handleSignOut}>
-                  <LogOut className="h-4 w-4 mr-1" />
-                  {t('nav.logout')}
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <LogOut className="h-4 w-4 mr-1" />
+                      {t('nav.logout')}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={handleSignOut}>
+                      <LogOut className="h-4 w-4 mr-2" />
+                      {t('nav.logout')}
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-destructive focus:text-destructive">
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          {t('nav.deleteAccount')}
+                        </DropdownMenuItem>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>{t('nav.deleteAccount')}</AlertDialogTitle>
+                          <AlertDialogDescription>{t('nav.deleteConfirm')}</AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                            {t('nav.deleteAccount')}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </>
             ) : (
               <>
-                <Link to="/auth">
+                <Link to="/auth?mode=login">
                   <Button variant="ghost" size="sm">
                     {t('nav.login')}
                   </Button>
                 </Link>
-                <Link to="/auth">
+                <Link to="/auth?mode=signup">
                   <Button variant="default" size="sm">
                     {t('nav.signup')}
                   </Button>
@@ -148,6 +223,15 @@ const Navbar = () => {
                 </Link>
               ))}
 
+              {/* Streak on mobile */}
+              {isAuthenticated && streak > 0 && (
+                <div className="flex items-center gap-1.5 px-3 py-2">
+                  <Flame className="h-4 w-4 text-accent" />
+                  <span className="text-sm font-bold text-accent">{streak}</span>
+                  <span className="text-xs text-muted-foreground">{t('nav.streak')}</span>
+                </div>
+              )}
+
               {/* Mobile Language Switcher */}
               <div className="flex flex-wrap gap-1 py-2 border-t border-border/50 mt-2">
                 {languages.map((lang) => (
@@ -163,34 +247,54 @@ const Navbar = () => {
                 ))}
               </div>
 
-              <div className="flex gap-2 mt-2 pt-2 border-t border-border/50">
+              <div className="flex flex-col gap-2 mt-2 pt-2 border-t border-border/50">
                 {loading ? (
-                  <div className="flex-1 flex items-center justify-center">
+                  <div className="flex items-center justify-center py-2">
                     <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
                   </div>
                 ) : isAuthenticated ? (
                   <>
-                    <span className="flex-1 text-sm text-muted-foreground flex items-center truncate">
+                    <span className="text-sm text-muted-foreground truncate px-3">
                       {user?.email}
                     </span>
-                    <Button variant="ghost" onClick={handleSignOut}>
-                      <LogOut className="h-4 w-4 mr-1" />
+                    <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
+                      <LogOut className="h-4 w-4 mr-2" />
                       {t('nav.logout')}
                     </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive">
+                          <Trash2 className="h-4 w-4 mr-2" />
+                          {t('nav.deleteAccount')}
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>{t('nav.deleteAccount')}</AlertDialogTitle>
+                          <AlertDialogDescription>{t('nav.deleteConfirm')}</AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                            {t('nav.deleteAccount')}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </>
                 ) : (
-                  <>
-                    <Link to="/auth" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="flex gap-2">
+                    <Link to="/auth?mode=login" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
                       <Button variant="ghost" className="w-full">
                         {t('nav.login')}
                       </Button>
                     </Link>
-                    <Link to="/auth" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
+                    <Link to="/auth?mode=signup" className="flex-1" onClick={() => setMobileMenuOpen(false)}>
                       <Button variant="default" className="w-full">
                         {t('nav.signup')}
                       </Button>
                     </Link>
-                  </>
+                  </div>
                 )}
               </div>
             </div>

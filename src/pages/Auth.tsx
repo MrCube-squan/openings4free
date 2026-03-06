@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,13 +7,22 @@ import { Label } from '@/components/ui/label';
 import { Crown, ArrowLeft, Mail, Lock, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Auth = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
+  const [searchParams] = useSearchParams();
+  const { t } = useLanguage();
+  const [isLogin, setIsLogin] = useState(searchParams.get('mode') !== 'signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const mode = searchParams.get('mode');
+    if (mode === 'signup') setIsLogin(false);
+    else if (mode === 'login') setIsLogin(true);
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +57,6 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
       <header className="border-b border-border/50 bg-background/80 backdrop-blur-xl">
         <div className="container mx-auto px-4">
           <div className="flex h-16 items-center justify-between">
@@ -67,7 +75,6 @@ const Auth = () => {
         </div>
       </header>
 
-      {/* Main content */}
       <main className="flex-1 flex items-center justify-center px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -126,7 +133,7 @@ const Auth = () => {
                   {isLogin ? 'Signing in...' : 'Creating account...'}
                 </>
               ) : (
-                <>{isLogin ? 'Sign in' : 'Create account'}</>
+                <>{isLogin ? t('nav.login') : t('nav.signup')}</>
               )}
             </Button>
           </form>
