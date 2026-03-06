@@ -179,8 +179,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setTotalMoves(prev => prev + 1);
       setLineTotalMoves(prev => prev + 1);
 
-      // Check if it matches the expected move
-      if (moveSan === expectedMove || moveResult.lan === expectedMove) {
+      // Check if it matches the expected move (normalize captures: Bxb2 == Bb2)
+      const normalizeSan = (s: string) => s.replace(/x/g, '');
+      if (moveSan === expectedMove || moveResult.lan === expectedMove || normalizeSan(moveSan) === normalizeSan(expectedMove)) {
         setGame(newGame);
         setCurrentMoveIndex(prev => prev + 1);
         setFeedback('correct');
