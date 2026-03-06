@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, BookOpen, Dumbbell } from 'lucide-react';
 import { useLearnedLines } from '@/hooks/useLearnedLines';
 import { useCustomLines } from '@/hooks/useCustomLines';
+import { useStreak } from '@/hooks/useStreak';
 import { useState, useMemo } from 'react';
 
 type TrainingMode = 'learn' | 'drill';
@@ -25,6 +26,7 @@ const Train = () => {
   const [trainerKey, setTrainerKey] = useState(0);
   const { markLineAsLearned, getLearnedLinesForCourse, getLearnedCount } = useLearnedLines();
   const { customLines } = useCustomLines(courseId || 'italian-game');
+  const { recordActivity } = useStreak();
 
   // Get training lines for the selected course (including custom lines)
   const builtInLines = getTrainingLines(courseId || 'italian-game');
@@ -51,8 +53,10 @@ const Train = () => {
   }, [mode, allLines, learnedLinesData]);
 
   const handleLineComplete = (lineIndex: number, accuracy: number) => {
+    // Record streak activity on every line completion
+    recordActivity();
+    
     if (courseId) {
-      // Map back to original index if in drill mode
       if (mode === 'drill') {
         const learnedIndices = learnedLinesData.map(l => l.lineIndex);
         const originalIndex = learnedIndices[lineIndex] ?? lineIndex;
