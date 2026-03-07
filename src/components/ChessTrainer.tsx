@@ -356,6 +356,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   const revealHint = () => {
     setShowHint(true);
+    setHadMistake(true);
   };
 
   const accuracy = totalMoves > 0 ? Math.round((correctMoves / totalMoves) * 100) : 0;
