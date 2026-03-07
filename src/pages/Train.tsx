@@ -173,7 +173,7 @@ const Train = () => {
               <Dumbbell className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
               <h3 className="text-lg font-bold mb-2">No lines to drill yet</h3>
               <p className="text-muted-foreground mb-4">
-                Complete some lines with 80%+ accuracy in Learn mode to unlock drilling.
+                Complete lines in Learn mode to unlock drilling.
               </p>
               <Button onClick={() => setMode('learn')}>
                 <BookOpen className="h-4 w-4 mr-2" />
@@ -213,7 +213,7 @@ const Train = () => {
               <li>• The opponent's moves are played automatically</li>
               <li>• Wrong moves show feedback and you can try again</li>
               <li>• Use the show move button if you're stuck (shows an arrow on the board!)</li>
-              <li>• Complete lines with 80%+ accuracy to unlock Drill mode</li>
+              <li>• Complete lines to unlock Drill mode</li>
             </ul>
           </motion.div>
         </div>

@@ -41,7 +41,7 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
   const evalText = evaluation > 0 ? `+${evaluation}` : evaluation === 0 ? '0' : `${evaluation}`;
 
   return (
-    <div className="hidden lg:flex flex-col w-6 rounded-lg overflow-hidden border border-border relative" style={{ height: '100%' }}>
+    <div className="flex flex-col w-6 rounded-lg overflow-hidden border border-border relative" style={{ height: '100%' }}>
       {/* Black side (top when white orientation) */}
       <div
         className="bg-zinc-800 transition-all duration-500 ease-out"
