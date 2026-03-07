@@ -53,6 +53,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [lineTotalMoves, setLineTotalMoves] = useState(0);
   const [hadMistake, setHadMistake] = useState(false);
   const [repeatPending, setRepeatPending] = useState(false);
+  const [isFirstAttempt, setIsFirstAttempt] = useState(true);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<
     Record<string, Record<string, string | number>>
@@ -100,8 +101,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         // If the user made a mistake, repeat the line instead of advancing
         if (hadMistake) {
           setRepeatPending(true);
+          setIsFirstAttempt(false);
           resetLine();
         } else {
+          setIsFirstAttempt(true);
           nextLine();
         }
       }, 1000);
@@ -352,6 +355,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setLineTotalMoves(0);
     setHadMistake(false);
     setRepeatPending(false);
+    setIsFirstAttempt(true);
   };
 
   const revealHint = () => {
@@ -468,7 +472,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50 border border-border">
                 <span className="text-muted-foreground text-sm">Opponent's turn...</span>
               </div>
-            ) : showHint ? (
+            ) : (isFirstAttempt || showHint) ? (
               <div className="flex items-center gap-2 p-3 rounded-lg bg-accent/10 border border-accent/20">
                 <Lightbulb className="h-5 w-5 text-accent" />
                 <span className="text-accent font-mono font-bold text-lg">
