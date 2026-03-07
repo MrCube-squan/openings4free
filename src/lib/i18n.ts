@@ -86,7 +86,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': 'Are you sure you want to permanently delete your account? This cannot be undone.',
     'nav.streak': 'day streak',
     'home.badge': 'Free Opening Trainer',
-    'home.title': 'Master openings The ',
+    'home.title': 'Master Openings: The ',
     'home.titleHighlight': 'Best Way',
     'home.subtitle': "Don't waste hours on opening theory videos. Train lines you'll remember over the board.",
     'home.browseCourses': 'Browse Courses',
