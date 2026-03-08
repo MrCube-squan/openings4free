@@ -407,6 +407,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setLinePass(1);
       setPass1Perfect(false);
       setHadMistake(false);
+      setUserKnightArrow(null);
+      setUserNonKnightArrows([]);
     }
   };
 
