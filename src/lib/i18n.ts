@@ -850,7 +850,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.logout': '退出',
     'nav.deleteAccount': '删除账户',
     'nav.deleteConfirm': '您确定要永久删除您的账户吗？此操作无法撤销。',
-    'nav.streak': '天连续',
+    'nav.streak': '天连续训练',
     'home.badge': '免费开局训练器',
     'home.title': '掌握开局：',
     'home.titleHighlight': '最佳方式',
