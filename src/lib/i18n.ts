@@ -1974,7 +1974,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Nollaa',
     'trainer.next': 'Seuraava',
     'trainer.accuracy': 'Tarkkuus',
-    'trainer.correct': 'Oikein',
+    'trainer.mistakes': 'Virheet',
     'trainer.cancel': 'Peruuta',
     'trainer.addNote': 'Lisää muistiinpano',
     'trainer.notePlaceholder': 'Lisää henkilökohtainen muistiinpano tähän siirtoon...',
