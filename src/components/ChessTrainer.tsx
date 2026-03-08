@@ -168,7 +168,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     if (isPlayerTurn && pendingPremove) {
       const { from, to, piece } = pendingPremove;
       setPendingPremove(null);
-      setTimeout(() => { handlePieceDrop(from, to, piece); }, 100);
+      setTimeout(() => { handlePieceDrop(from, to, piece); }, 50);
     }
   }, [isPlayerTurn, pendingPremove]);
 
