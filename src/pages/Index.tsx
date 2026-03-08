@@ -2,19 +2,19 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
-import { ArrowRight, Zap, Target, TrendingUp, Users, BookOpen, Brain, Mail } from 'lucide-react';
+import { ArrowRight, Zap, TrendingUp, Brain, RefreshCw, ShieldAlert, LayoutGrid, Mail } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
   const { t } = useLanguage();
 
   const features = [
-    { icon: Target, titleKey: 'feature.realGameLines' as const, descKey: 'feature.realGameLinesDesc' as const },
-    { icon: Brain, titleKey: 'feature.spacedRepetition' as const, descKey: 'feature.spacedRepetitionDesc' as const },
-    { icon: TrendingUp, titleKey: 'feature.progressTracking' as const, descKey: 'feature.progressTrackingDesc' as const },
-    { icon: BookOpen, titleKey: 'feature.curatedCourses' as const, descKey: 'feature.curatedCoursesDesc' as const },
-    { icon: Zap, titleKey: 'feature.fastReps' as const, descKey: 'feature.fastRepsDesc' as const },
-    { icon: Users, titleKey: 'feature.communityCourses' as const, descKey: 'feature.communityCoursesDesc' as const },
+    { icon: Brain, titleKey: 'feature.activeRecall' as const, descKey: 'feature.activeRecallDesc' as const },
+    { icon: RefreshCw, titleKey: 'feature.spacedRepetition' as const, descKey: 'feature.spacedRepetitionDesc' as const },
+    { icon: ShieldAlert, titleKey: 'feature.mistakeLearning' as const, descKey: 'feature.mistakeLearningDesc' as const },
+    { icon: LayoutGrid, titleKey: 'feature.boardContext' as const, descKey: 'feature.boardContextDesc' as const },
+    { icon: Zap, titleKey: 'feature.instantFeedback' as const, descKey: 'feature.instantFeedbackDesc' as const },
+    { icon: TrendingUp, titleKey: 'feature.streaksProgress' as const, descKey: 'feature.streaksProgressDesc' as const },
   ];
 
   return (
