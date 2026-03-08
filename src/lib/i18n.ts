@@ -1150,7 +1150,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'إعادة تعيين',
     'trainer.next': 'التالي',
     'trainer.accuracy': 'الدقة',
-    'trainer.correct': 'صحيح',
+    'trainer.mistakes': 'أخطاء',
     'trainer.cancel': 'إلغاء',
     'trainer.addNote': 'إضافة ملاحظة',
     'trainer.notePlaceholder': 'أضف ملاحظة شخصية لهذه النقلة...',
