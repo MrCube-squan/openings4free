@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Crown, ArrowLeft, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
+import { Crown, ArrowLeft, Mail, Lock, Loader2, Eye, EyeOff, User } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -16,6 +16,7 @@ const Auth = () => {
   const [isLogin, setIsLogin] = useState(searchParams.get('mode') !== 'signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -24,6 +25,13 @@ const Auth = () => {
     if (mode === 'signup') setIsLogin(false);
     else if (mode === 'login') setIsLogin(true);
   }, [searchParams]);
+
+  const validateUsername = (value: string): string | null => {
+    if (!/^[a-zA-Z0-9_]{3,20}$/.test(value)) {
+      return 'Username must be 3-20 characters, letters, numbers and underscores only';
+    }
+    return null;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,10 +44,33 @@ const Auth = () => {
         toast.success(t('auth.welcomeBack') + '!');
         navigate('/courses');
       } else {
+        const usernameError = validateUsername(username);
+        if (usernameError) {
+          toast.error(usernameError);
+          setLoading(false);
+          return;
+        }
+
+        // Check username availability
+        const { data: existing } = await supabase
+          .from('profiles')
+          .select('id')
+          .ilike('username', username)
+          .limit(1);
+        
+        if (existing && existing.length > 0) {
+          toast.error('Username is already taken');
+          setLoading(false);
+          return;
+        }
+
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { emailRedirectTo: window.location.origin },
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: { username },
+          },
         });
         if (error) throw error;
         toast.success('Check your email to confirm your account!');
@@ -87,6 +118,27 @@ const Auth = () => {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div className="space-y-2">
+                <Label htmlFor="username">{t('auth.username' as any)}</Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="username"
+                    type="text"
+                    placeholder={t('auth.usernamePlaceholder' as any)}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
+                    className="pl-10"
+                    required
+                    minLength={3}
+                    maxLength={20}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">{t('friends.usernameHint' as any)}</p>
+              </div>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="email">{t('auth.email')}</Label>
               <div className="relative">

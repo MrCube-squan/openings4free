@@ -9,13 +9,14 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Search, UserPlus, UserCheck, UserX, Trophy, Crown, 
-  Medal, Clock, Users, Flame, Share2, Loader2, Pencil, Check, X
+  Medal, Clock, Users, Flame, Share2, Loader2, Pencil, Check, X, AlertCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-interface Profile {
+interface SearchProfile {
   id: string;
   display_name: string;
+  username: string | null;
 }
 
 const Friends = () => {
@@ -26,11 +27,11 @@ const Friends = () => {
     weeklyLeaderboard, monthlyLeaderboard,
     loading, myProfile, searchUsers, sendRequest,
     acceptRequest, rejectRequest, removeFriend,
-    updateDisplayName,
+    updateUsername, canChangeUsername,
   } = useFriends();
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<Profile[]>([]);
+  const [searchResults, setSearchResults] = useState<SearchProfile[]>([]);
   const [searching, setSearching] = useState(false);
   const [editingName, setEditingName] = useState(false);
   const [newName, setNewName] = useState('');
@@ -39,7 +40,6 @@ const Friends = () => {
     if (searchQuery.length < 2) return;
     setSearching(true);
     const results = await searchUsers(searchQuery);
-    // Filter out existing friends and pending requests
     const friendIds = new Set(friends.map(f => f.id));
     const sentIds = new Set(sentRequests.map(r => r.receiver_id));
     setSearchResults(results.filter(r => !friendIds.has(r.id) && !sentIds.has(r.id)));
@@ -56,11 +56,23 @@ const Friends = () => {
     }
   };
 
+  const handleUsernameUpdate = async () => {
+    if (!newName.trim()) return;
+    const success = await updateUsername(newName.trim());
+    if (success) setEditingName(false);
+  };
+
+  const usernameStatus = canChangeUsername();
+
   const getRankIcon = (index: number) => {
     if (index === 0) return <Crown className="h-5 w-5 text-primary" />;
     if (index === 1) return <Medal className="h-5 w-5 text-muted-foreground" />;
     if (index === 2) return <Medal className="h-5 w-5 text-accent-foreground" />;
     return <span className="text-sm font-bold text-muted-foreground w-5 text-center">{index + 1}</span>;
+  };
+
+  const getDisplayName = (profile: { display_name: string; username?: string | null }) => {
+    return profile.username || profile.display_name;
   };
 
   const LeaderboardSection = ({ 
@@ -130,9 +142,14 @@ const Friends = () => {
           <Users className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
           <h1 className="text-3xl font-bold mb-4">{t('friends.title')}</h1>
           <p className="text-muted-foreground mb-8">{t('friends.loginRequired')}</p>
-          <Link to="/auth?mode=login">
-            <Button variant="default" size="lg">{t('nav.login')}</Button>
-          </Link>
+          <div className="flex justify-center gap-3">
+            <Link to="/auth?mode=login">
+              <Button variant="default" size="lg">{t('nav.login')}</Button>
+            </Link>
+            <Link to="/auth?mode=signup">
+              <Button variant="outline" size="lg">{t('nav.signup')}</Button>
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -148,21 +165,20 @@ const Friends = () => {
             <h1 className="text-3xl md:text-4xl font-bold mb-2">{t('friends.title')}</h1>
             <p className="text-muted-foreground">{t('friends.subtitle')}</p>
             
-            {/* Display name editor */}
-            <div className="mt-4 flex items-center gap-2">
+            {/* Username editor */}
+            <div className="mt-4 flex items-center gap-2 flex-wrap">
               <span className="text-sm text-muted-foreground">{t('friends.yourName')}:</span>
               {editingName ? (
                 <div className="flex items-center gap-2">
                   <Input 
                     value={newName} 
-                    onChange={(e) => setNewName(e.target.value)}
+                    onChange={(e) => setNewName(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
                     className="h-8 w-48"
                     autoFocus
+                    maxLength={20}
+                    placeholder={t('auth.usernamePlaceholder' as any)}
                   />
-                  <Button size="sm" variant="ghost" onClick={async () => {
-                    if (newName.trim()) await updateDisplayName(newName.trim());
-                    setEditingName(false);
-                  }}>
+                  <Button size="sm" variant="ghost" onClick={handleUsernameUpdate}>
                     <Check className="h-4 w-4" />
                   </Button>
                   <Button size="sm" variant="ghost" onClick={() => setEditingName(false)}>
@@ -171,13 +187,22 @@ const Friends = () => {
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
-                  <span className="font-medium">{myProfile?.display_name || '...'}</span>
-                  <Button size="sm" variant="ghost" onClick={() => {
-                    setNewName(myProfile?.display_name || '');
-                    setEditingName(true);
-                  }}>
-                    <Pencil className="h-3 w-3" />
-                  </Button>
+                  <span className="font-medium">{myProfile?.username || myProfile?.display_name || '...'}</span>
+                  {usernameStatus.allowed ? (
+                    <Button size="sm" variant="ghost" onClick={() => {
+                      setNewName(myProfile?.username || myProfile?.display_name || '');
+                      setEditingName(true);
+                    }}>
+                      <Pencil className="h-3 w-3" />
+                    </Button>
+                  ) : (
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <AlertCircle className="h-3 w-3" />
+                      <span>
+                        {t('friends.usernameCooldown' as any)} {usernameStatus.nextChangeDate?.toLocaleDateString()}
+                      </span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -219,7 +244,6 @@ const Friends = () => {
                 />
               </div>
 
-              {/* Share CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -237,7 +261,6 @@ const Friends = () => {
 
             {/* Friends List Tab */}
             <TabsContent value="friends" className="space-y-6">
-              {/* Pending requests */}
               {pendingRequests.length > 0 && (
                 <div className="rounded-xl border border-primary/30 bg-primary/5 p-4">
                   <h3 className="font-bold mb-3 flex items-center gap-2">
@@ -247,7 +270,7 @@ const Friends = () => {
                   <div className="space-y-2">
                     {pendingRequests.map(req => (
                       <div key={req.id} className="flex items-center justify-between p-3 rounded-lg bg-card">
-                        <span className="font-medium">{req.sender_profile?.display_name || 'Unknown'}</span>
+                        <span className="font-medium">{req.sender_profile?.username || req.sender_profile?.display_name || 'Unknown'}</span>
                         <div className="flex gap-2">
                           <Button size="sm" variant="default" onClick={() => acceptRequest(req.id)}>
                             <UserCheck className="h-4 w-4 mr-1" />
@@ -263,14 +286,13 @@ const Friends = () => {
                 </div>
               )}
 
-              {/* Sent requests */}
               {sentRequests.length > 0 && (
                 <div className="rounded-xl border border-border p-4">
                   <h3 className="font-bold mb-3 text-muted-foreground">{t('friends.sentRequests')}</h3>
                   <div className="space-y-2">
                     {sentRequests.map(req => (
                       <div key={req.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/30">
-                        <span>{req.receiver_profile?.display_name || 'Unknown'}</span>
+                        <span>{req.receiver_profile?.username || req.receiver_profile?.display_name || 'Unknown'}</span>
                         <span className="text-xs text-muted-foreground">{t('friends.pending')}</span>
                       </div>
                     ))}
@@ -278,7 +300,6 @@ const Friends = () => {
                 </div>
               )}
 
-              {/* Friends list */}
               <div className="rounded-xl border border-border bg-card p-4">
                 <h3 className="font-bold mb-3">{t('friends.friendsList')} ({friends.length})</h3>
                 {friends.length === 0 ? (
@@ -287,7 +308,7 @@ const Friends = () => {
                   <div className="space-y-2">
                     {friends.map(friend => (
                       <div key={friend.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/30 transition-colors">
-                        <span className="font-medium">{friend.display_name}</span>
+                        <span className="font-medium">{getDisplayName(friend)}</span>
                         <Button size="sm" variant="ghost" className="text-destructive hover:text-destructive" onClick={() => removeFriend(friend.id)}>
                           <UserX className="h-4 w-4" />
                         </Button>
@@ -316,7 +337,9 @@ const Friends = () => {
                 <div className="rounded-xl border border-border bg-card p-4 space-y-2">
                   {searchResults.map(profile => (
                     <div key={profile.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-muted/30 transition-colors">
-                      <span className="font-medium">{profile.display_name}</span>
+                      <div>
+                        <span className="font-medium">{profile.username || profile.display_name}</span>
+                      </div>
                       <Button size="sm" variant="default" onClick={() => sendRequest(profile.id)}>
                         <UserPlus className="h-4 w-4 mr-1" />
                         {t('friends.addFriend')}
