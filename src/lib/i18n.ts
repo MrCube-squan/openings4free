@@ -1515,6 +1515,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Yanlış hamleler geri bildirim gösterir ve tekrar deneyebilirsiniz',
     'train.hintTip': 'Takıldıysanız ipucu düğmesini kullanın (tahtada bir ok gösterir!)',
     'train.drillUnlock': 'Çalışma modunu açmak için varyantları tamamlayın',
+    'train.arrowColors': 'Ok çizmek için sağ tıklayıp sürükleyin — Alt ile kırmızı, Shift ile yeşil, Alt+Shift ile mavi',
     'train.backToCourse': 'Kursa geri dön',
     'train.browseCourses': 'Kursları gör',
     'train.trainingDemo': 'Antrenman Demosu',
