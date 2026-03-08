@@ -799,7 +799,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Смотреть курсы',
     'train.trainingDemo': 'Демо Тренировки',
     'train.tryItalian': 'Попробуйте Итальянскую партию',
-    'train.learning': 'Изучение',
+    'train.learning': 'Режим изучения',
     'train.drilling': 'Практика',
     'train.noDrillYet': 'Пока нет линий для практики',
     'train.noDrillDesc': 'Завершите линии в режиме обучения, чтобы разблокировать практику.',
