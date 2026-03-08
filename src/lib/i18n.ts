@@ -444,7 +444,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': 'Tem certeza de que deseja excluir permanentemente sua conta? Isso não pode ser desfeito.',
     'nav.streak': 'dias seguidos',
     'home.badge': 'Treinador de Aberturas Grátis',
-    'home.title': 'Domine aberturas Da ',
+    'home.title': 'Domine as aberturas: A ',
     'home.titleHighlight': 'Melhor Forma',
     'home.subtitle': 'Não perca horas em vídeos de teoria. Treine linhas que você vai lembrar no tabuleiro.',
     'home.browseCourses': 'Ver Cursos',
