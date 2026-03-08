@@ -195,9 +195,13 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     if (moveIdx >= currentLine.moves.length) {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       
-      // Show flame overlay
-      setShowFlame(true);
-      setTimeout(() => setShowFlame(false), 2000);
+      // Show flame overlay only once per day (first line completion)
+      const today = new Date().toISOString().slice(0, 10);
+      if (flameShownDateRef.current !== today) {
+        flameShownDateRef.current = today;
+        setShowFlame(true);
+        setTimeout(() => setShowFlame(false), 2000);
+      }
       
       setTimeout(() => {
         setLinesCompleted(prev => prev + 1);
