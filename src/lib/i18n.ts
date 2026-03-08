@@ -490,7 +490,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Ver cursos',
     'train.trainingDemo': 'Demo de Treinamento',
     'train.tryItalian': 'Experimente a abertura Italiana',
-    'train.learning': 'Aprendendo',
+    'train.learning': 'Modo estudo',
     'train.drilling': 'Praticando',
     'train.noDrillYet': 'Nenhuma linha para praticar ainda',
     'train.noDrillDesc': 'Complete linhas no modo Aprender para desbloquear a prática.',
