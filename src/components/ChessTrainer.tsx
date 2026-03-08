@@ -182,6 +182,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   }, [hintData.arrows, userNonKnightArrows, userKnightArrow]);
 
   const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
+    // react-chessboard fires onArrowsChange([]) on left-click / piece drop.
+    // Ignore empty calls so user-drawn arrows persist until position changes.
+    if (arrows.length === 0) return;
+
     const nonKnight: Array<[Square, Square, string]> = [];
     let lastKnight: { from: Square; to: Square; color: string } | null = null;
     const previousKnight = userKnightArrowRef.current;
@@ -204,6 +208,17 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setUserKnightArrow((prev) => (isSameKnightArrow(prev, lastKnight) ? prev : lastKnight));
     setUserNonKnightArrows((prev) => (areArrowListsEqual(prev, nonKnight) ? prev : nonKnight));
   }, [arrowColor]);
+
+  // Clear user-drawn arrows when position changes
+  const prevFenRef = useRef(game.fen());
+  useEffect(() => {
+    const currentFen = game.fen();
+    if (prevFenRef.current !== currentFen) {
+      prevFenRef.current = currentFen;
+      setUserKnightArrow(null);
+      setUserNonKnightArrows([]);
+    }
+  }, [game]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
