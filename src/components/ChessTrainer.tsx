@@ -82,7 +82,6 @@ const isSameKnightArrow = (
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const [showFlame, setShowFlame] = useState(false);
-  const flameShownDateRef = useRef<string | null>(null);
   const { streak } = useStreak();
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
   const [currentLineIndex, setCurrentLineIndex] = useState(initialLineIndex);
@@ -127,12 +126,27 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   const { settings, updateSettings, currentTheme } = useBoardSettings();
   const { t } = useLanguage();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { notes, saveNote } = useLineNotes(courseId, currentLineIndex);
   const [noteInput, setNoteInput] = useState('');
   const [showNoteInput, setShowNoteInput] = useState(false);
   const currentLine = lines[currentLineIndex];
   const isPlayerTurn = (game.turn() === 'w') === (playerColor === 'white');
+
+  const shouldPlayFlameToday = useCallback(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    const storageKey = `streak-flame:last-played:${user?.id ?? 'anon'}`;
+
+    try {
+      const lastPlayed = window.localStorage.getItem(storageKey);
+      if (lastPlayed === today) return false;
+
+      window.localStorage.setItem(storageKey, today);
+      return true;
+    } catch {
+      return true;
+    }
+  }, [user?.id]);
 
   const hintData = useMemo(() => {
     if (!showHint || !isPlayerTurn || currentMoveIndex >= currentLine.moves.length) return { arrows: [], knightArrow: null };
@@ -196,9 +210,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       
       // Show flame overlay only once per day (first line completion)
-      const today = new Date().toISOString().slice(0, 10);
-      if (flameShownDateRef.current !== today) {
-        flameShownDateRef.current = today;
+      if (shouldPlayFlameToday()) {
         setShowFlame(true);
         setTimeout(() => setShowFlame(false), 2000);
       }
@@ -225,7 +237,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         }
       }, 1000);
     }
-  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect]);
+  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday]);
 
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
