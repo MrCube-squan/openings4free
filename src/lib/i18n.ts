@@ -1414,7 +1414,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Ukończ linie, aby odblokować tryb Drill',
     'train.arrowColors': 'Przeciągnij prawym przyciskiem aby rysować strzałki — Alt dla czerwonego, Shift dla zielonego, Ctrl dla niebieskiego',
     'train.backToCourse': 'Powrót do kursu',
-    'train.browseCourses': 'Przeglądaj kursy',
+    'train.browseCourses': 'Odkryj kursy',
     'train.trainingDemo': 'Demo Treningu',
     'train.tryItalian': 'Wypróbuj otwarcie włoskie',
     'train.learning': 'Tryb nauki',
