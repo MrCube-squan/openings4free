@@ -2241,7 +2241,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Περιήγηση μαθημάτων',
     'train.trainingDemo': 'Επίδειξη εξάσκησης',
     'train.tryItalian': 'Δοκιμάστε το Ιταλικό άνοιγμα',
-    'train.learning': 'Μάθηση',
+    'train.learning': 'Λειτουργία μελέτης',
     'train.drilling': 'Εξάσκηση',
     'train.noDrillYet': 'Δεν υπάρχουν γραμμές για εξάσκηση ακόμα',
     'train.noDrillDesc': 'Ολοκληρώστε γραμμές στη λειτουργία μάθησης για να ξεκλειδώσετε την εξάσκηση.',
