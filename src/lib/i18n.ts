@@ -297,7 +297,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'friends.username': 'Username',
     'friends.changeUsername': 'Change Username',
     'friends.usernameCooldown': 'You can change your username again on',
-    'friends.usernameHint': '3-20 characters, letters, numbers and underscores',
+    'friends.usernameHint': '3-20 characters, letters, numbers, underscores and slashes',
     'feature.friendlyCompetition': 'Friendly Competition',
     'feature.friendlyCompetitionDesc': 'Weekly and monthly challenges with friends create accountability and motivation. Studying alongside others makes improvement more engaging and consistent.',
     'auth.username': 'Username',
