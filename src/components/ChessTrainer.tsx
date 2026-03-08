@@ -163,32 +163,28 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   }, [hintData.arrows, userNonKnightArrows, userKnightArrow]);
 
   const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
-    if (arrows.length === 0) {
-      setUserKnightArrow(null);
-      setUserNonKnightArrows([]);
-      return;
-    }
-
     const nonKnight: Array<[Square, Square, string]> = [];
     let lastKnight: { from: Square; to: Square; color: string } | null = null;
+    const previousKnight = userKnightArrowRef.current;
 
     for (const arr of arrows) {
-      if (isKnightMove(arr[0], arr[1])) {
-        const preservedColor = arr[2] && arr[2] !== HIDDEN_KNIGHT_ARROW_COLOR
-          ? arr[2]
-          : (userKnightArrow?.from === arr[0] && userKnightArrow?.to === arr[1]
-            ? userKnightArrow.color
+      const [from, to, color] = arr;
+      if (isKnightMove(from, to)) {
+        const preservedColor = color && color !== HIDDEN_KNIGHT_ARROW_COLOR
+          ? color
+          : (previousKnight?.from === from && previousKnight?.to === to
+            ? previousKnight.color
             : arrowColor);
 
-        lastKnight = { from: arr[0], to: arr[1], color: preservedColor };
+        lastKnight = { from, to, color: preservedColor };
       } else {
-        nonKnight.push([arr[0], arr[1], arr[2] || arrowColor]);
+        nonKnight.push([from, to, color || arrowColor]);
       }
     }
 
-    setUserKnightArrow(lastKnight);
-    setUserNonKnightArrows(nonKnight);
-  }, [arrowColor, userKnightArrow]);
+    setUserKnightArrow((prev) => (isSameKnightArrow(prev, lastKnight) ? prev : lastKnight));
+    setUserNonKnightArrows((prev) => (areArrowListsEqual(prev, nonKnight) ? prev : nonKnight));
+  }, [arrowColor]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
