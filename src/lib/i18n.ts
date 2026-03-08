@@ -485,7 +485,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Jogadas erradas mostram feedback e você pode tentar novamente',
     'train.hintTip': 'Use o botão de dica se estiver travado (mostra uma seta no tabuleiro!)',
     'train.drillUnlock': 'Complete linhas para desbloquear o modo Drill',
-    'train.arrowColors': 'Arraste com clique direito para desenhar setas — Alt para vermelho, Shift para verde, Alt+Shift para azul',
+    'train.arrowColors': 'Arraste com clique direito para desenhar setas — Alt para vermelho, Shift para verde, Ctrl para azul',
     'train.backToCourse': 'Voltar ao curso',
     'train.browseCourses': 'Ver cursos',
     'train.trainingDemo': 'Demo de Treinamento',
