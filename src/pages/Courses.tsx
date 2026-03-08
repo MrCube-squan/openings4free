@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 import Navbar from '@/components/Navbar';
@@ -7,20 +7,47 @@ import { courses } from '@/lib/courses';
 import { Button } from '@/components/ui/button';
 import { Search, Filter, X } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useLearnedLines } from '@/hooks/useLearnedLines';
+import { useAuth } from '@/hooks/useAuth';
 
 const Courses = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [colorFilter, setColorFilter] = useState<'all' | 'white' | 'black'>('all');
   const { t } = useLanguage();
+  const { isAuthenticated } = useAuth();
+  const { learnedLines } = useLearnedLines();
 
-  const filteredCourses = courses
-    .filter((course) => {
+  const filteredCourses = useMemo(() => {
+    const filtered = courses.filter((course) => {
       const matchesSearch = course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         course.description.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesColor = colorFilter === 'all' || course.color === colorFilter;
       return matchesSearch && matchesColor;
-    })
-    .sort((a, b) => a.name.localeCompare(b.name));
+    });
+
+    if (isAuthenticated && learnedLines.length > 0) {
+      // Build map: courseId -> most recent completedAt
+      const recentMap = new Map<string, string>();
+      for (const line of learnedLines) {
+        const existing = recentMap.get(line.courseId);
+        if (!existing || line.completedAt > existing) {
+          recentMap.set(line.courseId, line.completedAt);
+        }
+      }
+
+      return filtered.sort((a, b) => {
+        const aRecent = recentMap.get(a.id);
+        const bRecent = recentMap.get(b.id);
+        // Courses with learned lines come first, sorted by most recent activity
+        if (aRecent && !bRecent) return -1;
+        if (!aRecent && bRecent) return 1;
+        if (aRecent && bRecent) return bRecent.localeCompare(aRecent);
+        return a.name.localeCompare(b.name);
+      });
+    }
+
+    return filtered.sort((a, b) => a.name.localeCompare(b.name));
+  }, [searchQuery, colorFilter, isAuthenticated, learnedLines]);
 
   const colorLabels: Record<string, string> = {
     all: t('courses.allColors'),
