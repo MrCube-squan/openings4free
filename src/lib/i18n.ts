@@ -2082,7 +2082,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.browseCourses': 'Gennemse kurser',
     'home.whyWorks': 'Hvorfor Openings4Free virker',
     'home.whyWorksSubtitle': 'Ikke mere "min modstander følger ikke linjerne." Hver linje er bygget fra rigtige træk.',
-    'home.ctaTitle': 'Klar til at stoppe med at tabe i åbningen?',
+    'home.ctaTitle': 'Klar til at stoppe med at blundre i åbningen?',
     'home.ctaSubtitle': 'Brug Openings4Free til at lære al den teori du har brug for.',
     'home.ctaButton': 'Start træning gratis',
     'home.credit': 'Skabt af Mr.Cube_k6j på YouTube og TikTok',
