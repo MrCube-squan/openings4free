@@ -114,6 +114,29 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     return { arrows: [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>, knightArrow: null };
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
+  // Collect all L-shaped knight arrows (hint + user-drawn)
+  const allKnightArrows = useMemo(() => {
+    const result: Array<{ from: Square; to: Square; color: string }> = [];
+    if (hintData.knightArrow) {
+      result.push({ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' });
+    }
+    result.push(...userKnightArrows);
+    return result;
+  }, [hintData.knightArrow, userKnightArrows]);
+
+  const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
+    const knightArrows: Array<{ from: Square; to: Square; color: string }> = [];
+    const straightArrows: Array<[Square, Square, string?]> = [];
+    for (const arr of arrows) {
+      if (isKnightMove(arr[0], arr[1])) {
+        knightArrows.push({ from: arr[0], to: arr[1], color: arr[2] || arrowColor });
+      } else {
+        straightArrows.push(arr);
+      }
+    }
+    setUserKnightArrows(knightArrows);
+  }, [arrowColor]);
+
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
