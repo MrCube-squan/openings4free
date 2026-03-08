@@ -1480,7 +1480,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'feature.spacedRepetition': 'Aralıklı Tekrar',
     'feature.spacedRepetitionDesc': 'Doğruluğunuza göre akıllı zamanlama. Zor varyantlar daha sık geri gelir.',
     'feature.progressTracking': 'İlerleme Takibi',
-    'feature.progressTrackingDesc': 'Hangi çizgilere hakim olduğunuzu ve hangilerinin çalışmaya ihtiyacı olduğunu görün.',
+    'feature.progressTrackingDesc': 'Hangi varyantlara hâkim olduğunuzu ve hangilerinin çalışmaya ihtiyacı olduğunu görün.',
     'feature.curatedCourses': 'Seçilmiş Kurslar',
     'feature.curatedCoursesDesc': 'Hazır repertuarlar, etkili açıklamalarla.',
     'feature.fastReps': 'Hızlı Tekrarlar',
