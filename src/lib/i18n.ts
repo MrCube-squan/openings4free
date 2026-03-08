@@ -157,7 +157,7 @@ type TranslationKeys = {
   'feature.friendlyCompetitionDesc': string;
 };
 
-const translations: Record<LangCode, TranslationKeys> = {
+const translations: Record<LangCode, TranslationKeys> & { en: TranslationKeys } = {
   en: {
     'nav.courses': 'Courses',
     'nav.train': 'Train',
