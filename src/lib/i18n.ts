@@ -240,7 +240,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': '¿Estás seguro de que quieres eliminar permanentemente tu cuenta? Esto no se puede deshacer.',
     'nav.streak': 'días de racha',
     'home.badge': 'Entrenador de Aperturas Gratis',
-    'home.title': 'Domina aperturas De la ',
+    'home.title': 'Domina las aperturas: La ',
     'home.titleHighlight': 'Mejor Forma',
     'home.subtitle': 'No pierdas horas en vídeos de teoría. Entrena líneas que recordarás en el tablero.',
     'home.browseCourses': 'Ver Cursos',
