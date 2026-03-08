@@ -12,6 +12,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLineNotes } from '@/hooks/useLineNotes';
 import { Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
+import FlameOverlay from '@/components/FlameOverlay';
+import { useStreak } from '@/hooks/useStreak';
 
 interface Line {
   moves: string[];
@@ -79,6 +81,8 @@ const isSameKnightArrow = (
 
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
+  const [showFlame, setShowFlame] = useState(false);
+  const { streak } = useStreak();
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
   const [currentLineIndex, setCurrentLineIndex] = useState(initialLineIndex);
   const [lineHistory, setLineHistory] = useState<number[]>([initialLineIndex]);
@@ -189,6 +193,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+      
+      // Show flame overlay
+      setShowFlame(true);
+      setTimeout(() => setShowFlame(false), 2000);
       
       setTimeout(() => {
         setLinesCompleted(prev => prev + 1);
@@ -476,6 +484,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const accuracy = totalMoves > 0 ? Math.round(((totalMoves - totalMistakes) / totalMoves) * 100) : 0;
 
   return (
+    <>
+    <FlameOverlay show={showFlame} streak={streak} />
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
       {/* Eval bar + Chessboard */}
       <div className="flex gap-2 items-stretch w-full max-w-[540px] mx-auto lg:mx-0">
@@ -776,6 +786,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         onUpdateSettings={updateSettings}
       />
     </div>
+    </>
   );
 };
 

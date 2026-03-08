@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, Loader2, Globe, Trash2, Flame } from 'lucide-react';
+import { Menu, X, LogOut, Loader2, Globe, Trash2 } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,6 +9,7 @@ import { useStreak } from '@/hooks/useStreak';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { languages } from '@/lib/i18n';
 import { supabase } from '@/integrations/supabase/client';
+import StreakBadge from '@/components/StreakBadge';
 import { toast } from 'sonner';
 import {
   DropdownMenu,
@@ -99,13 +100,7 @@ const Navbar = () => {
           {/* Right side */}
           <div className="hidden md:flex items-center gap-3">
             {/* Streak badge */}
-            {isAuthenticated && streak > 0 && (
-              <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20">
-                <Flame className="h-4 w-4 text-accent" />
-                <span className="text-sm font-bold text-accent">{streak}</span>
-                <span className="text-xs text-muted-foreground">{t('nav.streak')}</span>
-              </div>
-            )}
+            {isAuthenticated && <StreakBadge streak={streak} />}
 
             {/* Language Switcher */}
             <DropdownMenu>
@@ -224,13 +219,7 @@ const Navbar = () => {
               ))}
 
               {/* Streak on mobile */}
-              {isAuthenticated && streak > 0 && (
-                <div className="flex items-center gap-1.5 px-3 py-2">
-                  <Flame className="h-4 w-4 text-accent" />
-                  <span className="text-sm font-bold text-accent">{streak}</span>
-                  <span className="text-xs text-muted-foreground">{t('nav.streak')}</span>
-                </div>
-              )}
+              {isAuthenticated && <StreakBadge streak={streak} compact />}
 
               {/* Mobile Language Switcher */}
               <div className="flex flex-wrap gap-1 py-2 border-t border-border/50 mt-2">
