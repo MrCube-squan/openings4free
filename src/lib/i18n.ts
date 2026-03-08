@@ -2076,7 +2076,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': 'Er du sikker på, at du vil slette din konto permanent? Dette kan ikke fortrydes.',
     'nav.streak': 'dage i træk',
     'home.badge': 'Gratis åbningstræner',
-    'home.title': 'Mestr åbninger: ',
+    'home.title': 'Behersk åbninger: ',
     'home.titleHighlight': 'Den bedste måde',
     'home.subtitle': 'Spild ikke timer på åbningsteorivideoer. Træn linjer du husker over brættet.',
     'home.browseCourses': 'Gennemse kurser',
