@@ -75,7 +75,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
-  const [userKnightArrows, setUserKnightArrows] = useState<Array<{ from: Square; to: Square; color: string }>>([]);
 
   // Listen for modifier keys to change arrow color
   useEffect(() => {
@@ -114,32 +113,13 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     return { arrows: [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>, knightArrow: null };
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
-  // Collect all L-shaped knight arrows (hint + user-drawn)
+  // L-shaped knight arrows for hints only
   const allKnightArrows = useMemo(() => {
-    const result: Array<{ from: Square; to: Square; color: string }> = [];
     if (hintData.knightArrow) {
-      result.push({ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' });
+      return [{ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' }];
     }
-    result.push(...userKnightArrows);
-    return result;
-  }, [hintData.knightArrow, userKnightArrows]);
-
-  const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
-    if (arrows.length === 0) {
-      // User cleared all arrows (right-click on empty)
-      setUserKnightArrows([]);
-      return;
-    }
-    // Only keep knight-move arrows; show only the latest one to avoid duplicates
-    const knightArrows: Array<{ from: Square; to: Square; color: string }> = [];
-    for (const arr of arrows) {
-      if (isKnightMove(arr[0], arr[1])) {
-        knightArrows.push({ from: arr[0], to: arr[1], color: arr[2] || arrowColor });
-      }
-    }
-    // Only keep the most recently drawn knight arrow
-    setUserKnightArrows(knightArrows.length > 0 ? [knightArrows[knightArrows.length - 1]] : []);
-  }, [arrowColor]);
+    return [];
+  }, [hintData.knightArrow]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
@@ -231,7 +211,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         setCurrentMoveIndex(prev => prev + 1);
         setFeedback('correct');
         setShowHint(false);
-        setUserKnightArrows([]);
         setCustomSquareStyles({
           [sourceSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.4)' },
           [targetSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.4)' },
@@ -377,7 +356,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setSelectedSquare(null);
     setCustomSquareStyles({});
     setHadMistake(false);
-    setUserKnightArrows([]);
   };
 
   const previousLine = () => {
@@ -396,7 +374,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setLinePass(1);
       setPass1Perfect(false);
       setHadMistake(false);
-      setUserKnightArrows([]);
     }
   };
 
@@ -413,12 +390,11 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setHadMistake(false);
     setLinePass(1);
     setPass1Perfect(false);
-    setUserKnightArrows([]);
   };
 
   const revealHint = () => {
     setShowHint(true);
-    setUserKnightArrows([]);
+    
     setHadMistake(true);
     setTotalMistakes(prev => prev + 1);
   };
@@ -441,7 +417,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               showBoardNotation={settings.showCoordinates}
               customArrows={hintData.arrows}
               customArrowColor={arrowColor}
-              onArrowsChange={handleArrowsChange}
+              
               customBoardStyle={{
                 borderRadius: '12px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
