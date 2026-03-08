@@ -544,7 +544,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.logout': 'Abmelden',
     'nav.deleteAccount': 'Konto löschen',
     'nav.deleteConfirm': 'Bist du sicher, dass du dein Konto dauerhaft löschen möchtest? Dies kann nicht rückgängig gemacht werden.',
-    'nav.streak': 'Tage Serie',
+    'nav.streak': 'Tage in Folge',
     'home.badge': 'Kostenloser Eröffnungstrainer',
     'home.title': 'Eröffnungen meistern: Der ',
     'home.titleHighlight': 'Beste Weg',
