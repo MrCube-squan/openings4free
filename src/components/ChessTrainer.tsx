@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess, Square } from 'chess.js';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -57,6 +57,26 @@ const squareToCoords = (sq: Square, orientation: 'white' | 'black'): { x: number
 
 const HIDDEN_KNIGHT_ARROW_COLOR = 'rgba(0,0,0,0)';
 
+const areArrowListsEqual = (
+  a: Array<[Square, Square, string]>,
+  b: Array<[Square, Square, string]>
+): boolean => {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i += 1) {
+    if (a[i][0] !== b[i][0] || a[i][1] !== b[i][1] || a[i][2] !== b[i][2]) return false;
+  }
+  return true;
+};
+
+const isSameKnightArrow = (
+  a: { from: Square; to: Square; color: string } | null,
+  b: { from: Square; to: Square; color: string } | null
+): boolean => {
+  if (!a && !b) return true;
+  if (!a || !b) return false;
+  return a.from === b.from && a.to === b.to && a.color === b.color;
+};
+
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
@@ -79,6 +99,11 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
   const [userKnightArrow, setUserKnightArrow] = useState<{ from: Square; to: Square; color: string } | null>(null);
   const [userNonKnightArrows, setUserNonKnightArrows] = useState<Array<[Square, Square, string]>>([]);
+  const userKnightArrowRef = useRef<{ from: Square; to: Square; color: string } | null>(null);
+
+  useEffect(() => {
+    userKnightArrowRef.current = userKnightArrow;
+  }, [userKnightArrow]);
   useEffect(() => {
     const getColor = (e: KeyboardEvent | MouseEvent) => {
       if (e.ctrlKey || e.metaKey) return 'rgb(0,100,255)';
@@ -138,32 +163,28 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   }, [hintData.arrows, userNonKnightArrows, userKnightArrow]);
 
   const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
-    if (arrows.length === 0) {
-      setUserKnightArrow(null);
-      setUserNonKnightArrows([]);
-      return;
-    }
-
     const nonKnight: Array<[Square, Square, string]> = [];
     let lastKnight: { from: Square; to: Square; color: string } | null = null;
+    const previousKnight = userKnightArrowRef.current;
 
     for (const arr of arrows) {
-      if (isKnightMove(arr[0], arr[1])) {
-        const preservedColor = arr[2] && arr[2] !== HIDDEN_KNIGHT_ARROW_COLOR
-          ? arr[2]
-          : (userKnightArrow?.from === arr[0] && userKnightArrow?.to === arr[1]
-            ? userKnightArrow.color
+      const [from, to, color] = arr;
+      if (isKnightMove(from, to)) {
+        const preservedColor = color && color !== HIDDEN_KNIGHT_ARROW_COLOR
+          ? color
+          : (previousKnight?.from === from && previousKnight?.to === to
+            ? previousKnight.color
             : arrowColor);
 
-        lastKnight = { from: arr[0], to: arr[1], color: preservedColor };
+        lastKnight = { from, to, color: preservedColor };
       } else {
-        nonKnight.push([arr[0], arr[1], arr[2] || arrowColor]);
+        nonKnight.push([from, to, color || arrowColor]);
       }
     }
 
-    setUserKnightArrow(lastKnight);
-    setUserNonKnightArrows(nonKnight);
-  }, [arrowColor, userKnightArrow]);
+    setUserKnightArrow((prev) => (isSameKnightArrow(prev, lastKnight) ? prev : lastKnight));
+    setUserNonKnightArrows((prev) => (areArrowListsEqual(prev, nonKnight) ? prev : nonKnight));
+  }, [arrowColor]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
