@@ -757,6 +757,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Accedi per aggiungere note personali e monitorare i progressi',
     'trainer.savedNote': 'Nota salvata',
     'trainer.errorReport': 'Hai trovato errori nella teoria o hai problemi? Scrivimi a',
+    'trainer.pass': 'Fase',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Creato da Mr.Cube_k6j su YouTube e TikTok',
   },
   ru: {
