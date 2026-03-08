@@ -1517,7 +1517,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Çalışma modunu açmak için varyantları tamamlayın',
     'train.arrowColors': 'Ok çizmek için sağ tıklayıp sürükleyin — Alt ile kırmızı, Shift ile yeşil, Ctrl ile mavi',
     'train.backToCourse': 'Kursa geri dön',
-    'train.browseCourses': 'Kursları gör',
+    'train.browseCourses': 'Kursları keşfet',
     'train.trainingDemo': 'Antrenman Demosu',
     'train.tryItalian': 'İtalyan açılışını deneyin',
     'train.learning': 'Çalışma modu',
