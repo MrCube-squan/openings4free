@@ -2074,7 +2074,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.logout': 'Log ud',
     'nav.deleteAccount': 'Slet konto',
     'nav.deleteConfirm': 'Er du sikker på, at du vil slette din konto permanent? Dette kan ikke fortrydes.',
-    'nav.streak': 'dages stime',
+    'nav.streak': 'dage i træk',
     'home.badge': 'Gratis åbningstræner',
     'home.title': 'Mestr åbninger: ',
     'home.titleHighlight': 'Den bedste måde',
