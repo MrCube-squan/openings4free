@@ -20,18 +20,21 @@ const Courses = () => {
   const filteredCourses = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
 
+    // Normalize accented characters for search
+    const normalize = (s: string) => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const normQuery = normalize(query);
+
     const filtered = courses.filter((course) => {
       const matchesColor = colorFilter === 'all' || course.color === colorFilter;
       if (!matchesColor) return false;
-      if (!query) return true;
+      if (!normQuery) return true;
 
-      // Check if query letters appear in order within the name
-      const name = course.name.toLowerCase();
+      const name = normalize(course.name);
       let qi = 0;
-      for (let i = 0; i < name.length && qi < query.length; i++) {
-        if (name[i] === query[qi]) qi++;
+      for (let i = 0; i < name.length && qi < normQuery.length; i++) {
+        if (name[i] === normQuery[qi]) qi++;
       }
-      return qi === query.length;
+      return qi === normQuery.length;
     });
 
     if (isAuthenticated && learnedLines.length > 0) {
