@@ -444,9 +444,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               boardOrientation={playerColor}
               arePremovesAllowed={true}
               showBoardNotation={settings.showCoordinates}
-              customArrows={hintData.arrows}
+              customArrows={combinedArrows}
               customArrowColor={arrowColor}
-              
+              onArrowsChange={handleArrowsChange}
               customBoardStyle={{
                 borderRadius: '12px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
