@@ -2437,7 +2437,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'friends.loginRequired': 'Sign in to make friends, compete on leaderboards, and push each other to learn more lines!',
     'friends.yourName': 'Your username',
     'friends.searchPlaceholder': 'Search by username or email...',
-    'friends.usernameHint': '3-20 characters, letters, numbers and underscores',
+    'friends.usernameHint': '3-20 characters, letters, numbers, underscores and slashes',
     'friends.usernameCooldown': 'You can change your username again on',
     'auth.username': 'Username',
     'auth.usernamePlaceholder': 'Choose a username',
