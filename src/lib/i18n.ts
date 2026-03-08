@@ -128,6 +128,33 @@ type TranslationKeys = {
   'trainer.pass': string;
   'trainer.test': string;
   'home.creatorBadge': string;
+  'nav.friends': string;
+  'friends.title': string;
+  'friends.subtitle': string;
+  'friends.loginRequired': string;
+  'friends.yourName': string;
+  'friends.leaderboard': string;
+  'friends.friendsList': string;
+  'friends.findFriends': string;
+  'friends.weeklyChallenge': string;
+  'friends.monthlyChallenge': string;
+  'friends.noFriendsYet': string;
+  'friends.you': string;
+  'friends.lines': string;
+  'friends.shareCta': string;
+  'friends.shareCtaDesc': string;
+  'friends.shareButton': string;
+  'friends.shareText': string;
+  'friends.linkCopied': string;
+  'friends.pendingRequests': string;
+  'friends.sentRequests': string;
+  'friends.pending': string;
+  'friends.accept': string;
+  'friends.addFriend': string;
+  'friends.searchPlaceholder': string;
+  'friends.noResults': string;
+  'feature.friendlyCompetition': string;
+  'feature.friendlyCompetitionDesc': string;
 };
 
 const translations: Record<LangCode, TranslationKeys> = {
