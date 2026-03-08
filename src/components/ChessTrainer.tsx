@@ -455,6 +455,92 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </div>
+
+        {/* Personal Notes Section */}
+        <div className="rounded-xl border border-border bg-card p-4">
+          {isAuthenticated ? (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-sm font-medium text-foreground">
+                  <MessageSquare className="h-4 w-4 text-primary" />
+                  {t('trainer.addNote')}
+                </div>
+                <span className="text-xs text-muted-foreground">
+                  {t('general.moves')} {currentMoveIndex + 1}
+                </span>
+              </div>
+              {notes.get(currentMoveIndex) && !showNoteInput && (
+                <div
+                  className="text-sm text-foreground bg-muted/50 rounded-lg p-3 cursor-pointer hover:bg-muted/70 transition-colors"
+                  onClick={() => { setNoteInput(notes.get(currentMoveIndex) || ''); setShowNoteInput(true); }}
+                >
+                  {notes.get(currentMoveIndex)}
+                </div>
+              )}
+              {showNoteInput ? (
+                <div className="space-y-2">
+                  <textarea
+                    value={noteInput}
+                    onChange={(e) => setNoteInput(e.target.value)}
+                    placeholder={t('trainer.notePlaceholder')}
+                    className="w-full text-sm bg-muted/30 border border-border rounded-lg p-3 resize-none focus:outline-none focus:ring-1 focus:ring-primary text-foreground placeholder:text-muted-foreground"
+                    rows={2}
+                  />
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="default"
+                      onClick={() => {
+                        saveNote(currentMoveIndex, noteInput);
+                        setShowNoteInput(false);
+                        setNoteInput('');
+                      }}
+                      className="flex-1"
+                    >
+                      {t('trainer.savedNote')}
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => { setShowNoteInput(false); setNoteInput(''); }}
+                    >
+                      {t('trainer.cancel')}
+                    </Button>
+                  </div>
+                </div>
+              ) : !notes.get(currentMoveIndex) && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowNoteInput(true)}
+                  className="w-full text-muted-foreground"
+                >
+                  {t('trainer.notePlaceholder')}
+                </Button>
+              )}
+            </div>
+          ) : (
+            <Link to="/auth?mode=signup" className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/30 transition-colors group">
+              <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                <LogIn className="h-4 w-4 text-primary" />
+              </div>
+              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                {t('trainer.signInNotes')}
+              </span>
+            </Link>
+          )}
+        </div>
+
+        {/* Error Report */}
+        <div className="flex items-start gap-2 text-xs text-muted-foreground px-1">
+          <Mail className="h-3.5 w-3.5 mt-0.5 shrink-0" />
+          <span>
+            {t('trainer.errorReport')}{' '}
+            <a href="mailto:mr.cubek6j@gmail.com" className="text-primary hover:underline">
+              mr.cubek6j@gmail.com
+            </a>
+          </span>
+        </div>
       </div>
 
       <BoardSettingsModal
