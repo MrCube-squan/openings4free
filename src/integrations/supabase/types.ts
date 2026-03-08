@@ -203,18 +203,24 @@ export type Database = {
           display_name: string
           id: string
           updated_at: string
+          username: string | null
+          username_changed_at: string | null
         }
         Insert: {
           created_at?: string
           display_name?: string
           id: string
           updated_at?: string
+          username?: string | null
+          username_changed_at?: string | null
         }
         Update: {
           created_at?: string
           display_name?: string
           id?: string
           updated_at?: string
+          username?: string | null
+          username_changed_at?: string | null
         }
         Relationships: []
       }
@@ -266,7 +272,19 @@ export type Database = {
         }[]
       }
       is_owner: { Args: { record_user_id: string }; Returns: boolean }
+      search_users_by_query: {
+        Args: { p_current_user_id: string; p_query: string }
+        Returns: {
+          display_name: string
+          id: string
+          username: string
+        }[]
+      }
       update_user_streak: { Args: { p_user_id: string }; Returns: Json }
+      update_username: {
+        Args: { p_user_id: string; p_username: string }
+        Returns: Json
+      }
     }
     Enums: {
       [_ in never]: never
