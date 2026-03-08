@@ -106,8 +106,12 @@ const Navbar = () => {
             ) : isAuthenticated ? (
               <>
                 <Link to="/account" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                  <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
-                    {user?.email?.[0]?.toUpperCase() || '?'}
+                  <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary overflow-hidden">
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
+                    ) : (
+                      getInitial()
+                    )}
                   </div>
                   <span className="text-sm text-muted-foreground truncate max-w-[150px]">
                     {user?.email}
