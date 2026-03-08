@@ -115,13 +115,40 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     return { arrows: [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>, knightArrow: null };
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
-  // L-shaped knight arrows for hints only
   const allKnightArrows = useMemo(() => {
+    const result: Array<{ from: Square; to: Square; color: string }> = [];
     if (hintData.knightArrow) {
-      return [{ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' }];
+      result.push({ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' });
     }
-    return [];
-  }, [hintData.knightArrow]);
+    if (userKnightArrow) {
+      result.push(userKnightArrow);
+    }
+    return result;
+  }, [hintData.knightArrow, userKnightArrow]);
+
+  // Combine hint non-knight arrows with user non-knight arrows
+  const combinedArrows = useMemo(() => {
+    return [...hintData.arrows, ...userNonKnightArrows] as Array<[Square, Square, string]>;
+  }, [hintData.arrows, userNonKnightArrows]);
+
+  const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
+    if (arrows.length === 0) {
+      setUserKnightArrow(null);
+      setUserNonKnightArrows([]);
+      return;
+    }
+    const nonKnight: Array<[Square, Square, string]> = [];
+    let lastKnight: { from: Square; to: Square; color: string } | null = null;
+    for (const arr of arrows) {
+      if (isKnightMove(arr[0], arr[1])) {
+        lastKnight = { from: arr[0], to: arr[1], color: arr[2] || arrowColor };
+      } else {
+        nonKnight.push([arr[0], arr[1], arr[2] || arrowColor]);
+      }
+    }
+    setUserKnightArrow(lastKnight);
+    setUserNonKnightArrows(nonKnight);
+  }, [arrowColor]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
