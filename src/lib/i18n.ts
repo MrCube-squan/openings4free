@@ -2035,7 +2035,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Bla gjennom kurs',
     'train.trainingDemo': 'Treningsdemo',
     'train.tryItalian': 'Prøv Italiensk åpning',
-    'train.learning': 'Læring',
+    'train.learning': 'Studiemodus',
     'train.drilling': 'Trening',
     'train.noDrillYet': 'Ingen linjer å trene ennå',
     'train.noDrillDesc': 'Fullfør linjer i læringsmodus for å låse opp trening.',
