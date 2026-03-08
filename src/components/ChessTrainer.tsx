@@ -40,6 +40,21 @@ const getArrowFromMove = (game: Chess, sanMove: string): [Square, Square] | null
   return null;
 };
 
+const isKnightMove = (from: Square, to: Square): boolean => {
+  const dx = Math.abs(from.charCodeAt(0) - to.charCodeAt(0));
+  const dy = Math.abs(parseInt(from[1]) - parseInt(to[1]));
+  return (dx === 1 && dy === 2) || (dx === 2 && dy === 1);
+};
+
+const squareToCoords = (sq: Square, orientation: 'white' | 'black'): { x: number; y: number } => {
+  const file = sq.charCodeAt(0) - 97; // a=0 ... h=7
+  const rank = parseInt(sq[1]) - 1;   // 1=0 ... 8=7
+  if (orientation === 'white') {
+    return { x: file * 100 + 50, y: (7 - rank) * 100 + 50 };
+  }
+  return { x: (7 - file) * 100 + 50, y: rank * 100 + 50 };
+};
+
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
