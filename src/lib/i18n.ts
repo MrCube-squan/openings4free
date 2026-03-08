@@ -154,8 +154,14 @@ type TranslationKeys = {
   'friends.addFriend': string;
   'friends.searchPlaceholder': string;
   'friends.noResults': string;
+  'friends.username': string;
+  'friends.changeUsername': string;
+  'friends.usernameCooldown': string;
+  'friends.usernameHint': string;
   'feature.friendlyCompetition': string;
   'feature.friendlyCompetitionDesc': string;
+  'auth.username': string;
+  'auth.usernamePlaceholder': string;
 };
 
 const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Partial<TranslationKeys>> = {
