@@ -208,6 +208,7 @@ const Train = () => {
               <li>• {t('train.wrongFeedback')}</li>
               <li>• {t('train.hintTip')}</li>
               <li>• {t('train.drillUnlock')}</li>
+              <li>• {t('train.arrowColors')}</li>
             </ul>
           </motion.div>
         </div>
