@@ -2418,6 +2418,9 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.test': 'Δοκιμή',
     'home.creatorBadge': 'Δημιουργήθηκε από τον Mr.Cube_k6j στο YouTube και TikTok',
   },
+  'en-US': {
+    'friends.loginRequired': 'Sign in to make friends, compete on leaderboards, and push each other to learn more lines!',
+  },
 };
 
 export type TranslationKey = keyof TranslationKeys;
