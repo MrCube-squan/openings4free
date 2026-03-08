@@ -34,29 +34,45 @@ interface EvalResult {
   mate?: number; // mate in N from white's perspective
 }
 
+const START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+
 const EvalBar = ({ fen, orientation }: EvalBarProps) => {
-  const [evalResult, setEvalResult] = useState<EvalResult>({ cp: 0 });
+  const [evalResult, setEvalResult] = useState<EvalResult>({ cp: 20 });
   const abortRef = useRef<AbortController | null>(null);
   const cacheRef = useRef<Map<string, EvalResult>>(new Map());
+  const fluctuationRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Cancel previous request
     abortRef.current?.abort();
+    if (fluctuationRef.current) clearInterval(fluctuationRef.current);
 
     const cached = cacheRef.current.get(fen);
     if (cached) {
       setEvalResult(cached);
-      return;
+      // Add subtle fluctuation around cached value
+      fluctuationRef.current = setInterval(() => {
+        const base = cached.cp ?? 0;
+        const jitter = (Math.random() - 0.5) * 12; // ±6cp fluctuation
+        setEvalResult({ ...cached, cp: cached.mate !== undefined ? cached.cp : Math.round(base + jitter) });
+      }, 1500);
+      return () => { if (fluctuationRef.current) clearInterval(fluctuationRef.current); };
     }
 
-    // Use material eval as immediate fallback
-    const materialEval = evaluateMaterial(fen);
-    setEvalResult({ cp: materialEval * 100 });
+    // Starting position gets +0.2 for white
+    const isStartPos = fen === START_FEN;
+    const materialEval = isStartPos ? 0.2 : evaluateMaterial(fen);
+    const baseCp = Math.round(materialEval * 100);
+    setEvalResult({ cp: baseCp });
+
+    // Fluctuate while waiting for cloud eval
+    fluctuationRef.current = setInterval(() => {
+      const jitter = (Math.random() - 0.5) * 16; // ±8cp
+      setEvalResult({ cp: Math.round(baseCp + jitter) });
+    }, 1200);
 
     const controller = new AbortController();
     abortRef.current = controller;
 
-    // Debounce to avoid Lichess rate limiting (429)
     const timer = setTimeout(async () => {
       try {
         const res = await fetch(
@@ -71,7 +87,16 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
             ? { mate: pv.mate }
             : { cp: pv.cp ?? 0 };
           cacheRef.current.set(fen, result);
+          if (fluctuationRef.current) clearInterval(fluctuationRef.current);
           setEvalResult(result);
+          // Fluctuate around cloud eval
+          const cloudBase = result.cp ?? 0;
+          if (result.mate === undefined) {
+            fluctuationRef.current = setInterval(() => {
+              const jitter = (Math.random() - 0.5) * 10;
+              setEvalResult({ cp: Math.round(cloudBase + jitter) });
+            }, 1500);
+          }
         }
       } catch {
         // Keep material fallback
@@ -81,6 +106,7 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
     return () => {
       clearTimeout(timer);
       controller.abort();
+      if (fluctuationRef.current) clearInterval(fluctuationRef.current);
     };
   }, [fen]);
 
