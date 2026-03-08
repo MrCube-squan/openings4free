@@ -75,6 +75,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
+  const [userKnightArrow, setUserKnightArrow] = useState<{ from: Square; to: Square; color: string } | null>(null);
+  const [userNonKnightArrows, setUserNonKnightArrows] = useState<Array<[Square, Square, string]>>([]);
 
   // Listen for modifier keys to change arrow color
   useEffect(() => {
@@ -113,13 +115,40 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     return { arrows: [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>, knightArrow: null };
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
-  // L-shaped knight arrows for hints only
   const allKnightArrows = useMemo(() => {
+    const result: Array<{ from: Square; to: Square; color: string }> = [];
     if (hintData.knightArrow) {
-      return [{ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' }];
+      result.push({ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' });
     }
-    return [];
-  }, [hintData.knightArrow]);
+    if (userKnightArrow) {
+      result.push(userKnightArrow);
+    }
+    return result;
+  }, [hintData.knightArrow, userKnightArrow]);
+
+  // Combine hint non-knight arrows with user non-knight arrows
+  const combinedArrows = useMemo(() => {
+    return [...hintData.arrows, ...userNonKnightArrows] as Array<[Square, Square, string]>;
+  }, [hintData.arrows, userNonKnightArrows]);
+
+  const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
+    if (arrows.length === 0) {
+      setUserKnightArrow(null);
+      setUserNonKnightArrows([]);
+      return;
+    }
+    const nonKnight: Array<[Square, Square, string]> = [];
+    let lastKnight: { from: Square; to: Square; color: string } | null = null;
+    for (const arr of arrows) {
+      if (isKnightMove(arr[0], arr[1])) {
+        lastKnight = { from: arr[0], to: arr[1], color: arr[2] || arrowColor };
+      } else {
+        nonKnight.push([arr[0], arr[1], arr[2] || arrowColor]);
+      }
+    }
+    setUserKnightArrow(lastKnight);
+    setUserNonKnightArrows(nonKnight);
+  }, [arrowColor]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
@@ -211,6 +240,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         setCurrentMoveIndex(prev => prev + 1);
         setFeedback('correct');
         setShowHint(false);
+        setUserKnightArrow(null);
+        setUserNonKnightArrows([]);
         setCustomSquareStyles({
           [sourceSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.4)' },
           [targetSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.4)' },
@@ -356,6 +387,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setSelectedSquare(null);
     setCustomSquareStyles({});
     setHadMistake(false);
+    setUserKnightArrow(null);
+    setUserNonKnightArrows([]);
   };
 
   const previousLine = () => {
@@ -374,6 +407,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setLinePass(1);
       setPass1Perfect(false);
       setHadMistake(false);
+      setUserKnightArrow(null);
+      setUserNonKnightArrows([]);
     }
   };
 
@@ -390,11 +425,14 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setHadMistake(false);
     setLinePass(1);
     setPass1Perfect(false);
+    setUserKnightArrow(null);
+    setUserNonKnightArrows([]);
   };
 
   const revealHint = () => {
     setShowHint(true);
-    
+    setUserKnightArrow(null);
+    setUserNonKnightArrows([]);
     setHadMistake(true);
     setTotalMistakes(prev => prev + 1);
   };
@@ -415,9 +453,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               boardOrientation={playerColor}
               arePremovesAllowed={true}
               showBoardNotation={settings.showCoordinates}
-              customArrows={hintData.arrows}
+              customArrows={combinedArrows}
               customArrowColor={arrowColor}
-              
+              onArrowsChange={handleArrowsChange}
               customBoardStyle={{
                 borderRadius: '12px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
