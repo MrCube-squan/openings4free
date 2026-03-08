@@ -1829,7 +1829,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Переглянути курси',
     'train.trainingDemo': 'Демо тренування',
     'train.tryItalian': 'Спробуйте Італійську гру',
-    'train.learning': 'Навчання',
+    'train.learning': 'Режим вивчення',
     'train.drilling': 'Тренування',
     'train.noDrillYet': 'Ще немає ліній для тренування',
     'train.noDrillDesc': 'Завершіть лінії в режимі Навчання, щоб розблокувати тренування.',
