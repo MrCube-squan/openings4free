@@ -1105,7 +1105,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'أكمل الخطوط لفتح وضع التمرين',
     'train.arrowColors': 'اسحب بالنقر الأيمن لرسم الأسهم — Alt للأحمر، Shift للأخضر، Ctrl للأزرق',
     'train.backToCourse': 'العودة إلى الدورة',
-    'train.browseCourses': 'تصفح الدورات',
+    'train.browseCourses': 'استكشاف الدورات',
     'train.trainingDemo': 'عرض التدريب',
     'train.tryItalian': 'جرب الافتتاح الإيطالي',
     'train.learning': 'وضع الدراسة',
