@@ -57,6 +57,26 @@ const squareToCoords = (sq: Square, orientation: 'white' | 'black'): { x: number
 
 const HIDDEN_KNIGHT_ARROW_COLOR = 'rgba(0,0,0,0)';
 
+const areArrowListsEqual = (
+  a: Array<[Square, Square, string]>,
+  b: Array<[Square, Square, string]>
+): boolean => {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i += 1) {
+    if (a[i][0] !== b[i][0] || a[i][1] !== b[i][1] || a[i][2] !== b[i][2]) return false;
+  }
+  return true;
+};
+
+const isSameKnightArrow = (
+  a: { from: Square; to: Square; color: string } | null,
+  b: { from: Square; to: Square; color: string } | null
+): boolean => {
+  if (!a && !b) return true;
+  if (!a || !b) return false;
+  return a.from === b.from && a.to === b.to && a.color === b.color;
+};
+
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
