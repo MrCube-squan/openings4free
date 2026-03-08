@@ -419,7 +419,7 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: 'Modern 6. h3 (Kasparian)', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','h3','e6','g4','d5','exd5','Nxd5','Nde2','Bb4'] },
     { name: '6. Be3 e6 (Anti-English)', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','Be3','e6','g4','h6','h3','Nc6','Bg2','Be7'] },
     { name: 'Gelfand', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','Be2','e5','Nb3','Be7','O-O','O-O','Kh1','Nc6'] },
-    { name: 'Polugaevsky (6. Bg5 e6 7. f4 b5)', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','Bg5','e6','f4','b5','e5','dxe5','fxe5','Qc7'] },
+    { name: 'Polugaevsky (6. Bg5 e6 7. f4 b5)', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','Bg5','e6','f4','b5','e5','dxe5','fxe5','Qc7','exf6','Qe5+','Be2','Qxg5'] },
     { name: 'Byrne Attack', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','Be3','e5','Nb3','Be6','Qd2','Nbd7','f3','b5','a4'] },
     { name: 'Verbovsky (6. a4)', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','a4','e5','Nf3','Be7','Bc4','O-O','O-O','Be6'] },
     { name: 'Gothenburg Variation', moves: ['e4','c5','Nf3','d6','d4','cxd4','Nxd4','Nf6','Nc3','a6','Bg5','e6','f4','Be7','Qf3','h6','Bh4','g5','fxg5','Nfd7'] },
