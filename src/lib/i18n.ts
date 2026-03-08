@@ -223,7 +223,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Reset',
     'trainer.next': 'Next',
     'trainer.accuracy': 'Accuracy',
-    'trainer.correct': 'Correct',
+    'trainer.mistakes': 'Mistakes',
     'trainer.cancel': 'Cancel',
     'trainer.addNote': 'Add Note',
     'trainer.notePlaceholder': 'Add a personal note for this move...',
