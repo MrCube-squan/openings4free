@@ -168,6 +168,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
       const move = currentLine.moves[currentMoveIndex];
+      const delay = pendingPremove ? 250 : 400;
       setTimeout(() => {
         const newGame = new Chess(game.fen());
         try {
@@ -176,13 +177,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           const newMoveIndex = currentMoveIndex + 1;
           setCurrentMoveIndex(newMoveIndex);
           checkLineComplete(newMoveIndex);
-          if (pendingPremove) {
-            setTimeout(() => setPendingPremove(null), 0);
-          }
         } catch (e) {
           console.error('Invalid move:', move);
         }
-      }, 500);
+      }, delay);
     }
   }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove, checkLineComplete]);
 
@@ -192,7 +190,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     if (isPlayerTurn && pendingPremove) {
       const { from, to, piece } = pendingPremove;
       setPendingPremove(null);
-      setTimeout(() => { handlePieceDrop(from, to, piece); }, 50);
+      // Use rAF for immediate, smooth execution on touch devices
+      requestAnimationFrame(() => { handlePieceDrop(from, to, piece); });
     }
   }, [isPlayerTurn, pendingPremove]);
 
