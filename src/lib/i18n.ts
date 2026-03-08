@@ -1,5 +1,6 @@
 export const languages = [
   { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'en-US', name: 'English (US)', flag: '🇺🇸' },
   { code: 'es', name: 'Español', flag: '🇪🇸' },
   { code: 'fr', name: 'Français', flag: '🇫🇷' },
   { code: 'pt', name: 'Português', flag: '🇧🇷' },
@@ -20,7 +21,6 @@ export const languages = [
   { code: 'no', name: 'Norsk', flag: '🇳🇴' },
   { code: 'da', name: 'Dansk', flag: '🇩🇰' },
   { code: 'el', name: 'Ελληνικά', flag: '🇬🇷' },
-  { code: 'en-US', name: 'English (US)', flag: '🇺🇸' },
 ] as const;
 
 export type LangCode = (typeof languages)[number]['code'];
