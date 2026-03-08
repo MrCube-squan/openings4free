@@ -153,7 +153,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           setCurrentMoveIndex(newMoveIndex);
           checkLineComplete(newMoveIndex);
           if (pendingPremove) {
-            setTimeout(() => setPendingPremove(null), 50);
+            setTimeout(() => setPendingPremove(null), 0);
           }
         } catch (e) {
           console.error('Invalid move:', move);
@@ -168,7 +168,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     if (isPlayerTurn && pendingPremove) {
       const { from, to, piece } = pendingPremove;
       setPendingPremove(null);
-      setTimeout(() => { handlePieceDrop(from, to, piece); }, 100);
+      setTimeout(() => { handlePieceDrop(from, to, piece); }, 50);
     }
   }, [isPlayerTurn, pendingPremove]);
 
@@ -176,8 +176,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     if (!isPlayerTurn) {
       setPendingPremove({ from: sourceSquare, to: targetSquare, piece });
       setCustomSquareStyles({
-        [sourceSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
-        [targetSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
+        [sourceSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
+        [targetSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
       });
       return false;
     }
@@ -254,7 +254,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         if (piece && piece.color === playerPieceColor) {
           setSelectedSquare(square);
           setCustomSquareStyles({
-            [square]: { backgroundColor: 'hsl(210, 80%, 55%, 0.4)' },
+            [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
           });
         }
         return;
@@ -270,7 +270,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       if (piece && piece.color === playerPieceColor) {
         setSelectedSquare(square);
         setCustomSquareStyles({
-          [square]: { backgroundColor: 'hsl(210, 80%, 55%, 0.4)' },
+          [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
         });
         return;
       }
@@ -281,8 +281,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         const pieceString = `${selectedPiece.color}${selectedPiece.type.toUpperCase()}`;
         setPendingPremove({ from: selectedSquare, to: square, piece: pieceString });
         setCustomSquareStyles({
-          [selectedSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
-          [square]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
+          [selectedSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
+          [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
         });
       }
       setSelectedSquare(null);
@@ -321,8 +321,13 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   const goBackMove = () => {
     if (currentMoveIndex > 0) {
+      // White: go back 2 half-moves (1 full move) to return to White's turn
+      // Black: go back 3 half-moves to return to Black's previous turn
+      // But at minimum, go back at least 1 move
+      const stepsBack = playerColor === 'white' ? 2 : 3;
+      const targetIndex = Math.max(0, currentMoveIndex - stepsBack);
+      
       const newGame = new Chess();
-      const targetIndex = Math.max(0, currentMoveIndex - 1);
       for (let i = 0; i < targetIndex; i++) {
         try { newGame.move(currentLine.moves[i]); } catch (e) { break; }
       }

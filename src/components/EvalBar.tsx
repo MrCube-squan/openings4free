@@ -34,8 +34,10 @@ const START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 // Module-level cache persists across component remounts
 const evalCache = new Map<string, { cp?: number; mate?: number }>();
 
+const MAX_EVAL = 5.0; // Cap display at ±5.00
+
 const EvalBar = ({ fen, orientation }: EvalBarProps) => {
-  const [cp, setCp] = useState(20);
+  const [cp, setCp] = useState(20); // centipawns
   const [mate, setMate] = useState<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -68,12 +70,21 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
         const data = await res.json();
         if (data.pvs && data.pvs[0]) {
           const pv = data.pvs[0];
-          const result = pv.mate !== undefined
-            ? { mate: pv.mate as number }
-            : { cp: (pv.cp ?? 0) as number };
-          evalCache.set(fen, result);
-          setMate(result.mate ?? null);
-          setCp(result.cp ?? 0);
+          // Parse score mate and score cp from API response
+          if (pv.mate !== undefined && pv.mate !== null) {
+            // mate value: positive = White mates in N, negative = Black mates in N
+            const result = { mate: pv.mate as number };
+            evalCache.set(fen, result);
+            setMate(result.mate);
+            setCp(0);
+          } else {
+            // cp value: positive = White advantage, negative = Black advantage
+            const cpVal = (pv.cp ?? 0) as number;
+            const result = { cp: cpVal };
+            evalCache.set(fen, result);
+            setMate(null);
+            setCp(cpVal);
+          }
         }
       } catch {
         // Keep material fallback
@@ -91,12 +102,18 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
   let evalText: string;
 
   if (mate !== null) {
+    // Mate: full bar to winning side
     whitePercent = mate > 0 ? 97 : 3;
     evalText = `M${Math.abs(mate)}`;
   } else {
-    whitePercent = Math.min(97, Math.max(3, 50 + (cp / 100) * 10));
+    // Convert centipawns to pawns
     const pawns = cp / 100;
-    evalText = pawns >= 0 ? `+${pawns.toFixed(1)}` : pawns.toFixed(1);
+    // Clamp to ±MAX_EVAL for display
+    const clampedPawns = Math.max(-MAX_EVAL, Math.min(MAX_EVAL, pawns));
+    // Map 0.00 to 50%, ±MAX_EVAL to 3%/97%
+    // Linear mapping: percent = 50 + (clampedPawns / MAX_EVAL) * 47
+    whitePercent = Math.min(97, Math.max(3, 50 + (clampedPawns / MAX_EVAL) * 47));
+    evalText = pawns >= 0 ? `+${clampedPawns.toFixed(1)}` : clampedPawns.toFixed(1);
   }
 
   const displayPercent = orientation === 'white' ? whitePercent : 100 - whitePercent;
@@ -106,11 +123,11 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
   return (
     <div className="flex flex-col w-8 rounded-lg overflow-hidden border border-border relative" style={{ height: '100%', minHeight: '300px' }}>
       <div
-        className="bg-zinc-800 transition-all duration-700 ease-out"
+        className="bg-zinc-800 transition-all duration-500 ease-out"
         style={{ height: `${100 - displayPercent}%` }}
       />
       <div
-        className="bg-zinc-100 transition-all duration-700 ease-out flex-1"
+        className="bg-zinc-100 transition-all duration-500 ease-out flex-1"
       />
       <div
         className={`absolute left-0 right-0 flex justify-center ${
