@@ -382,9 +382,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const revealHint = () => {
     setShowHint(true);
     setHadMistake(true);
+    setTotalMistakes(prev => prev + 1);
   };
 
-  const accuracy = totalMoves > 0 ? Math.round((correctMoves / totalMoves) * 100) : 0;
+  const accuracy = totalMoves > 0 ? Math.round(((totalMoves - totalMistakes) / totalMoves) * 100) : 0;
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
