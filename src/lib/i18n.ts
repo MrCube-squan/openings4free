@@ -1271,7 +1271,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.ctaButton': 'Gratis Trainen',
     'home.credit': 'Gemaakt door Mr.Cube_k6j op YouTube en TikTok',
     'home.contact': 'Fouten in de theorie of problemen? Mail me op',
-    'feature.realGameLines': 'Echte Partijlijnen',
+    'feature.realGameLines': 'Lijnen uit Echte Partijen',
     'feature.realGameLinesDesc': 'Zetten uit miljoenen Lichess-partijen. Leer wat je echt tegenkomt.',
     'feature.spacedRepetition': 'Gespreide Herhaling',
     'feature.spacedRepetitionDesc': 'Slimme planning op basis van je nauwkeurigheid. Moeilijke lijnen komen vaker terug.',
