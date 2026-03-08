@@ -1103,6 +1103,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'الحركات الخاطئة تظهر تغذية راجعة ويمكنك المحاولة مرة أخرى',
     'train.hintTip': 'استخدم زر التلميح إذا كنت عالقاً (يظهر سهماً على الرقعة!)',
     'train.drillUnlock': 'أكمل الخطوط لفتح وضع التمرين',
+    'train.arrowColors': 'اسحب بالنقر الأيمن لرسم الأسهم — Alt للأحمر، Shift للأخضر، Alt+Shift للأزرق',
     'train.backToCourse': 'العودة إلى الدورة',
     'train.browseCourses': 'تصفح الدورات',
     'train.trainingDemo': 'عرض التدريب',
