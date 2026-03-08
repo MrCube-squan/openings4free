@@ -417,46 +417,59 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               const to = squareToCoords(hintData.knightArrow.to, playerColor);
               const dx = to.x - from.x;
               const dy = to.y - from.y;
-              // L-shape: go along the longer axis first, then turn
-              const mid = Math.abs(dx) < Math.abs(dy)
-                ? { x: from.x, y: to.y }
-                : { x: to.x, y: from.y };
-              // Shorten end slightly for arrowhead
-              const endDx = to.x - mid.x;
-              const endDy = to.y - mid.y;
-              const endLen = Math.sqrt(endDx * endDx + endDy * endDy);
-              const shorten = endLen > 0 ? 12 : 0;
-              const end = {
-                x: to.x - (endDx / endLen) * shorten,
-                y: to.y - (endDy / endLen) * shorten,
+              const adx = Math.abs(dx);
+              const ady = Math.abs(dy);
+              
+              // L-shape: longer leg first, then short perpendicular leg
+              // For knight: one axis is 2 squares (200 units), other is 1 square (100 units)
+              const mid = ady > adx
+                ? { x: from.x, y: to.y }  // vertical first, then horizontal
+                : { x: to.x, y: from.y }; // horizontal first, then vertical
+              
+              // Arrow direction for the last segment (mid → to)
+              const lastDx = to.x - mid.x;
+              const lastDy = to.y - mid.y;
+              const lastLen = Math.sqrt(lastDx * lastDx + lastDy * lastDy);
+              const ndx = lastDx / lastLen;
+              const ndy = lastDy / lastLen;
+              
+              // Shorten the line so arrowhead tip lands at square center
+              const headSize = 28;
+              const lineEnd = {
+                x: to.x - ndx * headSize,
+                y: to.y - ndy * headSize,
               };
+              
+              // Arrowhead triangle points
+              const tipX = to.x;
+              const tipY = to.y;
+              const baseX = to.x - ndx * headSize;
+              const baseY = to.y - ndy * headSize;
+              const perpX = -ndy;
+              const perpY = ndx;
+              const halfW = 18;
+              
+              const arrowHead = `${tipX},${tipY} ${baseX + perpX * halfW},${baseY + perpY * halfW} ${baseX - perpX * halfW},${baseY - perpY * halfW}`;
+              
               return (
                 <svg
                   viewBox="0 0 800 800"
                   className="absolute inset-0 w-full h-full pointer-events-none"
                   style={{ zIndex: 10, borderRadius: '12px' }}
                 >
-                  <defs>
-                    <marker
-                      id="knight-arrowhead"
-                      markerWidth="10"
-                      markerHeight="7"
-                      refX="8"
-                      refY="3.5"
-                      orient="auto"
-                    >
-                      <polygon points="0 0, 10 3.5, 0 7" fill="hsl(38, 95%, 55%)" />
-                    </marker>
-                  </defs>
                   <polyline
-                    points={`${from.x},${from.y} ${mid.x},${mid.y} ${end.x},${end.y}`}
+                    points={`${from.x},${from.y} ${mid.x},${mid.y} ${lineEnd.x},${lineEnd.y}`}
                     fill="none"
                     stroke="hsl(38, 95%, 55%)"
-                    strokeWidth="16"
+                    strokeWidth="14"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    opacity="0.8"
-                    markerEnd="url(#knight-arrowhead)"
+                    opacity="0.85"
+                  />
+                  <polygon
+                    points={arrowHead}
+                    fill="hsl(38, 95%, 55%)"
+                    opacity="0.85"
                   />
                 </svg>
               );
