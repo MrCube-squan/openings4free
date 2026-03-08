@@ -20,6 +20,7 @@ export const languages = [
   { code: 'no', name: 'Norsk', flag: '🇳🇴' },
   { code: 'da', name: 'Dansk', flag: '🇩🇰' },
   { code: 'el', name: 'Ελληνικά', flag: '🇬🇷' },
+  { code: 'en-US', name: 'English (US)', flag: '🇺🇸' },
 ] as const;
 
 export type LangCode = (typeof languages)[number]['code'];
@@ -265,7 +266,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'nav.friends': 'Friends',
     'friends.title': 'Friends & Challenges',
     'friends.subtitle': 'Compete with friends on weekly and monthly leaderboards.',
-    'friends.loginRequired': 'Log in to connect with friends and compete on leaderboards.',
+    'friends.loginRequired': 'Sign in to make friends, compete on leaderboards, and push each other to learn more lines!',
     'friends.yourName': 'Your display name',
     'friends.leaderboard': 'Leaderboard',
     'friends.friendsList': 'Friends',
@@ -2416,6 +2417,9 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.pass': 'Φάση',
     'trainer.test': 'Δοκιμή',
     'home.creatorBadge': 'Δημιουργήθηκε από τον Mr.Cube_k6j στο YouTube και TikTok',
+  },
+  'en-US': {
+    'friends.loginRequired': 'Sign in to make friends, compete on leaderboards, and push each other to learn more lines!',
   },
 };
 
