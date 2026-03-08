@@ -10,6 +10,7 @@ import CourseDetail from "./pages/CourseDetail";
 import Train from "./pages/Train";
 import Auth from "./pages/Auth";
 import Friends from "./pages/Friends";
+import Account from "./pages/Account";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
