@@ -40,6 +40,21 @@ const getArrowFromMove = (game: Chess, sanMove: string): [Square, Square] | null
   return null;
 };
 
+const isKnightMove = (from: Square, to: Square): boolean => {
+  const dx = Math.abs(from.charCodeAt(0) - to.charCodeAt(0));
+  const dy = Math.abs(parseInt(from[1]) - parseInt(to[1]));
+  return (dx === 1 && dy === 2) || (dx === 2 && dy === 1);
+};
+
+const squareToCoords = (sq: Square, orientation: 'white' | 'black'): { x: number; y: number } => {
+  const file = sq.charCodeAt(0) - 97; // a=0 ... h=7
+  const rank = parseInt(sq[1]) - 1;   // 1=0 ... 8=7
+  if (orientation === 'white') {
+    return { x: file * 100 + 50, y: (7 - rank) * 100 + 50 };
+  }
+  return { x: (7 - file) * 100 + 50, y: rank * 100 + 50 };
+};
+
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
@@ -88,12 +103,15 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const currentLine = lines[currentLineIndex];
   const isPlayerTurn = (game.turn() === 'w') === (playerColor === 'white');
 
-  const hintArrow = useMemo(() => {
-    if (!showHint || !isPlayerTurn || currentMoveIndex >= currentLine.moves.length) return [];
+  const hintData = useMemo(() => {
+    if (!showHint || !isPlayerTurn || currentMoveIndex >= currentLine.moves.length) return { arrows: [], knightArrow: null };
     const expectedMove = currentLine.moves[currentMoveIndex];
     const arrow = getArrowFromMove(game, expectedMove);
-    if (arrow) return [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>;
-    return [];
+    if (!arrow) return { arrows: [], knightArrow: null };
+    if (isKnightMove(arrow[0], arrow[1])) {
+      return { arrows: [], knightArrow: { from: arrow[0], to: arrow[1] } };
+    }
+    return { arrows: [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>, knightArrow: null };
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
@@ -382,7 +400,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               boardOrientation={playerColor}
               arePremovesAllowed={true}
               showBoardNotation={settings.showCoordinates}
-              customArrows={hintArrow}
+              customArrows={hintData.arrows}
               customArrowColor={arrowColor}
               customBoardStyle={{
                 borderRadius: '12px',
@@ -392,6 +410,56 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               customLightSquareStyle={{ backgroundColor: currentTheme.light }}
               customSquareStyles={customSquareStyles}
             />
+            {/* L-shaped knight arrow overlay */}
+            {hintData.knightArrow && (() => {
+              const from = squareToCoords(hintData.knightArrow.from, playerColor);
+              const to = squareToCoords(hintData.knightArrow.to, playerColor);
+              const dx = to.x - from.x;
+              const dy = to.y - from.y;
+              // L-shape: go along the longer axis first, then turn
+              const mid = Math.abs(dx) < Math.abs(dy)
+                ? { x: from.x, y: to.y }
+                : { x: to.x, y: from.y };
+              // Shorten end slightly for arrowhead
+              const endDx = to.x - mid.x;
+              const endDy = to.y - mid.y;
+              const endLen = Math.sqrt(endDx * endDx + endDy * endDy);
+              const shorten = endLen > 0 ? 12 : 0;
+              const end = {
+                x: to.x - (endDx / endLen) * shorten,
+                y: to.y - (endDy / endLen) * shorten,
+              };
+              return (
+                <svg
+                  viewBox="0 0 800 800"
+                  className="absolute inset-0 w-full h-full pointer-events-none"
+                  style={{ zIndex: 10, borderRadius: '12px' }}
+                >
+                  <defs>
+                    <marker
+                      id="knight-arrowhead"
+                      markerWidth="10"
+                      markerHeight="7"
+                      refX="8"
+                      refY="3.5"
+                      orient="auto"
+                    >
+                      <polygon points="0 0, 10 3.5, 0 7" fill="hsl(38, 95%, 55%)" />
+                    </marker>
+                  </defs>
+                  <polyline
+                    points={`${from.x},${from.y} ${mid.x},${mid.y} ${end.x},${end.y}`}
+                    fill="none"
+                    stroke="hsl(38, 95%, 55%)"
+                    strokeWidth="16"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    opacity="0.8"
+                    markerEnd="url(#knight-arrowhead)"
+                  />
+                </svg>
+              );
+            })()}
           </div>
 
           <AnimatePresence>

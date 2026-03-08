@@ -31,16 +31,18 @@ const evaluateMaterial = (fen: string): number => {
 
 const START_FEN = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
 
+// Module-level cache persists across component remounts
+const evalCache = new Map<string, { cp?: number; mate?: number }>();
+
 const EvalBar = ({ fen, orientation }: EvalBarProps) => {
   const [cp, setCp] = useState(20);
   const [mate, setMate] = useState<number | null>(null);
   const abortRef = useRef<AbortController | null>(null);
-  const cacheRef = useRef<Map<string, { cp?: number; mate?: number }>>(new Map());
 
   useEffect(() => {
     abortRef.current?.abort();
 
-    const cached = cacheRef.current.get(fen);
+    const cached = evalCache.get(fen);
     if (cached) {
       setMate(cached.mate ?? null);
       setCp(cached.cp ?? 0);
@@ -69,7 +71,7 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
           const result = pv.mate !== undefined
             ? { mate: pv.mate as number }
             : { cp: (pv.cp ?? 0) as number };
-          cacheRef.current.set(fen, result);
+          evalCache.set(fen, result);
           setMate(result.mate ?? null);
           setCp(result.cp ?? 0);
         }
