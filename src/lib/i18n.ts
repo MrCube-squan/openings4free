@@ -1072,6 +1072,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'ログインしてメモを追加し、進捗を追跡しましょう',
     'trainer.savedNote': 'メモを保存しました',
     'trainer.errorReport': '理論のエラーや問題を見つけましたか？メールしてください',
+    'trainer.pass': 'パス',
+    'trainer.test': 'テスト',
     'home.creatorBadge': 'Mr.Cube_k6j が YouTube と TikTok で制作',
   },
   ar: {
