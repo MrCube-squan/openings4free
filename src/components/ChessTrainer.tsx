@@ -103,12 +103,15 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const currentLine = lines[currentLineIndex];
   const isPlayerTurn = (game.turn() === 'w') === (playerColor === 'white');
 
-  const hintArrow = useMemo(() => {
-    if (!showHint || !isPlayerTurn || currentMoveIndex >= currentLine.moves.length) return [];
+  const hintData = useMemo(() => {
+    if (!showHint || !isPlayerTurn || currentMoveIndex >= currentLine.moves.length) return { arrows: [], knightArrow: null };
     const expectedMove = currentLine.moves[currentMoveIndex];
     const arrow = getArrowFromMove(game, expectedMove);
-    if (arrow) return [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>;
-    return [];
+    if (!arrow) return { arrows: [], knightArrow: null };
+    if (isKnightMove(arrow[0], arrow[1])) {
+      return { arrows: [], knightArrow: { from: arrow[0], to: arrow[1] } };
+    }
+    return { arrows: [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>, knightArrow: null };
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
