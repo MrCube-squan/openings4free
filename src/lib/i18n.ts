@@ -175,7 +175,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.opponentAuto': "The opponent's moves are played automatically",
     'train.wrongFeedback': 'Wrong moves show feedback and you can try again',
     'train.hintTip': 'Use the show move button if you\'re stuck (shows an arrow on the board!)',
-    'train.drillUnlock': 'Complete lines to unlock Drill mode',
+    'train.drillUnlock': 'Each line requires two perfect passes: one guided, one from memory',
     'train.arrowColors': 'Right-click drag to draw arrows — hold Alt for red, Shift for green, Ctrl for blue',
     'train.backToCourse': 'Back to course',
     'train.browseCourses': 'Browse courses',
