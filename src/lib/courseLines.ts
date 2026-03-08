@@ -809,7 +809,6 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { "Alien Gambit, 8. Ne5+ Main Line": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','Kg8','Ne5','e6','Bc4','Bd6','O-O','b5','Bb3','a5'] },
     { "Alien Gambit, 10. Qe2": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','e6','Bd3','Bd6','O-O','Re8','Ne5+','Kg8','f4','c5'] },
     { "Alien Gambit, 7... Nbd7": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','Nbd7','Bc4+','e6','O-O','Bd6','Re1','Re8'] },
-    { "Alien Gambit, Sicilian Variation (Transposed)": ['e4','c5','Nf3','Nc6','d4','cxd4','Nxd4','Nf6','Nc3','e6','Ndb5','d6','Bf4','e5','Bg5','a6','Na3','b5','Bxf6','gxf6','Nd5','f5','Nxb5','axb5','Bxb5'] },
     { "Alien Gambit, 9. c3 Line": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','e6','Bd3','Bd6','Ne5+','Kg8','O-O','c5','c3','Nc6'] },
     { "Alien Gambit, 8. Bc4+ Variation": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','e6','Bc4+','Nd5','Ne5+','Kg8','O-O','Nd7','Ng6'] },
     { "Alien Gambit, Rapid Attack": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','Kg8','Bc4+','e6','Qe2','Nd5','Ne5','Nd7','Ng6'] },
