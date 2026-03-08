@@ -1665,7 +1665,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'रीसेट',
     'trainer.next': 'अगला',
     'trainer.accuracy': 'सटीकता',
-    'trainer.correct': 'सही',
+    'trainer.mistakes': 'गलतियाँ',
     'trainer.cancel': 'रद्द करें',
     'trainer.addNote': 'नोट जोड़ें',
     'trainer.notePlaceholder': 'इस चाल के लिए एक व्यक्तिगत नोट जोड़ें...',
