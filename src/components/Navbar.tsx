@@ -162,7 +162,7 @@ const Navbar = () => {
                           <AlertDialogDescription>{t('nav.deleteConfirm')}</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>{t('trainer.cancel')}</AlertDialogCancel>
                           <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
                             {t('nav.deleteAccount')}
                           </AlertDialogAction>
@@ -274,7 +274,7 @@ const Navbar = () => {
                           <AlertDialogDescription>{t('nav.deleteConfirm')}</AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogCancel>{t('trainer.cancel')}</AlertDialogCancel>
                           <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
                             {t('nav.deleteAccount')}
                           </AlertDialogAction>
