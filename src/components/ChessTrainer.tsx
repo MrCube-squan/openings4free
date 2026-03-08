@@ -527,7 +527,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
                 ? 'bg-accent/15 text-accent' 
                 : 'bg-primary/15 text-primary'
             }`}>
-              {linePass === 1 ? `Pass 1 — ${t('train.learning')}` : `Pass 2 — Test`}
+              {linePass === 1 ? `${t('trainer.pass')} 1 — ${t('train.learning')}` : `${t('trainer.pass')} 2 — ${t('trainer.test')}`}
             </div>
           </div>
           <div className="text-lg font-bold text-foreground mb-3">{currentLine.name}</div>

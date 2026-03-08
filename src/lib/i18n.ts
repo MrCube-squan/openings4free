@@ -125,6 +125,8 @@ type TranslationKeys = {
   'trainer.signInNotes': string;
   'trainer.savedNote': string;
   'trainer.errorReport': string;
+  'trainer.pass': string;
+  'trainer.test': string;
   'home.creatorBadge': string;
 };
 
@@ -230,6 +232,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Sign in to add personal notes & track progress',
     'trainer.savedNote': 'Note saved',
     'trainer.errorReport': 'Found errors in theory or have problems? Email me at',
+    'trainer.pass': 'Pass',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Created by Mr.Cube_k6j on YouTube and TikTok',
   },
   es: {
@@ -333,6 +337,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Inicia sesión para añadir notas personales y seguir tu progreso',
     'trainer.savedNote': 'Nota guardada',
     'trainer.errorReport': '¿Encontraste errores en la teoría o tienes problemas? Escríbeme a',
+    'trainer.pass': 'Fase',
+    'trainer.test': 'Prueba',
     'home.creatorBadge': 'Creado por Mr.Cube_k6j en YouTube y TikTok',
   },
   fr: {
@@ -436,6 +442,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Connectez-vous pour ajouter des notes et suivre vos progrès',
     'trainer.savedNote': 'Note enregistrée',
     'trainer.errorReport': 'Vous avez trouvé des erreurs dans la théorie ou des problèmes ? Écrivez-moi à',
+    'trainer.pass': 'Étape',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Créé par Mr.Cube_k6j sur YouTube et TikTok',
   },
   pt: {
@@ -539,6 +547,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Entre para adicionar notas pessoais e acompanhar seu progresso',
     'trainer.savedNote': 'Nota salva',
     'trainer.errorReport': 'Encontrou erros na teoria ou tem problemas? Envie-me um email em',
+    'trainer.pass': 'Fase',
+    'trainer.test': 'Teste',
     'home.creatorBadge': 'Criado por Mr.Cube_k6j no YouTube e TikTok',
   },
   de: {
@@ -642,6 +652,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Melde dich an, um persönliche Notizen hinzuzufügen und Fortschritte zu verfolgen',
     'trainer.savedNote': 'Notiz gespeichert',
     'trainer.errorReport': 'Fehler in der Theorie gefunden oder Probleme? Schreib mir eine E-Mail an',
+    'trainer.pass': 'Durchgang',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Erstellt von Mr.Cube_k6j auf YouTube und TikTok',
   },
   it: {
@@ -745,6 +757,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Accedi per aggiungere note personali e monitorare i progressi',
     'trainer.savedNote': 'Nota salvata',
     'trainer.errorReport': 'Hai trovato errori nella teoria o hai problemi? Scrivimi a',
+    'trainer.pass': 'Fase',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Creato da Mr.Cube_k6j su YouTube e TikTok',
   },
   ru: {
@@ -848,6 +862,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Войдите, чтобы добавлять заметки и отслеживать прогресс',
     'trainer.savedNote': 'Заметка сохранена',
     'trainer.errorReport': 'Нашли ошибки в теории или проблемы? Напишите мне на',
+    'trainer.pass': 'Этап',
+    'trainer.test': 'Тест',
     'home.creatorBadge': 'Создано Mr.Cube_k6j на YouTube и TikTok',
   },
   zh: {
@@ -951,6 +967,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': '登录以添加个人笔记和跟踪进度',
     'trainer.savedNote': '笔记已保存',
     'trainer.errorReport': '发现理论错误或有问题？请发邮件至',
+    'trainer.pass': '阶段',
+    'trainer.test': '测试',
     'home.creatorBadge': '由 Mr.Cube_k6j 在 YouTube 和 TikTok 上创建',
   },
   ja: {
@@ -1054,6 +1072,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'ログインしてメモを追加し、進捗を追跡しましょう',
     'trainer.savedNote': 'メモを保存しました',
     'trainer.errorReport': '理論のエラーや問題を見つけましたか？メールしてください',
+    'trainer.pass': 'パス',
+    'trainer.test': 'テスト',
     'home.creatorBadge': 'Mr.Cube_k6j が YouTube と TikTok で制作',
   },
   ar: {
@@ -1157,6 +1177,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'سجل الدخول لإضافة ملاحظات شخصية وتتبع تقدمك',
     'trainer.savedNote': 'تم حفظ الملاحظة',
     'trainer.errorReport': 'وجدت أخطاء في النظرية أو لديك مشاكل؟ أرسل لي بريدًا إلى',
+    'trainer.pass': 'مرحلة',
+    'trainer.test': 'اختبار',
     'home.creatorBadge': 'أنشأه Mr.Cube_k6j على YouTube و TikTok',
   },
   ko: {
@@ -1260,6 +1282,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': '로그인하여 개인 메모를 추가하고 진행 상황을 추적하세요',
     'trainer.savedNote': '메모 저장됨',
     'trainer.errorReport': '이론에 오류가 있거나 문제가 있으신가요? 이메일을 보내주세요',
+    'trainer.pass': '단계',
+    'trainer.test': '테스트',
     'home.creatorBadge': 'Mr.Cube_k6j가 YouTube와 TikTok에서 제작',
   },
   nl: {
@@ -1363,6 +1387,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Log in om persoonlijke notities toe te voegen en voortgang bij te houden',
     'trainer.savedNote': 'Notitie opgeslagen',
     'trainer.errorReport': 'Fouten gevonden in de theorie of problemen? Mail me op',
+    'trainer.pass': 'Stap',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Gemaakt door Mr.Cube_k6j op YouTube en TikTok',
   },
   pl: {
@@ -1466,6 +1492,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Zaloguj się, aby dodawać notatki i śledzić postępy',
     'trainer.savedNote': 'Notatka zapisana',
     'trainer.errorReport': 'Znalazłeś błędy w teorii lub masz problemy? Napisz do mnie na',
+    'trainer.pass': 'Etap',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Stworzone przez Mr.Cube_k6j na YouTube i TikTok',
   },
   tr: {
@@ -1569,6 +1597,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Kişisel notlar eklemek ve ilerlemenizi takip etmek için giriş yapın',
     'trainer.savedNote': 'Not kaydedildi',
     'trainer.errorReport': 'Teoride hatalar buldunuz veya sorunlarınız mı var? Bana e-posta gönderin',
+    'trainer.pass': 'Aşama',
+    'trainer.test': 'Sınav',
     'home.creatorBadge': 'Mr.Cube_k6j tarafından YouTube ve TikTok\'ta oluşturuldu',
   },
   hi: {
@@ -1672,6 +1702,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'व्यक्तिगत नोट्स जोड़ने और प्रगति ट्रैक करने के लिए साइन इन करें',
     'trainer.savedNote': 'नोट सहेजा गया',
     'trainer.errorReport': 'सिद्धांत में त्रुटियां मिलीं या समस्याएं हैं? मुझे ईमेल करें',
+    'trainer.pass': 'चरण',
+    'trainer.test': 'परीक्षा',
     'home.creatorBadge': 'Mr.Cube_k6j द्वारा YouTube और TikTok पर बनाया गया',
   },
   sv: {
@@ -1775,6 +1807,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Logga in för att lägga till personliga anteckningar och följa din utveckling',
     'trainer.savedNote': 'Anteckning sparad',
     'trainer.errorReport': 'Hittat fel i teorin eller har problem? Maila mig på',
+    'trainer.pass': 'Steg',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Skapad av Mr.Cube_k6j på YouTube och TikTok',
   },
   uk: {
@@ -1878,6 +1912,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Увійдіть, щоб додавати нотатки та відстежувати прогрес',
     'trainer.savedNote': 'Нотатку збережено',
     'trainer.errorReport': 'Знайшли помилки в теорії або маєте проблеми? Напишіть мені на',
+    'trainer.pass': 'Етап',
+    'trainer.test': 'Тест',
     'home.creatorBadge': 'Створено Mr.Cube_k6j на YouTube та TikTok',
   },
   fi: {
@@ -1981,6 +2017,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Kirjaudu lisätäksesi muistiinpanoja ja seurataksesi edistymistäsi',
     'trainer.savedNote': 'Muistiinpano tallennettu',
     'trainer.errorReport': 'Löysitkö virheitä teoriassa tai ongelmia? Lähetä sähköpostia',
+    'trainer.pass': 'Vaihe',
+    'trainer.test': 'Testi',
     'home.creatorBadge': 'Luonut Mr.Cube_k6j YouTubessa ja TikTokissa',
   },
   no: {
@@ -2084,6 +2122,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Logg inn for å legge til personlige notater og følge fremgangen din',
     'trainer.savedNote': 'Notat lagret',
     'trainer.errorReport': 'Fant du feil i teorien eller har problemer? Send e-post til',
+    'trainer.pass': 'Runde',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Laget av Mr.Cube_k6j på YouTube og TikTok',
   },
   da: {
@@ -2187,6 +2227,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Log ind for at tilføje personlige noter og følge din fremgang',
     'trainer.savedNote': 'Note gemt',
     'trainer.errorReport': 'Fandt du fejl i teorien eller har problemer? Send e-mail til',
+    'trainer.pass': 'Trin',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Skabt af Mr.Cube_k6j på YouTube og TikTok',
   },
   el: {
@@ -2290,6 +2332,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Συνδεθείτε για να προσθέσετε σημειώσεις και να παρακολουθήσετε την πρόοδό σας',
     'trainer.savedNote': 'Σημείωση αποθηκεύτηκε',
     'trainer.errorReport': 'Βρήκατε λάθη στη θεωρία ή έχετε προβλήματα; Στείλτε email στο',
+    'trainer.pass': 'Φάση',
+    'trainer.test': 'Δοκιμή',
     'home.creatorBadge': 'Δημιουργήθηκε από τον Mr.Cube_k6j στο YouTube και TikTok',
   },
 };
