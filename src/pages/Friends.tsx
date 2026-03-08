@@ -215,7 +215,7 @@ const Friends = () => {
                 <LeaderboardSection 
                   entries={monthlyLeaderboard}
                   title={t('friends.monthlyChallenge')}
-                  icon={<Trophy className="h-5 w-5 text-yellow-500" />}
+                  icon={<Trophy className="h-5 w-5 text-primary" />}
                 />
               </div>
 
