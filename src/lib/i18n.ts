@@ -593,7 +593,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Kurse durchsuchen',
     'train.trainingDemo': 'Trainings-Demo',
     'train.tryItalian': 'Probiere die Italienische Eröffnung',
-    'train.learning': 'Lernen',
+    'train.learning': 'Lernmodus',
     'train.drilling': 'Üben',
     'train.noDrillYet': 'Noch keine Linien zum Üben',
     'train.noDrillDesc': 'Vervollständige Linien im Lernmodus, um das Üben freizuschalten.',
