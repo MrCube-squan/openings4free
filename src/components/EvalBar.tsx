@@ -42,7 +42,7 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
   useEffect(() => {
     abortRef.current?.abort();
 
-    const cached = cacheRef.current.get(fen);
+    const cached = evalCache.get(fen);
     if (cached) {
       setMate(cached.mate ?? null);
       setCp(cached.cp ?? 0);
