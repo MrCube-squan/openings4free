@@ -80,7 +80,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   // Listen for modifier keys to change arrow color
   useEffect(() => {
     const getColor = (e: KeyboardEvent | MouseEvent) => {
-      if (e.altKey && e.shiftKey) return 'rgb(0,100,255)';
+      if (e.ctrlKey || e.metaKey) return 'rgb(0,100,255)';
       if (e.altKey) return 'rgb(220,50,50)';
       if (e.shiftKey) return 'rgb(0,160,60)';
       return 'rgb(255,170,0)';
