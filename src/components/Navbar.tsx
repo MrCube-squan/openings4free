@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { useStreak } from '@/hooks/useStreak';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useFriends } from '@/hooks/useFriends';
 import { languages } from '@/lib/i18n';
 import StreakBadge from '@/components/StreakBadge';
 import {
@@ -23,6 +24,13 @@ const Navbar = () => {
   const { user, loading, signOut, isAuthenticated } = useAuth();
   const { streak } = useStreak();
   const { language, setLanguage, t } = useLanguage();
+  const { myProfile } = useFriends();
+  const avatarUrl = (myProfile as any)?.avatar_url;
+  const getInitial = () => {
+    if (myProfile?.username) return myProfile.username[0].toUpperCase();
+    if (user?.email) return user.email[0].toUpperCase();
+    return '?';
+  };
 
   const navLinks = [
     { path: '/courses', labelKey: 'nav.courses' as const },
@@ -98,8 +106,12 @@ const Navbar = () => {
             ) : isAuthenticated ? (
               <>
                 <Link to="/account" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-                  <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
-                    {user?.email?.[0]?.toUpperCase() || '?'}
+                  <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary overflow-hidden">
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
+                    ) : (
+                      getInitial()
+                    )}
                   </div>
                   <span className="text-sm text-muted-foreground truncate max-w-[150px]">
                     {user?.email}
@@ -187,8 +199,12 @@ const Navbar = () => {
                 ) : isAuthenticated ? (
                   <>
                     <Link to="/account" className="flex items-center gap-2 px-3 py-2 hover:opacity-80" onClick={() => setMobileMenuOpen(false)}>
-                      <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
-                        {user?.email?.[0]?.toUpperCase() || '?'}
+                      <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary overflow-hidden">
+                        {avatarUrl ? (
+                          <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
+                        ) : (
+                          getInitial()
+                        )}
                       </div>
                       <span className="text-sm text-muted-foreground truncate">
                         {user?.email}
