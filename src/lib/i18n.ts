@@ -1768,7 +1768,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Återställ',
     'trainer.next': 'Nästa',
     'trainer.accuracy': 'Precision',
-    'trainer.correct': 'Rätt',
+    'trainer.mistakes': 'Misstag',
     'trainer.cancel': 'Avbryt',
     'trainer.addNote': 'Lägg till anteckning',
     'trainer.notePlaceholder': 'Lägg till en personlig anteckning för detta drag...',
