@@ -2138,7 +2138,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Gennemse kurser',
     'train.trainingDemo': 'Træningsdemo',
     'train.tryItalian': 'Prøv Italiensk åbning',
-    'train.learning': 'Læring',
+    'train.learning': 'Studietilstand',
     'train.drilling': 'Træning',
     'train.noDrillYet': 'Ingen linjer at træne endnu',
     'train.noDrillDesc': 'Gennemfør linjer i læringstilstand for at låse træning op.',
