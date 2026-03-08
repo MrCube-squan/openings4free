@@ -1260,7 +1260,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': 'Weet je zeker dat je je account permanent wilt verwijderen? Dit kan niet ongedaan worden gemaakt.',
     'nav.streak': 'dagen reeks',
     'home.badge': 'Gratis Opening Trainer',
-    'home.title': 'Beheers openingen Op de ',
+    'home.title': 'Beheers openingen: De ',
     'home.titleHighlight': 'Beste Manier',
     'home.subtitle': 'Verspil geen uren aan theorievideo\'s. Train lijnen die je onthoudt op het bord.',
     'home.browseCourses': 'Cursussen Bekijken',
