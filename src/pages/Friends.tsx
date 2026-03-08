@@ -172,7 +172,7 @@ const Friends = () => {
                 <div className="flex items-center gap-2">
                   <Input 
                     value={newName} 
-                    onChange={(e) => setNewName(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
+                    onChange={(e) => setNewName(e.target.value.replace(/[^a-zA-Z0-9_/]/g, ''))}
                     className="h-8 w-48"
                     autoFocus
                     maxLength={20}

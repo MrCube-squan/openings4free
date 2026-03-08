@@ -128,7 +128,7 @@ const Auth = () => {
                     type="text"
                     placeholder={t('auth.usernamePlaceholder' as any)}
                     value={username}
-                    onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
+                    onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_/]/g, ''))}
                     className="pl-10"
                     required
                     minLength={3}

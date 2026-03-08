@@ -198,7 +198,7 @@ const Account = () => {
                     <div className="flex items-center gap-2 mt-1">
                       <Input
                         value={newUsername}
-                        onChange={(e) => setNewUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
+                        onChange={(e) => setNewUsername(e.target.value.replace(/[^a-zA-Z0-9_/]/g, ''))}
                         className="h-8"
                         autoFocus
                         maxLength={20}
