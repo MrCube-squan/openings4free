@@ -129,44 +129,18 @@ const Navbar = () => {
               <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
             ) : isAuthenticated ? (
               <>
-                <span className="text-sm text-muted-foreground truncate max-w-[150px]">
-                  {user?.email}
-                </span>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm">
-                      <LogOut className="h-4 w-4 mr-1" />
-                      {t('nav.logout')}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="h-4 w-4 mr-2" />
-                      {t('nav.logout')}
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-destructive focus:text-destructive">
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          {t('nav.deleteAccount')}
-                        </DropdownMenuItem>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>{t('nav.deleteAccount')}</AlertDialogTitle>
-                          <AlertDialogDescription>{t('nav.deleteConfirm')}</AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>{t('trainer.cancel')}</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                            {t('nav.deleteAccount')}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Link to="/account" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                  <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
+                    {user?.email?.[0]?.toUpperCase() || '?'}
+                  </div>
+                  <span className="text-sm text-muted-foreground truncate max-w-[150px]">
+                    {user?.email}
+                  </span>
+                </Link>
+                <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4 mr-1" />
+                  {t('nav.logout')}
+                </Button>
               </>
             ) : (
               <>
