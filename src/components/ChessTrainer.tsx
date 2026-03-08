@@ -64,13 +64,12 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [linesCompleted, setLinesCompleted] = useState(0);
-  const [correctMoves, setCorrectMoves] = useState(0);
+  const [totalMistakes, setTotalMistakes] = useState(0);
   const [totalMoves, setTotalMoves] = useState(0);
-  const [lineCorrectMoves, setLineCorrectMoves] = useState(0);
-  const [lineTotalMoves, setLineTotalMoves] = useState(0);
   const [hadMistake, setHadMistake] = useState(false);
-  const [repeatPending, setRepeatPending] = useState(false);
-  const [isFirstAttempt, setIsFirstAttempt] = useState(true);
+  // linePass: 1 = guided (moves shown), 2 = test (moves hidden)
+  const [linePass, setLinePass] = useState<1 | 2>(1);
+  const [pass1Perfect, setPass1Perfect] = useState(false);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -116,24 +115,31 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
-      const lineAccuracy = lineTotalMoves > 0 ? Math.round((lineCorrectMoves / lineTotalMoves) * 100) : 100;
-      
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       
       setTimeout(() => {
         setLinesCompleted(prev => prev + 1);
-        if (onLineComplete) onLineComplete(currentLineIndex, lineAccuracy);
+        
         if (hadMistake) {
-          setRepeatPending(true);
-          setIsFirstAttempt(false);
+          // Had a mistake — restart this pass
+          resetLine();
+        } else if (linePass === 1) {
+          // Pass 1 perfect — move to pass 2 (test without shown moves)
+          setPass1Perfect(true);
+          setLinePass(2);
           resetLine();
         } else {
-          setIsFirstAttempt(true);
+          // Pass 2 perfect (and pass1 was perfect) — mark as learned
+          if (pass1Perfect && onLineComplete) {
+            onLineComplete(currentLineIndex, 100);
+          }
+          setLinePass(1);
+          setPass1Perfect(false);
           nextLine();
         }
       }, 1000);
     }
-  }, [currentLine.moves.length, lineTotalMoves, lineCorrectMoves, onLineComplete, currentLineIndex, hadMistake]);
+  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect]);
 
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
@@ -190,15 +196,12 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
       const moveSan = moveResult.san;
       setTotalMoves(prev => prev + 1);
-      setLineTotalMoves(prev => prev + 1);
 
       const normalizeSan = (s: string) => s.replace(/x/g, '');
       if (moveSan === expectedMove || moveResult.lan === expectedMove || normalizeSan(moveSan) === normalizeSan(expectedMove)) {
         setGame(newGame);
         setCurrentMoveIndex(prev => prev + 1);
         setFeedback('correct');
-        setCorrectMoves(prev => prev + 1);
-        setLineCorrectMoves(prev => prev + 1);
         setShowHint(false);
         setCustomSquareStyles({
           [sourceSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.4)' },
@@ -209,6 +212,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         return true;
       } else {
         setHadMistake(true);
+        setTotalMistakes(prev => prev + 1);
         setFeedback('incorrect');
         setCustomSquareStyles({
           [sourceSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
@@ -338,10 +342,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setShowHint(false);
     setSelectedSquare(null);
     setCustomSquareStyles({});
-    setLineCorrectMoves(0);
-    setLineTotalMoves(0);
     setHadMistake(false);
-    setRepeatPending(false);
   };
 
   const previousLine = () => {
@@ -357,8 +358,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setShowHint(false);
       setSelectedSquare(null);
       setCustomSquareStyles({});
-      setLineCorrectMoves(0);
-      setLineTotalMoves(0);
+      setLinePass(1);
+      setPass1Perfect(false);
+      setHadMistake(false);
     }
   };
 
@@ -372,19 +374,18 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setShowHint(false);
     setSelectedSquare(null);
     setCustomSquareStyles({});
-    setLineCorrectMoves(0);
-    setLineTotalMoves(0);
     setHadMistake(false);
-    setRepeatPending(false);
-    setIsFirstAttempt(true);
+    setLinePass(1);
+    setPass1Perfect(false);
   };
 
   const revealHint = () => {
     setShowHint(true);
     setHadMistake(true);
+    setTotalMistakes(prev => prev + 1);
   };
 
-  const accuracy = totalMoves > 0 ? Math.round((correctMoves / totalMoves) * 100) : 0;
+  const accuracy = totalMoves > 0 ? Math.round(((totalMoves - totalMistakes) / totalMoves) * 100) : 0;
 
   return (
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
@@ -506,7 +507,16 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
         {/* Current line info */}
         <div className="rounded-xl border border-border bg-card p-5">
-          <div className="text-xs text-muted-foreground mb-1">{t('trainer.currentLine')}</div>
+          <div className="flex items-center justify-between mb-1">
+            <div className="text-xs text-muted-foreground">{t('trainer.currentLine')}</div>
+            <div className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+              linePass === 1 
+                ? 'bg-accent/15 text-accent' 
+                : 'bg-primary/15 text-primary'
+            }`}>
+              {linePass === 1 ? `Pass 1 — ${t('train.learning')}` : `Pass 2 — Test`}
+            </div>
+          </div>
           <div className="text-lg font-bold text-foreground mb-3">{currentLine.name}</div>
           
           <div className="flex gap-1.5 flex-wrap mb-4">
@@ -534,7 +544,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50 border border-border">
                 <span className="text-muted-foreground text-sm">{t('trainer.opponentTurn')}</span>
               </div>
-            ) : (isFirstAttempt || showHint) ? (
+            ) : (linePass === 1 || showHint) ? (
               <div className="flex items-center gap-2 p-3 rounded-lg bg-accent/10 border border-accent/20">
                 <Lightbulb className="h-5 w-5 text-accent" />
                 <span className="text-accent font-mono font-bold text-lg">
@@ -565,8 +575,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             <div className="text-xs text-muted-foreground">{t('trainer.accuracy')}</div>
           </div>
           <div className="rounded-xl border border-border bg-card p-4 text-center">
-            <div className="text-2xl font-bold text-foreground">{correctMoves}</div>
-            <div className="text-xs text-muted-foreground">{t('trainer.correct')}</div>
+            <div className="text-2xl font-bold text-destructive">{totalMistakes}</div>
+            <div className="text-xs text-muted-foreground">{t('trainer.mistakes')}</div>
           </div>
         </div>
 
