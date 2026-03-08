@@ -279,7 +279,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Las jugadas incorrectas muestran feedback y puedes intentar de nuevo',
     'train.hintTip': 'Usa el botón de pista si estás atascado (¡muestra una flecha en el tablero!)',
     'train.drillUnlock': 'Completa líneas para desbloquear el modo Drill',
-    'train.arrowColors': 'Arrastra con clic derecho para dibujar flechas — mantén Alt para rojo, Shift para verde, Alt+Shift para azul',
+    'train.arrowColors': 'Arrastra con clic derecho para dibujar flechas — mantén Alt para rojo, Shift para verde, Ctrl para azul',
     'train.backToCourse': 'Volver al curso',
     'train.browseCourses': 'Ver cursos',
     'train.trainingDemo': 'Demo de Entrenamiento',
