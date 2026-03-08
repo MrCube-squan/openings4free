@@ -1469,7 +1469,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.subtitle': 'Teori videolarına saatler harcamayın. Tahtada hatırlayacağınız varyantları çalışın.',
     'home.browseCourses': 'Kursları Gör',
     'home.whyWorks': 'Openings4Free neden işe yarıyor',
-    'home.whyWorksSubtitle': '"Rakibim çizgileri takip etmiyor" artık yok. Her çizgi gerçek hamlelerden.',
+    'home.whyWorksSubtitle': '"Rakibim varyantları takip etmiyor" artık yok. Her varyant gerçek hamlelerden.',
     'home.ctaTitle': 'Açılışta hata yapmayı bırakmaya hazır mısınız?',
     'home.ctaSubtitle': 'İhtiyacınız olan tüm doğru teoriyi öğrenmek için Openings4Free kullanın.',
     'home.ctaButton': 'Ücretsiz Antrenmana Başla',
