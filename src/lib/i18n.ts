@@ -1564,7 +1564,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.logout': 'लॉग आउट',
     'nav.deleteAccount': 'खाता हटाएं',
     'nav.deleteConfirm': 'क्या आप वाकई अपना खाता स्थायी रूप से हटाना चाहते हैं? यह पूर्ववत नहीं किया जा सकता।',
-    'nav.streak': 'दिन की लकीर',
+    'nav.streak': 'दिन लगातार',
     'home.badge': 'मुफ्त ओपनिंग ट्रेनर',
     'home.title': 'ओपनिंग में महारत: ',
     'home.titleHighlight': 'सबसे अच्छा तरीका',
