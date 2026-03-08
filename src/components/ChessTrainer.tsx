@@ -153,7 +153,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           setCurrentMoveIndex(newMoveIndex);
           checkLineComplete(newMoveIndex);
           if (pendingPremove) {
-            setTimeout(() => setPendingPremove(null), 50);
+            setTimeout(() => setPendingPremove(null), 0);
           }
         } catch (e) {
           console.error('Invalid move:', move);
