@@ -2032,7 +2032,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Fullfør linjer for å låse opp treningsmodus',
     'train.arrowColors': 'Høyreklikk og dra for piler — Alt for rød, Shift for grønn, Ctrl for blå',
     'train.backToCourse': 'Tilbake til kurs',
-    'train.browseCourses': 'Bla gjennom kurs',
+    'train.browseCourses': 'Utforsk kurs',
     'train.trainingDemo': 'Treningsdemo',
     'train.tryItalian': 'Prøv Italiensk åpning',
     'train.learning': 'Studiemodus',
