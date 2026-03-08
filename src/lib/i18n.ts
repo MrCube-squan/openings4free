@@ -693,7 +693,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Completa linee per sbloccare la modalità Drill',
     'train.arrowColors': 'Trascina con clic destro per disegnare frecce — Alt per rosso, Shift per verde, Ctrl per blu',
     'train.backToCourse': 'Torna al corso',
-    'train.browseCourses': 'Sfoglia corsi',
+    'train.browseCourses': 'Esplora i corsi',
     'train.trainingDemo': 'Demo di Allenamento',
     'train.tryItalian': "Prova l'apertura Italiana",
     'train.learning': 'Modalità studio',
