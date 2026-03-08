@@ -153,7 +153,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.credit': 'Created by Mr.Cube_k6j on YouTube and TikTok',
     'home.contact': 'Found errors in theory or have problems? Email me at',
     'feature.realGameLines': 'Real-Game Lines',
-    'feature.realGameLinesDesc': "Moves extracted from millions of Lichess games. Learn what you'll actually face.",
+    'feature.realGameLinesDesc': "Moves extracted from hundreds of Lichess games. Learn what you'll actually face.",
     'feature.spacedRepetition': 'Spaced Repetition',
     'feature.spacedRepetitionDesc': 'Smart scheduling based on your accuracy. Difficult lines come back more often until they stick.',
     'feature.progressTracking': 'Progress Tracking',
