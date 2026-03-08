@@ -1309,7 +1309,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Verkeerde zetten tonen feedback en je kunt opnieuw proberen',
     'train.hintTip': 'Gebruik de hint-knop als je vastzit (toont een pijl op het bord!)',
     'train.drillUnlock': 'Voltooi lijnen om de Drill-modus te ontgrendelen',
-    'train.arrowColors': 'Sleep met rechtermuisknop om pijlen te tekenen — Alt voor rood, Shift voor groen, Alt+Shift voor blauw',
+    'train.arrowColors': 'Sleep met rechtermuisknop om pijlen te tekenen — Alt voor rood, Shift voor groen, Ctrl voor blauw',
     'train.backToCourse': 'Terug naar cursus',
     'train.browseCourses': 'Cursussen bekijken',
     'train.trainingDemo': 'Training Demo',
