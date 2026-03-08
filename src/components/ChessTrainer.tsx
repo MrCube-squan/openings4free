@@ -507,7 +507,16 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
         {/* Current line info */}
         <div className="rounded-xl border border-border bg-card p-5">
-          <div className="text-xs text-muted-foreground mb-1">{t('trainer.currentLine')}</div>
+          <div className="flex items-center justify-between mb-1">
+            <div className="text-xs text-muted-foreground">{t('trainer.currentLine')}</div>
+            <div className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+              linePass === 1 
+                ? 'bg-accent/15 text-accent' 
+                : 'bg-primary/15 text-primary'
+            }`}>
+              {linePass === 1 ? `Pass 1 — ${t('train.learning')}` : `Pass 2 — Test`}
+            </div>
+          </div>
           <div className="text-lg font-bold text-foreground mb-3">{currentLine.name}</div>
           
           <div className="flex gap-1.5 flex-wrap mb-4">
