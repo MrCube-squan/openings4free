@@ -81,6 +81,8 @@ const isSameKnightArrow = (
 
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
+  const [showFlame, setShowFlame] = useState(false);
+  const { streak } = useStreak();
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
   const [currentLineIndex, setCurrentLineIndex] = useState(initialLineIndex);
   const [lineHistory, setLineHistory] = useState<number[]>([initialLineIndex]);
