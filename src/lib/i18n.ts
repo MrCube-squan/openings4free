@@ -796,7 +796,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Завершите линии, чтобы разблокировать режим Drill',
     'train.arrowColors': 'Перетащите правой кнопкой для рисования стрелок — Alt для красных, Shift для зелёных, Ctrl для синих',
     'train.backToCourse': 'Назад к курсу',
-    'train.browseCourses': 'Смотреть курсы',
+    'train.browseCourses': 'Все курсы',
     'train.trainingDemo': 'Демо Тренировки',
     'train.tryItalian': 'Попробуйте Итальянскую партию',
     'train.learning': 'Режим изучения',
