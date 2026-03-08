@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
-import { ArrowRight, Zap, TrendingUp, Brain, RefreshCw, ShieldAlert, LayoutGrid, Users, Mail } from 'lucide-react';
+import { ArrowRight, Zap, TrendingUp, Brain, ShieldAlert, LayoutGrid, Users, Mail } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
@@ -10,12 +10,11 @@ const Index = () => {
 
   const features = [
     { icon: Brain, titleKey: 'feature.activeRecall' as const, descKey: 'feature.activeRecallDesc' as const, color: 'text-blue-500', bg: 'bg-blue-500/10', bgHover: 'group-hover:bg-blue-500/20' },
-    { icon: RefreshCw, titleKey: 'feature.spacedRepetition' as const, descKey: 'feature.spacedRepetitionDesc' as const, color: 'text-emerald-500', bg: 'bg-emerald-500/10', bgHover: 'group-hover:bg-emerald-500/20' },
+    { icon: Users, titleKey: 'feature.friendlyCompetition' as const, descKey: 'feature.friendlyCompetitionDesc' as const, color: 'text-teal-500', bg: 'bg-teal-500/10', bgHover: 'group-hover:bg-teal-500/20' },
     { icon: ShieldAlert, titleKey: 'feature.mistakeLearning' as const, descKey: 'feature.mistakeLearningDesc' as const, color: 'text-red-500', bg: 'bg-red-500/10', bgHover: 'group-hover:bg-red-500/20' },
     { icon: LayoutGrid, titleKey: 'feature.boardContext' as const, descKey: 'feature.boardContextDesc' as const, color: 'text-amber-500', bg: 'bg-amber-500/10', bgHover: 'group-hover:bg-amber-500/20' },
     { icon: Zap, titleKey: 'feature.instantFeedback' as const, descKey: 'feature.instantFeedbackDesc' as const, color: 'text-cyan-500', bg: 'bg-cyan-500/10', bgHover: 'group-hover:bg-cyan-500/20' },
     { icon: TrendingUp, titleKey: 'feature.streaksProgress' as const, descKey: 'feature.streaksProgressDesc' as const, color: 'text-orange-500', bg: 'bg-orange-500/10', bgHover: 'group-hover:bg-orange-500/20' },
-    { icon: Users, titleKey: 'feature.friendlyCompetition' as const, descKey: 'feature.friendlyCompetitionDesc' as const, color: 'text-teal-500', bg: 'bg-teal-500/10', bgHover: 'group-hover:bg-teal-500/20' },
   ];
 
   return (
