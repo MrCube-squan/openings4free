@@ -76,7 +76,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="flex items-center gap-2 group">
             <img src={logo} alt="Openings4Free" className="h-12 w-12 transition-transform group-hover:scale-110" />
             <span className="text-xl font-bold">Openings
               <span className="text-primary">4Free</span>
