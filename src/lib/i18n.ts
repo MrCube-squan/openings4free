@@ -1488,7 +1488,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'feature.communityCourses': 'Topluluk Kursları',
     'feature.communityCoursesDesc': 'Kendi repertuarınızı oluşturun veya diğer oyuncuların kurslarıyla çalışın.',
     'courses.title': 'Açılış Kursları',
-    'courses.subtitle': 'Silahınızı seçin. Her kurs gerçek maç çizgileriyle dolu.',
+    'courses.subtitle': 'Silahınızı seçin. Her kurs gerçek parti varyantlarıyla dolu.',
     'courses.search': 'Açılış ara...',
     'courses.allColors': 'Tüm Renkler',
     'courses.noResults': 'Kurs bulunamadı',
