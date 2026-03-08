@@ -902,7 +902,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': '浏览课程',
     'train.trainingDemo': '训练演示',
     'train.tryItalian': '试试意大利开局',
-    'train.learning': '学习中',
+    'train.learning': '学习模式',
     'train.drilling': '练习中',
     'train.noDrillYet': '还没有可练习的变例',
     'train.noDrillDesc': '在学习模式中完成变例以解锁练习。',
