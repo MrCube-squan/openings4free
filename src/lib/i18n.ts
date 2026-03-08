@@ -794,6 +794,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Неправильные ходы показывают обратную связь, и вы можете попробовать снова',
     'train.hintTip': 'Используйте кнопку подсказки, если застряли (показывает стрелку на доске!)',
     'train.drillUnlock': 'Завершите линии, чтобы разблокировать режим Drill',
+    'train.arrowColors': 'Перетащите правой кнопкой для рисования стрелок — Alt для красных, Shift для зелёных, Alt+Shift для синих',
     'train.backToCourse': 'Назад к курсу',
     'train.browseCourses': 'Смотреть курсы',
     'train.trainingDemo': 'Демо Тренировки',
