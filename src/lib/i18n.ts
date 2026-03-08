@@ -2133,6 +2133,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Forkerte træk viser feedback, og du kan prøve igen',
     'train.hintTip': 'Brug vis træk-knappen hvis du sidder fast (viser en pil på brættet!)',
     'train.drillUnlock': 'Gennemfør linjer for at låse træningstilstand op',
+    'train.arrowColors': 'Højreklik og træk for pile — Alt for rød, Shift for grøn, Alt+Shift for blå',
     'train.backToCourse': 'Tilbage til kursus',
     'train.browseCourses': 'Gennemse kurser',
     'train.trainingDemo': 'Træningsdemo',
