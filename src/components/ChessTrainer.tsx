@@ -321,8 +321,13 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   const goBackMove = () => {
     if (currentMoveIndex > 0) {
+      // White: go back 2 half-moves (1 full move) to return to White's turn
+      // Black: go back 3 half-moves to return to Black's previous turn
+      // But at minimum, go back at least 1 move
+      const stepsBack = playerColor === 'white' ? 2 : 3;
+      const targetIndex = Math.max(0, currentMoveIndex - stepsBack);
+      
       const newGame = new Chess();
-      const targetIndex = Math.max(0, currentMoveIndex - 1);
       for (let i = 0; i < targetIndex; i++) {
         try { newGame.move(currentLine.moves[i]); } catch (e) { break; }
       }
