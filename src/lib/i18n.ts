@@ -588,6 +588,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Falsche Züge zeigen Feedback und du kannst es erneut versuchen',
     'train.hintTip': 'Benutze den Hinweis-Button wenn du feststeckst (zeigt einen Pfeil auf dem Brett!)',
     'train.drillUnlock': 'Vervollständige Linien um den Drill-Modus freizuschalten',
+    'train.arrowColors': 'Rechtsklick ziehen für Pfeile — Alt für rot, Shift für grün, Alt+Shift für blau',
     'train.backToCourse': 'Zurück zum Kurs',
     'train.browseCourses': 'Kurse durchsuchen',
     'train.trainingDemo': 'Trainings-Demo',
