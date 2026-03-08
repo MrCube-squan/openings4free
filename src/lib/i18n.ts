@@ -1196,7 +1196,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.subtitle': '이론 영상에 시간을 낭비하지 마세요. 실전에서 기억할 수 있는 라인을 훈련하세요.',
     'home.browseCourses': '코스 보기',
     'home.whyWorks': '오프닝을 마스터하는 방법',
-    'home.whyWorksSubtitle': '"상대가 라인을 따르지 않는다"는 말은 이제 그만. 모든 라인은 실전에서 가져왔습니다.',
+    'home.whyWorksSubtitle': '코스를 선택하고, 라인을 훈련하고, 오래 가는 근육 기억을 만드세요 — 모두 무료.',
     'home.ctaTitle': '오프닝에서 실수를 멈출 준비가 되셨나요?',
     'home.ctaSubtitle': 'Openings4Free로 필요한 모든 올바른 이론을 배우세요.',
     'home.ctaButton': '무료로 훈련 시작',
