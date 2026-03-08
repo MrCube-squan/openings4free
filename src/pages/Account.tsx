@@ -224,7 +224,7 @@ const Account = () => {
                       ) : (
                         <div className="flex items-center gap-1 text-xs text-muted-foreground">
                           <AlertCircle className="h-3 w-3" />
-                          <span>{t('friends.usernameCooldown' as any)} {usernameStatus.nextChangeDate?.toLocaleDateString()}</span>
+                          <span>{t('friends.usernameCooldown' as any)} {usernameStatus.nextChangeDate?.toLocaleDateString(language === 'en' ? 'en-GB' : language === 'en-US' ? 'en-US' : language)}</span>
                         </div>
                       )}
                     </div>
