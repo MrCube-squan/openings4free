@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
-import { ArrowRight, Zap, TrendingUp, Brain, RefreshCw, ShieldAlert, LayoutGrid, Mail } from 'lucide-react';
+import { ArrowRight, Zap, TrendingUp, Brain, RefreshCw, ShieldAlert, LayoutGrid, Users, Mail } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
@@ -15,6 +15,7 @@ const Index = () => {
     { icon: LayoutGrid, titleKey: 'feature.boardContext' as const, descKey: 'feature.boardContextDesc' as const },
     { icon: Zap, titleKey: 'feature.instantFeedback' as const, descKey: 'feature.instantFeedbackDesc' as const },
     { icon: TrendingUp, titleKey: 'feature.streaksProgress' as const, descKey: 'feature.streaksProgressDesc' as const },
+    { icon: Users, titleKey: 'feature.friendlyCompetition' as const, descKey: 'feature.friendlyCompetitionDesc' as const },
   ];
 
   return (
