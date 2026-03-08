@@ -897,7 +897,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': '错误的走法会显示反馈，你可以重试',
     'train.hintTip': '如果卡住了，使用提示按钮（在棋盘上显示箭头！）',
     'train.drillUnlock': '完成变例以解锁练习模式',
-    'train.arrowColors': '右键拖动绘制箭头 — 按住Alt为红色，Shift为绿色，Alt+Shift为蓝色',
+    'train.arrowColors': '右键拖动绘制箭头 — 按住Alt为红色，Shift为绿色，Ctrl为蓝色',
     'train.backToCourse': '返回课程',
     'train.browseCourses': '浏览课程',
     'train.trainingDemo': '训练演示',
