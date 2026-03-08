@@ -178,7 +178,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Each line requires two perfect passes: one guided, one from memory',
     'train.arrowColors': 'Right-click drag to draw arrows — hold Alt for red, Shift for green, Ctrl for blue',
     'train.backToCourse': 'Back to course',
-    'train.browseCourses': 'Browse courses',
+    'train.browseCourses': 'Explore courses',
     'train.trainingDemo': 'Training Demo',
     'train.tryItalian': 'Try the Italian Game opening',
     'train.learning': 'Study mode',
