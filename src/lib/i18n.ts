@@ -1980,7 +1980,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.browseCourses': 'Bla gjennom kurs',
     'home.whyWorks': 'Hvorfor Openings4Free fungerer',
     'home.whyWorksSubtitle': 'Ikke mer "motstanderen min følger ikke linjene." Hver linje er bygget fra ekte trekk.',
-    'home.ctaTitle': 'Klar til å slutte å tabber i åpningen?',
+    'home.ctaTitle': 'Klar til å slutte å blundre i åpningen?',
     'home.ctaSubtitle': 'Bruk Openings4Free for å lære all teorien du trenger.',
     'home.ctaButton': 'Start trening gratis',
     'home.credit': 'Laget av Mr.Cube_k6j på YouTube og TikTok',
