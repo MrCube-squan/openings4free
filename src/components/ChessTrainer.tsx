@@ -283,22 +283,22 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         return;
       }
 
-      if (selectedSquare === square) {
-        setSelectedSquare(null);
-        setCustomSquareStyles({});
-        return;
-      }
-
-      // If clicking another own piece, re-select
+      // If clicking another own piece, re-select it (allows changing premove piece)
       if (piece && piece.color === playerPieceColor) {
-        setSelectedSquare(square);
-        setCustomSquareStyles({
-          [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
-        });
+        if (selectedSquare === square) {
+          // Deselect
+          setSelectedSquare(null);
+          setCustomSquareStyles({});
+        } else {
+          setSelectedSquare(square);
+          setCustomSquareStyles({
+            [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
+          });
+        }
         return;
       }
 
-      // Set premove via tap
+      // Set premove via tap — allow any target square
       const selectedPiece = game.get(selectedSquare as Square);
       if (selectedPiece) {
         const pieceString = `${selectedPiece.color}${selectedPiece.type.toUpperCase()}`;
