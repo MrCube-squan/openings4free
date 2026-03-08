@@ -1000,7 +1000,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': '間違った手にはフィードバックが表示され、再試行できます',
     'train.hintTip': '行き詰まったらヒントボタンを使おう（盤面に矢印が表示されます！）',
     'train.drillUnlock': 'ラインを完了してドリルモードを解除',
-    'train.arrowColors': '右クリックドラッグで矢印を描画 — Altで赤、Shiftで緑、Alt+Shiftで青',
+    'train.arrowColors': '右クリックドラッグで矢印を描画 — Altで赤、Shiftで緑、Ctrlで青',
     'train.backToCourse': 'コースに戻る',
     'train.browseCourses': 'コースを見る',
     'train.trainingDemo': 'トレーニングデモ',
