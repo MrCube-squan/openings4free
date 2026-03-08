@@ -484,6 +484,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const accuracy = totalMoves > 0 ? Math.round(((totalMoves - totalMistakes) / totalMoves) * 100) : 0;
 
   return (
+    <>
+    <FlameOverlay show={showFlame} streak={streak} />
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
       {/* Eval bar + Chessboard */}
       <div className="flex gap-2 items-stretch w-full max-w-[540px] mx-auto lg:mx-0">
