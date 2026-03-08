@@ -733,6 +733,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'Precisione',
     'trainer.correct': 'Corrette',
     'trainer.cancel': 'Annulla',
+    'trainer.addNote': 'Aggiungi Nota',
+    'trainer.notePlaceholder': 'Aggiungi una nota personale per questa mossa...',
+    'trainer.signInNotes': 'Accedi per aggiungere note personali e monitorare i progressi',
+    'trainer.savedNote': 'Nota salvata',
+    'trainer.errorReport': 'Hai trovato errori nella teoria o hai problemi? Scrivimi a',
+    'home.creatorBadge': 'Creato da Mr.Cube_k6j su YouTube e TikTok',
   },
   ru: {
     'nav.courses': 'Курсы',
