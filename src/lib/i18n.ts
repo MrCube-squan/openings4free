@@ -1412,7 +1412,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Błędne ruchy pokazują informację zwrotną i możesz spróbować ponownie',
     'train.hintTip': 'Użyj przycisku podpowiedzi, jeśli utkniesz (pokazuje strzałkę na szachownicy!)',
     'train.drillUnlock': 'Ukończ linie, aby odblokować tryb Drill',
-    'train.arrowColors': 'Przeciągnij prawym przyciskiem aby rysować strzałki — Alt dla czerwonego, Shift dla zielonego, Alt+Shift dla niebieskiego',
+    'train.arrowColors': 'Przeciągnij prawym przyciskiem aby rysować strzałki — Alt dla czerwonego, Shift dla zielonego, Ctrl dla niebieskiego',
     'train.backToCourse': 'Powrót do kursu',
     'train.browseCourses': 'Przeglądaj kursy',
     'train.trainingDemo': 'Demo Treningu',
