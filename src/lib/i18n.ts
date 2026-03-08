@@ -1520,7 +1520,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Kursları gör',
     'train.trainingDemo': 'Antrenman Demosu',
     'train.tryItalian': 'İtalyan açılışını deneyin',
-    'train.learning': 'Öğreniyor',
+    'train.learning': 'Çalışma modu',
     'train.drilling': 'Çalışıyor',
     'train.noDrillYet': 'Henüz çalışılacak varyant yok',
     'train.noDrillDesc': 'Çalışmayı açmak için Öğren modunda varyantları tamamlayın.',
