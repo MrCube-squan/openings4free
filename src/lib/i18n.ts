@@ -1826,7 +1826,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Завершіть лінії, щоб розблокувати режим Тренування',
     'train.arrowColors': 'Перетягніть правою кнопкою для малювання стрілок — Alt для червоних, Shift для зелених, Ctrl для синіх',
     'train.backToCourse': 'Назад до курсу',
-    'train.browseCourses': 'Переглянути курси',
+    'train.browseCourses': 'Огляд курсів',
     'train.trainingDemo': 'Демо тренування',
     'train.tryItalian': 'Спробуйте Італійську гру',
     'train.learning': 'Режим вивчення',
