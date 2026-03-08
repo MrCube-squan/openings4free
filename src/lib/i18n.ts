@@ -1929,7 +1929,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Suorita linjat avataksesi harjoittelutilan',
     'train.arrowColors': 'Vedä hiiren oikealla painikkeella piirtääksesi nuolia — Alt punaiselle, Shift vihreälle, Ctrl siniselle',
     'train.backToCourse': 'Takaisin kurssiin',
-    'train.browseCourses': 'Selaa kursseja',
+    'train.browseCourses': 'Tutustu kursseihin',
     'train.trainingDemo': 'Harjoitteludemo',
     'train.tryItalian': 'Kokeile Italialaista peliä',
     'train.learning': 'Opiskelutila',
