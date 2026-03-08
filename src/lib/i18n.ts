@@ -2161,6 +2161,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'Nøjagtighed',
     'trainer.correct': 'Rigtigt',
     'trainer.cancel': 'Annuller',
+    'trainer.addNote': 'Tilføj note',
+    'trainer.notePlaceholder': 'Tilføj en personlig note til dette træk...',
+    'trainer.signInNotes': 'Log ind for at tilføje personlige noter og følge din fremgang',
+    'trainer.savedNote': 'Note gemt',
+    'trainer.errorReport': 'Fandt du fejl i teorien eller har problemer? Send e-mail til',
+    'home.creatorBadge': 'Skabt af Mr.Cube_k6j på YouTube og TikTok',
   },
   el: {
     'nav.courses': 'Μαθήματα',
