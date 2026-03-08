@@ -1824,6 +1824,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Неправильні ходи показують зворотний зв\'язок, можна спробувати знову',
     'train.hintTip': 'Використовуйте кнопку показу ходу, якщо застрягли (показує стрілку на дошці!)',
     'train.drillUnlock': 'Завершіть лінії, щоб розблокувати режим Тренування',
+    'train.arrowColors': 'Перетягніть правою кнопкою для малювання стрілок — Alt для червоних, Shift для зелених, Alt+Shift для синіх',
     'train.backToCourse': 'Назад до курсу',
     'train.browseCourses': 'Переглянути курси',
     'train.trainingDemo': 'Демо тренування',
