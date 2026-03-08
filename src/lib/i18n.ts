@@ -181,7 +181,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Browse courses',
     'train.trainingDemo': 'Training Demo',
     'train.tryItalian': 'Try the Italian Game opening',
-    'train.learning': 'Learning',
+    'train.learning': 'Study mode',
     'train.drilling': 'Drilling',
     'train.noDrillYet': 'No lines to drill yet',
     'train.noDrillDesc': 'Complete lines in Learn mode to unlock drilling.',
