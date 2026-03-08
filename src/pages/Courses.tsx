@@ -18,11 +18,20 @@ const Courses = () => {
   const { learnedLines } = useLearnedLines();
 
   const filteredCourses = useMemo(() => {
+    const query = searchQuery.toLowerCase().trim();
+
     const filtered = courses.filter((course) => {
-      const matchesSearch = course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        course.description.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesColor = colorFilter === 'all' || course.color === colorFilter;
-      return matchesSearch && matchesColor;
+      if (!matchesColor) return false;
+      if (!query) return true;
+
+      // Check if query letters appear in order within the name
+      const name = course.name.toLowerCase();
+      let qi = 0;
+      for (let i = 0; i < name.length && qi < query.length; i++) {
+        if (name[i] === query[qi]) qi++;
+      }
+      return qi === query.length;
     });
 
     if (isAuthenticated && learnedLines.length > 0) {
