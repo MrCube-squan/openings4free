@@ -1206,6 +1206,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': '잘못된 수는 피드백이 표시되며 다시 시도할 수 있습니다',
     'train.hintTip': '막히면 힌트 버튼을 사용하세요 (보드에 화살표가 표시됩니다!)',
     'train.drillUnlock': '라인을 완료하여 드릴 모드를 해제하세요',
+    'train.arrowColors': '우클릭 드래그로 화살표 그리기 — Alt는 빨강, Shift는 초록, Alt+Shift는 파랑',
     'train.backToCourse': '코스로 돌아가기',
     'train.browseCourses': '코스 보기',
     'train.trainingDemo': '훈련 데모',
