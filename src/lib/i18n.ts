@@ -1972,7 +1972,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.logout': 'Logg ut',
     'nav.deleteAccount': 'Slett konto',
     'nav.deleteConfirm': 'Er du sikker på at du vil slette kontoen din permanent? Dette kan ikke angres.',
-    'nav.streak': 'dagers rekke',
+    'nav.streak': 'dager på rad',
     'home.badge': 'Gratis åpningstrener',
     'home.title': 'Mestre åpninger: ',
     'home.titleHighlight': 'Den beste måten',
