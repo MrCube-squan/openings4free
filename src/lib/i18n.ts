@@ -1702,6 +1702,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'व्यक्तिगत नोट्स जोड़ने और प्रगति ट्रैक करने के लिए साइन इन करें',
     'trainer.savedNote': 'नोट सहेजा गया',
     'trainer.errorReport': 'सिद्धांत में त्रुटियां मिलीं या समस्याएं हैं? मुझे ईमेल करें',
+    'trainer.pass': 'चरण',
+    'trainer.test': 'परीक्षा',
     'home.creatorBadge': 'Mr.Cube_k6j द्वारा YouTube और TikTok पर बनाया गया',
   },
   sv: {
