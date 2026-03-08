@@ -1912,6 +1912,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Увійдіть, щоб додавати нотатки та відстежувати прогрес',
     'trainer.savedNote': 'Нотатку збережено',
     'trainer.errorReport': 'Знайшли помилки в теорії або маєте проблеми? Напишіть мені на',
+    'trainer.pass': 'Етап',
+    'trainer.test': 'Тест',
     'home.creatorBadge': 'Створено Mr.Cube_k6j на YouTube та TikTok',
   },
   fi: {
