@@ -210,7 +210,7 @@ const Friends = () => {
                 <LeaderboardSection 
                   entries={weeklyLeaderboard}
                   title={t('friends.weeklyChallenge')}
-                  icon={<Flame className="h-5 w-5 text-orange-500" />}
+                  icon={<Flame className="h-5 w-5 text-destructive" />}
                 />
                 <LeaderboardSection 
                   entries={monthlyLeaderboard}
