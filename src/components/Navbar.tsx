@@ -24,6 +24,13 @@ const Navbar = () => {
   const { user, loading, signOut, isAuthenticated } = useAuth();
   const { streak } = useStreak();
   const { language, setLanguage, t } = useLanguage();
+  const { myProfile } = useFriends();
+  const avatarUrl = (myProfile as any)?.avatar_url;
+  const getInitial = () => {
+    if (myProfile?.username) return myProfile.username[0].toUpperCase();
+    if (user?.email) return user.email[0].toUpperCase();
+    return '?';
+  };
 
   const navLinks = [
     { path: '/courses', labelKey: 'nav.courses' as const },
