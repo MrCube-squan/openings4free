@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, LogOut, Loader2, Globe, Trash2 } from 'lucide-react';
+import { Menu, X, LogOut, Loader2, Globe } from 'lucide-react';
 import logo from '@/assets/logo.png';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,27 +8,13 @@ import { useAuth } from '@/hooks/useAuth';
 import { useStreak } from '@/hooks/useStreak';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { languages } from '@/lib/i18n';
-import { supabase } from '@/integrations/supabase/client';
 import StreakBadge from '@/components/StreakBadge';
-import { toast } from 'sonner';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
 
 const Navbar = () => {
   const location = useLocation();
@@ -52,24 +38,6 @@ const Navbar = () => {
     navigate('/');
   };
 
-  const handleDeleteAccount = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        toast.error('Not authenticated');
-        return;
-      }
-      const res = await supabase.functions.invoke('delete-account', {
-        headers: { Authorization: `Bearer ${session.access_token}` },
-      });
-      if (res.error) throw res.error;
-      await supabase.auth.signOut();
-      toast.success('Account deleted successfully');
-      navigate('/');
-    } catch (e: any) {
-      toast.error(e.message || 'Failed to delete account');
-    }
-  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
@@ -129,44 +97,18 @@ const Navbar = () => {
               <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
             ) : isAuthenticated ? (
               <>
-                <span className="text-sm text-muted-foreground truncate max-w-[150px]">
-                  {user?.email}
-                </span>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm">
-                      <LogOut className="h-4 w-4 mr-1" />
-                      {t('nav.logout')}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={handleSignOut}>
-                      <LogOut className="h-4 w-4 mr-2" />
-                      {t('nav.logout')}
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="text-destructive focus:text-destructive">
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          {t('nav.deleteAccount')}
-                        </DropdownMenuItem>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>{t('nav.deleteAccount')}</AlertDialogTitle>
-                          <AlertDialogDescription>{t('nav.deleteConfirm')}</AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>{t('trainer.cancel')}</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                            {t('nav.deleteAccount')}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <Link to="/account" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                  <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
+                    {user?.email?.[0]?.toUpperCase() || '?'}
+                  </div>
+                  <span className="text-sm text-muted-foreground truncate max-w-[150px]">
+                    {user?.email}
+                  </span>
+                </Link>
+                <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                  <LogOut className="h-4 w-4 mr-1" />
+                  {t('nav.logout')}
+                </Button>
               </>
             ) : (
               <>
@@ -244,33 +186,18 @@ const Navbar = () => {
                   </div>
                 ) : isAuthenticated ? (
                   <>
-                    <span className="text-sm text-muted-foreground truncate px-3">
-                      {user?.email}
-                    </span>
+                    <Link to="/account" className="flex items-center gap-2 px-3 py-2 hover:opacity-80" onClick={() => setMobileMenuOpen(false)}>
+                      <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
+                        {user?.email?.[0]?.toUpperCase() || '?'}
+                      </div>
+                      <span className="text-sm text-muted-foreground truncate">
+                        {user?.email}
+                      </span>
+                    </Link>
                     <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
                       <LogOut className="h-4 w-4 mr-2" />
                       {t('nav.logout')}
                     </Button>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive">
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          {t('nav.deleteAccount')}
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>{t('nav.deleteAccount')}</AlertDialogTitle>
-                          <AlertDialogDescription>{t('nav.deleteConfirm')}</AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>{t('trainer.cancel')}</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                            {t('nav.deleteAccount')}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
                   </>
                 ) : (
                   <div className="flex gap-2">
