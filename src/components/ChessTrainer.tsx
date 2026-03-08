@@ -114,32 +114,13 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     return { arrows: [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>, knightArrow: null };
   }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
 
-  // Collect all L-shaped knight arrows (hint + user-drawn)
+  // L-shaped knight arrows for hints only
   const allKnightArrows = useMemo(() => {
-    const result: Array<{ from: Square; to: Square; color: string }> = [];
     if (hintData.knightArrow) {
-      result.push({ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' });
+      return [{ ...hintData.knightArrow, color: 'hsl(38, 95%, 55%)' }];
     }
-    result.push(...userKnightArrows);
-    return result;
-  }, [hintData.knightArrow, userKnightArrows]);
-
-  const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
-    if (arrows.length === 0) {
-      // User cleared all arrows (right-click on empty)
-      setUserKnightArrows([]);
-      return;
-    }
-    // Only keep knight-move arrows; show only the latest one to avoid duplicates
-    const knightArrows: Array<{ from: Square; to: Square; color: string }> = [];
-    for (const arr of arrows) {
-      if (isKnightMove(arr[0], arr[1])) {
-        knightArrows.push({ from: arr[0], to: arr[1], color: arr[2] || arrowColor });
-      }
-    }
-    // Only keep the most recently drawn knight arrow
-    setUserKnightArrows(knightArrows.length > 0 ? [knightArrows[knightArrows.length - 1]] : []);
-  }, [arrowColor]);
+    return [];
+  }, [hintData.knightArrow]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
