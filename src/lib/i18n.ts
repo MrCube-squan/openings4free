@@ -119,6 +119,12 @@ type TranslationKeys = {
   'trainer.accuracy': string;
   'trainer.correct': string;
   'trainer.cancel': string;
+  'trainer.addNote': string;
+  'trainer.notePlaceholder': string;
+  'trainer.signInNotes': string;
+  'trainer.savedNote': string;
+  'trainer.errorReport': string;
+  'home.creatorBadge': string;
 };
 
 const translations: Record<LangCode, TranslationKeys> = {
