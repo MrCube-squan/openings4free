@@ -1666,7 +1666,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.logout': 'Logga ut',
     'nav.deleteAccount': 'Radera konto',
     'nav.deleteConfirm': 'Är du säker på att du vill permanent radera ditt konto? Detta kan inte ångras.',
-    'nav.streak': 'dagars svit',
+    'nav.streak': 'dagar i rad',
     'home.badge': 'Gratis Öppningsträning',
     'home.title': 'Bemästra öppningar: ',
     'home.titleHighlight': 'Bästa Sättet',
