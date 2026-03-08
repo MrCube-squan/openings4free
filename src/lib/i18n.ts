@@ -862,6 +862,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Войдите, чтобы добавлять заметки и отслеживать прогресс',
     'trainer.savedNote': 'Заметка сохранена',
     'trainer.errorReport': 'Нашли ошибки в теории или проблемы? Напишите мне на',
+    'trainer.pass': 'Этап',
+    'trainer.test': 'Тест',
     'home.creatorBadge': 'Создано Mr.Cube_k6j на YouTube и TikTok',
   },
   zh: {
