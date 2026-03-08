@@ -423,8 +423,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setSelectedSquare(null);
     setCustomSquareStyles({});
     setHadMistake(false);
-    setLinePass(1);
     setPass1Perfect(false);
+    setUserKnightArrow(null);
+    setUserNonKnightArrows([]);
   };
 
   const revealHint = () => {
