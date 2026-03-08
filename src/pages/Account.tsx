@@ -27,7 +27,7 @@ import {
 
 const Account = () => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { user, isAuthenticated, loading: authLoading, signOut } = useAuth();
   const { myProfile, updateUsername, canChangeUsername, refresh } = useFriends();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -224,7 +224,7 @@ const Account = () => {
                       ) : (
                         <div className="flex items-center gap-1 text-xs text-muted-foreground">
                           <AlertCircle className="h-3 w-3" />
-                          <span>{t('friends.usernameCooldown' as any)} {usernameStatus.nextChangeDate?.toLocaleDateString()}</span>
+                          <span>{t('friends.usernameCooldown' as any)} {usernameStatus.nextChangeDate?.toLocaleDateString(language === 'en' ? 'en-GB' : language === 'en-US' ? 'en-US' : language)}</span>
                         </div>
                       )}
                     </div>
