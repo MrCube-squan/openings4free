@@ -2283,7 +2283,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Επαναφορά',
     'trainer.next': 'Επόμενο',
     'trainer.accuracy': 'Ακρίβεια',
-    'trainer.correct': 'Σωστό',
+    'trainer.mistakes': 'Λάθη',
     'trainer.cancel': 'Ακύρωση',
     'trainer.addNote': 'Προσθήκη σημείωσης',
     'trainer.notePlaceholder': 'Προσθέστε μια προσωπική σημείωση για αυτή την κίνηση...',
