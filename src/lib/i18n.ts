@@ -1957,6 +1957,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'Tarkkuus',
     'trainer.correct': 'Oikein',
     'trainer.cancel': 'Peruuta',
+    'trainer.addNote': 'Lisää muistiinpano',
+    'trainer.notePlaceholder': 'Lisää henkilökohtainen muistiinpano tähän siirtoon...',
+    'trainer.signInNotes': 'Kirjaudu lisätäksesi muistiinpanoja ja seurataksesi edistymistäsi',
+    'trainer.savedNote': 'Muistiinpano tallennettu',
+    'trainer.errorReport': 'Löysitkö virheitä teoriassa tai ongelmia? Lähetä sähköpostia',
+    'home.creatorBadge': 'Luonut Mr.Cube_k6j YouTubessa ja TikTokissa',
   },
   no: {
     'nav.courses': 'Kurs',
