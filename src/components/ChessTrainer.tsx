@@ -358,8 +358,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setShowHint(false);
       setSelectedSquare(null);
       setCustomSquareStyles({});
-      setLineCorrectMoves(0);
-      setLineTotalMoves(0);
+      setLinePass(1);
+      setPass1Perfect(false);
+      setHadMistake(false);
     }
   };
 
