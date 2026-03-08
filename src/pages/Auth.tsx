@@ -27,8 +27,8 @@ const Auth = () => {
   }, [searchParams]);
 
   const validateUsername = (value: string): string | null => {
-    if (!/^[a-zA-Z0-9_]{3,20}$/.test(value)) {
-      return 'Username must be 3-20 characters, letters, numbers and underscores only';
+    if (!/^[a-zA-Z0-9_/]{3,20}$/.test(value)) {
+      return 'Username must be 3-20 characters, letters, numbers, underscores and slashes only';
     }
     return null;
   };
@@ -128,7 +128,7 @@ const Auth = () => {
                     type="text"
                     placeholder={t('auth.usernamePlaceholder' as any)}
                     value={username}
-                    onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_]/g, ''))}
+                    onChange={(e) => setUsername(e.target.value.replace(/[^a-zA-Z0-9_/]/g, ''))}
                     className="pl-10"
                     required
                     minLength={3}
