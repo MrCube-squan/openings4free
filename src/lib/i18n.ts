@@ -157,7 +157,7 @@ type TranslationKeys = {
   'feature.friendlyCompetitionDesc': string;
 };
 
-const translations: Record<LangCode, TranslationKeys> & { en: TranslationKeys } = {
+const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Partial<TranslationKeys>> = {
   en: {
     'nav.courses': 'Courses',
     'nav.train': 'Train',
