@@ -944,7 +944,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': '重置',
     'trainer.next': '下一个',
     'trainer.accuracy': '准确率',
-    'trainer.correct': '正确',
+    'trainer.mistakes': '错误',
     'trainer.cancel': '取消',
     'trainer.addNote': '添加笔记',
     'trainer.notePlaceholder': '为这步棋添加个人笔记...',
