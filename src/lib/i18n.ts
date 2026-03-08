@@ -1311,7 +1311,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Voltooi lijnen om de Drill-modus te ontgrendelen',
     'train.arrowColors': 'Sleep met rechtermuisknop om pijlen te tekenen — Alt voor rood, Shift voor groen, Ctrl voor blauw',
     'train.backToCourse': 'Terug naar cursus',
-    'train.browseCourses': 'Cursussen bekijken',
+    'train.browseCourses': 'Cursussen ontdekken',
     'train.trainingDemo': 'Training Demo',
     'train.tryItalian': 'Probeer de Italiaanse opening',
     'train.learning': 'Studiemodus',
