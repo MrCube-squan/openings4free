@@ -382,6 +382,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Les mauvais coups affichent un retour et vous pouvez réessayer',
     'train.hintTip': "Utilisez le bouton indice si vous êtes bloqué (affiche une flèche sur l'échiquier !)",
     'train.drillUnlock': 'Complétez des lignes pour débloquer le mode Drill',
+    'train.arrowColors': 'Glissez avec clic droit pour dessiner des flèches — Alt pour rouge, Shift pour vert, Alt+Shift pour bleu',
     'train.backToCourse': 'Retour au cours',
     'train.browseCourses': 'Voir les cours',
     'train.trainingDemo': "Démo d'Entraînement",
