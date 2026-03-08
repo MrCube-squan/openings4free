@@ -1478,7 +1478,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'feature.realGameLines': 'Gerçek Parti Varyantları',
     'feature.realGameLinesDesc': 'Milyonlarca Lichess oyunundan çıkarılan hamleler. Gerçekten karşılaşacağınız şeyleri öğrenin.',
     'feature.spacedRepetition': 'Aralıklı Tekrar',
-    'feature.spacedRepetitionDesc': 'Doğruluğunuza göre akıllı zamanlama. Zor çizgiler daha sık geri gelir.',
+    'feature.spacedRepetitionDesc': 'Doğruluğunuza göre akıllı zamanlama. Zor varyantlar daha sık geri gelir.',
     'feature.progressTracking': 'İlerleme Takibi',
     'feature.progressTrackingDesc': 'Hangi çizgilere hakim olduğunuzu ve hangilerinin çalışmaya ihtiyacı olduğunu görün.',
     'feature.curatedCourses': 'Seçilmiş Kurslar',
