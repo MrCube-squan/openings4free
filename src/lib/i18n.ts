@@ -1597,6 +1597,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Kişisel notlar eklemek ve ilerlemenizi takip etmek için giriş yapın',
     'trainer.savedNote': 'Not kaydedildi',
     'trainer.errorReport': 'Teoride hatalar buldunuz veya sorunlarınız mı var? Bana e-posta gönderin',
+    'trainer.pass': 'Aşama',
+    'trainer.test': 'Sınav',
     'home.creatorBadge': 'Mr.Cube_k6j tarafından YouTube ve TikTok\'ta oluşturuldu',
   },
   hi: {
