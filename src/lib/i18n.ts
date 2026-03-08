@@ -532,7 +532,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Reiniciar',
     'trainer.next': 'Próximo',
     'trainer.accuracy': 'Precisão',
-    'trainer.correct': 'Corretas',
+    'trainer.mistakes': 'Erros',
     'trainer.cancel': 'Cancelar',
     'trainer.addNote': 'Adicionar Nota',
     'trainer.notePlaceholder': 'Adicione uma nota pessoal para este lance...',
