@@ -71,7 +71,7 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
           const result = pv.mate !== undefined
             ? { mate: pv.mate as number }
             : { cp: (pv.cp ?? 0) as number };
-          cacheRef.current.set(fen, result);
+          evalCache.set(fen, result);
           setMate(result.mate ?? null);
           setCp(result.cp ?? 0);
         }
