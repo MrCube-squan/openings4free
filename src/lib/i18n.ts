@@ -342,7 +342,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': 'Êtes-vous sûr de vouloir supprimer définitivement votre compte ? Cette action est irréversible.',
     'nav.streak': 'jours de suite',
     'home.badge': "Entraîneur d'Ouvertures Gratuit",
-    'home.title': "Maîtrisez les ouvertures De la ",
+    'home.title': 'Maîtrisez les ouvertures : La ',
     'home.titleHighlight': 'Meilleure Façon',
     'home.subtitle': "Ne perdez plus des heures sur des vidéos de théorie. Entraînez des lignes que vous retiendrez.",
     'home.browseCourses': 'Voir les Cours',
