@@ -400,7 +400,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               boardOrientation={playerColor}
               arePremovesAllowed={true}
               showBoardNotation={settings.showCoordinates}
-              customArrows={hintArrow}
+              customArrows={hintData.arrows}
               customArrowColor={arrowColor}
               customBoardStyle={{
                 borderRadius: '12px',
@@ -410,6 +410,56 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               customLightSquareStyle={{ backgroundColor: currentTheme.light }}
               customSquareStyles={customSquareStyles}
             />
+            {/* L-shaped knight arrow overlay */}
+            {hintData.knightArrow && (() => {
+              const from = squareToCoords(hintData.knightArrow.from, playerColor);
+              const to = squareToCoords(hintData.knightArrow.to, playerColor);
+              const dx = to.x - from.x;
+              const dy = to.y - from.y;
+              // L-shape: go along the longer axis first, then turn
+              const mid = Math.abs(dx) < Math.abs(dy)
+                ? { x: from.x, y: to.y }
+                : { x: to.x, y: from.y };
+              // Shorten end slightly for arrowhead
+              const endDx = to.x - mid.x;
+              const endDy = to.y - mid.y;
+              const endLen = Math.sqrt(endDx * endDx + endDy * endDy);
+              const shorten = endLen > 0 ? 12 : 0;
+              const end = {
+                x: to.x - (endDx / endLen) * shorten,
+                y: to.y - (endDy / endLen) * shorten,
+              };
+              return (
+                <svg
+                  viewBox="0 0 800 800"
+                  className="absolute inset-0 w-full h-full pointer-events-none"
+                  style={{ zIndex: 10, borderRadius: '12px' }}
+                >
+                  <defs>
+                    <marker
+                      id="knight-arrowhead"
+                      markerWidth="10"
+                      markerHeight="7"
+                      refX="8"
+                      refY="3.5"
+                      orient="auto"
+                    >
+                      <polygon points="0 0, 10 3.5, 0 7" fill="hsl(38, 95%, 55%)" />
+                    </marker>
+                  </defs>
+                  <polyline
+                    points={`${from.x},${from.y} ${mid.x},${mid.y} ${end.x},${end.y}`}
+                    fill="none"
+                    stroke="hsl(38, 95%, 55%)"
+                    strokeWidth="16"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    opacity="0.8"
+                    markerEnd="url(#knight-arrowhead)"
+                  />
+                </svg>
+              );
+            })()}
           </div>
 
           <AnimatePresence>
