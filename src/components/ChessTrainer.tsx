@@ -196,7 +196,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
       const moveSan = moveResult.san;
       setTotalMoves(prev => prev + 1);
-      setLineTotalMoves(prev => prev + 1);
 
       const normalizeSan = (s: string) => s.replace(/x/g, '');
       if (moveSan === expectedMove || moveResult.lan === expectedMove || normalizeSan(moveSan) === normalizeSan(expectedMove)) {
