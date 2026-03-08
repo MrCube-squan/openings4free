@@ -2263,6 +2263,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'Ακρίβεια',
     'trainer.correct': 'Σωστό',
     'trainer.cancel': 'Ακύρωση',
+    'trainer.addNote': 'Προσθήκη σημείωσης',
+    'trainer.notePlaceholder': 'Προσθέστε μια προσωπική σημείωση για αυτή την κίνηση...',
+    'trainer.signInNotes': 'Συνδεθείτε για να προσθέσετε σημειώσεις και να παρακολουθήσετε την πρόοδό σας',
+    'trainer.savedNote': 'Σημείωση αποθηκεύτηκε',
+    'trainer.errorReport': 'Βρήκατε λάθη στη θεωρία ή έχετε προβλήματα; Στείλτε email στο',
+    'home.creatorBadge': 'Δημιουργήθηκε από τον Mr.Cube_k6j στο YouTube και TikTok',
   },
 };
 
