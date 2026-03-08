@@ -204,7 +204,52 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   };
 
   const handleSquareClick = (square: string) => {
-    if (!isPlayerTurn) return;
+    // Allow premove selection during opponent's turn
+    if (!isPlayerTurn) {
+      const piece = game.get(square as Square);
+      const playerPieceColor = playerColor === 'white' ? 'w' : 'b';
+
+      if (!selectedSquare) {
+        // Select a piece for premove
+        if (piece && piece.color === playerPieceColor) {
+          setSelectedSquare(square);
+          setCustomSquareStyles({
+            [square]: { backgroundColor: 'hsl(210, 80%, 55%, 0.4)' },
+          });
+        }
+        return;
+      }
+
+      if (selectedSquare === square) {
+        setSelectedSquare(null);
+        setCustomSquareStyles({});
+        return;
+      }
+
+      // If clicking another own piece, re-select
+      if (piece && piece.color === playerPieceColor) {
+        setSelectedSquare(square);
+        setCustomSquareStyles({
+          [square]: { backgroundColor: 'hsl(210, 80%, 55%, 0.4)' },
+        });
+        return;
+      }
+
+      // Set premove via tap
+      const selectedPiece = game.get(selectedSquare as Square);
+      if (selectedPiece) {
+        const pieceString = `${selectedPiece.color}${selectedPiece.type.toUpperCase()}`;
+        setPendingPremove({ from: selectedSquare, to: square, piece: pieceString });
+        setCustomSquareStyles({
+          [selectedSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
+          [square]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
+        });
+      }
+      setSelectedSquare(null);
+      return;
+    }
+
+    // Normal turn: standard click-to-move
     if (!selectedSquare) {
       const piece = game.get(square as Square);
       if (piece && piece.color === (playerColor === 'white' ? 'w' : 'b')) {
