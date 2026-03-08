@@ -1356,7 +1356,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Reset',
     'trainer.next': 'Volgende',
     'trainer.accuracy': 'Nauwkeurigheid',
-    'trainer.correct': 'Correct',
+    'trainer.mistakes': 'Fouten',
     'trainer.cancel': 'Annuleren',
     'trainer.addNote': 'Notitie toevoegen',
     'trainer.notePlaceholder': 'Voeg een persoonlijke notitie toe voor deze zet...',
