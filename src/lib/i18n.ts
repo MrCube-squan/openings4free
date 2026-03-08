@@ -2227,6 +2227,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Log ind for at tilføje personlige noter og følge din fremgang',
     'trainer.savedNote': 'Note gemt',
     'trainer.errorReport': 'Fandt du fejl i teorien eller har problemer? Send e-mail til',
+    'trainer.pass': 'Trin',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Skabt af Mr.Cube_k6j på YouTube og TikTok',
   },
   el: {
