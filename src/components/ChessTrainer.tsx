@@ -383,6 +383,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               arePremovesAllowed={true}
               showBoardNotation={settings.showCoordinates}
               customArrows={hintArrow}
+              customArrowColor={arrowColor}
               customBoardStyle={{
                 borderRadius: '12px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',

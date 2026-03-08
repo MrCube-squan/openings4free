@@ -71,6 +71,7 @@ type TranslationKeys = {
   'train.wrongFeedback': string;
   'train.hintTip': string;
   'train.drillUnlock': string;
+  'train.arrowColors': string;
   'train.backToCourse': string;
   'train.browseCourses': string;
   'train.trainingDemo': string;
