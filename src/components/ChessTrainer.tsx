@@ -281,8 +281,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         const pieceString = `${selectedPiece.color}${selectedPiece.type.toUpperCase()}`;
         setPendingPremove({ from: selectedSquare, to: square, piece: pieceString });
         setCustomSquareStyles({
-          [selectedSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
-          [square]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
+          [selectedSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
+          [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
         });
       }
       setSelectedSquare(null);
