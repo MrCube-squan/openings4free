@@ -63,7 +63,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   const { settings, updateSettings, currentTheme } = useBoardSettings();
   const { t } = useLanguage();
-
+  const { isAuthenticated } = useAuth();
+  const { notes, saveNote } = useLineNotes(courseId, currentLineIndex);
+  const [noteInput, setNoteInput] = useState('');
+  const [showNoteInput, setShowNoteInput] = useState(false);
   const currentLine = lines[currentLineIndex];
   const isPlayerTurn = (game.turn() === 'w') === (playerColor === 'white');
 
