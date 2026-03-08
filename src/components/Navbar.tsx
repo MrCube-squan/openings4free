@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { useStreak } from '@/hooks/useStreak';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useFriends } from '@/hooks/useFriends';
 import { languages } from '@/lib/i18n';
 import StreakBadge from '@/components/StreakBadge';
 import {
