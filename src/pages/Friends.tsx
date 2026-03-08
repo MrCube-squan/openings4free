@@ -57,9 +57,9 @@ const Friends = () => {
   };
 
   const getRankIcon = (index: number) => {
-    if (index === 0) return <Crown className="h-5 w-5 text-yellow-500" />;
-    if (index === 1) return <Medal className="h-5 w-5 text-gray-400" />;
-    if (index === 2) return <Medal className="h-5 w-5 text-amber-600" />;
+    if (index === 0) return <Crown className="h-5 w-5 text-primary" />;
+    if (index === 1) return <Medal className="h-5 w-5 text-muted-foreground" />;
+    if (index === 2) return <Medal className="h-5 w-5 text-accent-foreground" />;
     return <span className="text-sm font-bold text-muted-foreground w-5 text-center">{index + 1}</span>;
   };
 
