@@ -1047,7 +1047,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'リセット',
     'trainer.next': '次へ',
     'trainer.accuracy': '正確さ',
-    'trainer.correct': '正解',
+    'trainer.mistakes': 'ミス',
     'trainer.cancel': 'キャンセル',
     'trainer.addNote': 'メモを追加',
     'trainer.notePlaceholder': 'この手に個人メモを追加...',
