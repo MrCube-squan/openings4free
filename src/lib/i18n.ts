@@ -1208,7 +1208,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': '라인을 완료하여 드릴 모드를 해제하세요',
     'train.arrowColors': '우클릭 드래그로 화살표 그리기 — Alt는 빨강, Shift는 초록, Ctrl은 파랑',
     'train.backToCourse': '코스로 돌아가기',
-    'train.browseCourses': '코스 보기',
+    'train.browseCourses': '코스 둘러보기',
     'train.trainingDemo': '훈련 데모',
     'train.tryItalian': '이탈리안 게임을 시도해 보세요',
     'train.learning': '학습 모드',
