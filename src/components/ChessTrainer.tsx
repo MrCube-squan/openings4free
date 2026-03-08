@@ -55,6 +55,8 @@ const squareToCoords = (sq: Square, orientation: 'white' | 'black'): { x: number
   return { x: (7 - file) * 100 + 50, y: rank * 100 + 50 };
 };
 
+const HIDDEN_KNIGHT_ARROW_COLOR = 'rgba(0,0,0,0)';
+
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
