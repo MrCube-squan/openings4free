@@ -1721,7 +1721,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Felaktiga drag visar feedback och du kan försöka igen',
     'train.hintTip': 'Använd tipsknappen om du fastnar (visar en pil på brädet!)',
     'train.drillUnlock': 'Slutför linjer för att låsa upp Drill-läget',
-    'train.arrowColors': 'Högerklicka och dra för pilar — Alt för röd, Shift för grön, Alt+Shift för blå',
+    'train.arrowColors': 'Högerklicka och dra för pilar — Alt för röd, Shift för grön, Ctrl för blå',
     'train.backToCourse': 'Tillbaka till kursen',
     'train.browseCourses': 'Bläddra kurser',
     'train.trainingDemo': 'Träningsdemo',
