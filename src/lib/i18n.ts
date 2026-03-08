@@ -1620,7 +1620,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Drill मोड अनलॉक करने के लिए लाइन्स पूरी करें',
     'train.arrowColors': 'तीर बनाने के लिए राइट-क्लिक ड्रैग करें — Alt लाल के लिए, Shift हरे के लिए, Ctrl नीले के लिए',
     'train.backToCourse': 'कोर्स पर वापस',
-    'train.browseCourses': 'कोर्स देखें',
+    'train.browseCourses': 'कोर्स खोजें',
     'train.trainingDemo': 'प्रशिक्षण डेमो',
     'train.tryItalian': 'इटालियन गेम ओपनिंग आज़माएं',
     'train.learning': 'अध्ययन मोड',
