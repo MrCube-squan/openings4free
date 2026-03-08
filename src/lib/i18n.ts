@@ -1005,7 +1005,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'コースを見る',
     'train.trainingDemo': 'トレーニングデモ',
     'train.tryItalian': 'イタリアンゲームを試す',
-    'train.learning': '学習中',
+    'train.learning': '学習モード',
     'train.drilling': '練習中',
     'train.noDrillYet': 'まだ練習するラインがありません',
     'train.noDrillDesc': '学習モードでラインを完了して練習を解除しましょう。',
