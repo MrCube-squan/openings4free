@@ -55,6 +55,8 @@ const squareToCoords = (sq: Square, orientation: 'white' | 'black'): { x: number
   return { x: (7 - file) * 100 + 50, y: rank * 100 + 50 };
 };
 
+const HIDDEN_KNIGHT_ARROW_COLOR = 'rgba(0,0,0,0)';
+
 const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const initialLineIndex = startLineIndex !== undefined && startLineIndex >= 0 && startLineIndex < lines.length ? startLineIndex : 0;
@@ -77,8 +79,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
   const [userKnightArrow, setUserKnightArrow] = useState<{ from: Square; to: Square; color: string } | null>(null);
   const [userNonKnightArrows, setUserNonKnightArrows] = useState<Array<[Square, Square, string]>>([]);
-
-  // Listen for modifier keys to change arrow color
   useEffect(() => {
     const getColor = (e: KeyboardEvent | MouseEvent) => {
       if (e.ctrlKey || e.metaKey) return 'rgb(0,100,255)';
@@ -126,10 +126,16 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     return result;
   }, [hintData.knightArrow, userKnightArrow]);
 
-  // Combine hint non-knight arrows with user non-knight arrows
+  // Combine hint non-knight arrows with user arrows.
+  // Knight arrows are kept in chessboard state as transparent so they persist,
+  // while the visible knight arrow is rendered by the SVG overlay.
   const combinedArrows = useMemo(() => {
-    return [...hintData.arrows, ...userNonKnightArrows] as Array<[Square, Square, string]>;
-  }, [hintData.arrows, userNonKnightArrows]);
+    const hiddenKnight = userKnightArrow
+      ? ([[userKnightArrow.from, userKnightArrow.to, HIDDEN_KNIGHT_ARROW_COLOR]] as Array<[Square, Square, string]>)
+      : [];
+
+    return [...hintData.arrows, ...userNonKnightArrows, ...hiddenKnight] as Array<[Square, Square, string]>;
+  }, [hintData.arrows, userNonKnightArrows, userKnightArrow]);
 
   const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
     if (arrows.length === 0) {
@@ -137,18 +143,27 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setUserNonKnightArrows([]);
       return;
     }
+
     const nonKnight: Array<[Square, Square, string]> = [];
     let lastKnight: { from: Square; to: Square; color: string } | null = null;
+
     for (const arr of arrows) {
       if (isKnightMove(arr[0], arr[1])) {
-        lastKnight = { from: arr[0], to: arr[1], color: arr[2] || arrowColor };
+        const preservedColor = arr[2] && arr[2] !== HIDDEN_KNIGHT_ARROW_COLOR
+          ? arr[2]
+          : (userKnightArrow?.from === arr[0] && userKnightArrow?.to === arr[1]
+            ? userKnightArrow.color
+            : arrowColor);
+
+        lastKnight = { from: arr[0], to: arr[1], color: preservedColor };
       } else {
         nonKnight.push([arr[0], arr[1], arr[2] || arrowColor]);
       }
     }
+
     setUserKnightArrow(lastKnight);
     setUserNonKnightArrows(nonKnight);
-  }, [arrowColor]);
+  }, [arrowColor, userKnightArrow]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
