@@ -986,7 +986,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.subtitle': '理論動画に何時間も費やさないで。盤上で覚えられるラインを練習しましょう。',
     'home.browseCourses': 'コースを見る',
     'home.whyWorks': 'オープニングをマスターする方法',
-    'home.whyWorksSubtitle': '「相手がラインに従わない」はもう終わり。すべてのラインは実戦から。',
+    'home.whyWorksSubtitle': 'コースを選び、ラインを練習し、持続的なマッスルメモリーを築きましょう——すべて無料。',
     'home.ctaTitle': 'オープニングでミスするのを止める準備はできましたか？',
     'home.ctaSubtitle': 'Openings4Freeで必要な正しい理論をすべて学びましょう。',
     'home.ctaButton': '無料でトレーニング開始',
