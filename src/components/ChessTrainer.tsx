@@ -394,7 +394,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   const revealHint = () => {
     setShowHint(true);
-    setUserKnightArrows([]);
+    
     setHadMistake(true);
     setTotalMistakes(prev => prev + 1);
   };
