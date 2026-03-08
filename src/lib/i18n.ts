@@ -1709,7 +1709,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Bläddra kurser',
     'train.trainingDemo': 'Träningsdemo',
     'train.tryItalian': 'Prova Italienska öppningen',
-    'train.learning': 'Lärande',
+    'train.learning': 'Inlärning',
     'train.drilling': 'Övning',
     'train.noDrillYet': 'Inga linjer att öva ännu',
     'train.noDrillDesc': 'Slutför linjer i Lär-läge för att låsa upp övning.',
