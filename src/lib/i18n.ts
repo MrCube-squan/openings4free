@@ -128,9 +128,36 @@ type TranslationKeys = {
   'trainer.pass': string;
   'trainer.test': string;
   'home.creatorBadge': string;
+  'nav.friends': string;
+  'friends.title': string;
+  'friends.subtitle': string;
+  'friends.loginRequired': string;
+  'friends.yourName': string;
+  'friends.leaderboard': string;
+  'friends.friendsList': string;
+  'friends.findFriends': string;
+  'friends.weeklyChallenge': string;
+  'friends.monthlyChallenge': string;
+  'friends.noFriendsYet': string;
+  'friends.you': string;
+  'friends.lines': string;
+  'friends.shareCta': string;
+  'friends.shareCtaDesc': string;
+  'friends.shareButton': string;
+  'friends.shareText': string;
+  'friends.linkCopied': string;
+  'friends.pendingRequests': string;
+  'friends.sentRequests': string;
+  'friends.pending': string;
+  'friends.accept': string;
+  'friends.addFriend': string;
+  'friends.searchPlaceholder': string;
+  'friends.noResults': string;
+  'feature.friendlyCompetition': string;
+  'feature.friendlyCompetitionDesc': string;
 };
 
-const translations: Record<LangCode, TranslationKeys> = {
+const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Partial<TranslationKeys>> = {
   en: {
     'nav.courses': 'Courses',
     'nav.train': 'Train',
@@ -235,6 +262,33 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.pass': 'Pass',
     'trainer.test': 'Test',
     'home.creatorBadge': 'Created by Mr.Cube_k6j on YouTube and TikTok',
+    'nav.friends': 'Friends',
+    'friends.title': 'Friends & Challenges',
+    'friends.subtitle': 'Compete with friends on weekly and monthly leaderboards.',
+    'friends.loginRequired': 'Log in to connect with friends and compete on leaderboards.',
+    'friends.yourName': 'Your display name',
+    'friends.leaderboard': 'Leaderboard',
+    'friends.friendsList': 'Friends',
+    'friends.findFriends': 'Find Friends',
+    'friends.weeklyChallenge': 'Weekly Challenge',
+    'friends.monthlyChallenge': 'Monthly Challenge',
+    'friends.noFriendsYet': 'Add friends to start competing!',
+    'friends.you': 'you',
+    'friends.lines': 'lines',
+    'friends.shareCta': 'Invite Your Chess Friends',
+    'friends.shareCtaDesc': 'Share Openings4Free with friends so you can compete, track progress together, and push each other to learn more lines.',
+    'friends.shareButton': 'Share Link',
+    'friends.shareText': 'Train chess openings for free and compete with me on Openings4Free!',
+    'friends.linkCopied': 'Link copied!',
+    'friends.pendingRequests': 'Pending Requests',
+    'friends.sentRequests': 'Sent Requests',
+    'friends.pending': 'Pending',
+    'friends.accept': 'Accept',
+    'friends.addFriend': 'Add Friend',
+    'friends.searchPlaceholder': 'Search by display name...',
+    'friends.noResults': 'No players found.',
+    'feature.friendlyCompetition': 'Friendly Competition',
+    'feature.friendlyCompetitionDesc': 'Weekly and monthly challenges with friends create accountability and motivation. Studying alongside others makes improvement more engaging and consistent.',
   },
   es: {
     'nav.courses': 'Cursos',
@@ -340,6 +394,33 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.pass': 'Fase',
     'trainer.test': 'Prueba',
     'home.creatorBadge': 'Creado por Mr.Cube_k6j en YouTube y TikTok',
+    'nav.friends': 'Amigos',
+    'friends.title': 'Amigos y Desafíos',
+    'friends.subtitle': 'Compite con amigos en tablas semanales y mensuales.',
+    'friends.loginRequired': 'Inicia sesión para conectar con amigos y competir.',
+    'friends.yourName': 'Tu nombre',
+    'friends.leaderboard': 'Clasificación',
+    'friends.friendsList': 'Amigos',
+    'friends.findFriends': 'Buscar Amigos',
+    'friends.weeklyChallenge': 'Desafío Semanal',
+    'friends.monthlyChallenge': 'Desafío Mensual',
+    'friends.noFriendsYet': '¡Agrega amigos para empezar a competir!',
+    'friends.you': 'tú',
+    'friends.lines': 'líneas',
+    'friends.shareCta': 'Invita a tus Amigos',
+    'friends.shareCtaDesc': 'Comparte Openings4Free con amigos para competir y aprender juntos.',
+    'friends.shareButton': 'Compartir Enlace',
+    'friends.shareText': '¡Entrena aperturas de ajedrez gratis y compite conmigo en Openings4Free!',
+    'friends.linkCopied': '¡Enlace copiado!',
+    'friends.pendingRequests': 'Solicitudes Pendientes',
+    'friends.sentRequests': 'Solicitudes Enviadas',
+    'friends.pending': 'Pendiente',
+    'friends.accept': 'Aceptar',
+    'friends.addFriend': 'Agregar',
+    'friends.searchPlaceholder': 'Buscar por nombre...',
+    'friends.noResults': 'No se encontraron jugadores.',
+    'feature.friendlyCompetition': 'Competición Amistosa',
+    'feature.friendlyCompetitionDesc': 'Los desafíos semanales y mensuales con amigos crean compromiso y motivación. Estudiar junto a otros hace la mejora más atractiva.',
   },
   fr: {
     'nav.courses': 'Cours',
