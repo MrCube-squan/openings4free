@@ -566,8 +566,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             <div className="text-xs text-muted-foreground">{t('trainer.accuracy')}</div>
           </div>
           <div className="rounded-xl border border-border bg-card p-4 text-center">
-            <div className="text-2xl font-bold text-foreground">{correctMoves}</div>
-            <div className="text-xs text-muted-foreground">{t('trainer.correct')}</div>
+            <div className="text-2xl font-bold text-destructive">{totalMistakes}</div>
+            <div className="text-xs text-muted-foreground">{t('trainer.mistakes')}</div>
           </div>
         </div>
 
