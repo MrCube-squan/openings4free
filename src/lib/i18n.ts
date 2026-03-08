@@ -1345,6 +1345,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'Nauwkeurigheid',
     'trainer.correct': 'Correct',
     'trainer.cancel': 'Annuleren',
+    'trainer.addNote': 'Notitie toevoegen',
+    'trainer.notePlaceholder': 'Voeg een persoonlijke notitie toe voor deze zet...',
+    'trainer.signInNotes': 'Log in om persoonlijke notities toe te voegen en voortgang bij te houden',
+    'trainer.savedNote': 'Notitie opgeslagen',
+    'trainer.errorReport': 'Fouten gevonden in de theorie of problemen? Mail me op',
+    'home.creatorBadge': 'Gemaakt door Mr.Cube_k6j op YouTube en TikTok',
   },
   pl: {
     'nav.courses': 'Kursy',
