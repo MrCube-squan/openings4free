@@ -103,9 +103,7 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className={`group p-6 rounded-xl border border-border bg-card hover:border-primary/30 hover:bg-card-hover transition-all duration-300 ${
-                  index === features.length - 1 ? 'md:col-span-3 md:max-w-md md:mx-auto' : ''
-                }`}
+                className="group p-6 rounded-xl border border-border bg-card hover:border-primary/30 hover:bg-card-hover transition-all duration-300"
               >
                 <div className={`h-12 w-12 rounded-lg ${feature.bg} flex items-center justify-center mb-4 ${feature.bgHover} transition-colors`}>
                   <feature.icon className={`h-6 w-6 ${feature.color}`} />
