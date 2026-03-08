@@ -60,6 +60,24 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
+  const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
+
+  // Listen for modifier keys to change arrow color
+  useEffect(() => {
+    const getColor = (e: KeyboardEvent | MouseEvent) => {
+      if (e.altKey && e.shiftKey) return 'rgb(0,100,255)';
+      if (e.altKey) return 'rgb(220,50,50)';
+      if (e.shiftKey) return 'rgb(0,160,60)';
+      return 'rgb(255,170,0)';
+    };
+    const onKey = (e: KeyboardEvent) => setArrowColor(getColor(e));
+    window.addEventListener('keydown', onKey);
+    window.addEventListener('keyup', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      window.removeEventListener('keyup', onKey);
+    };
+  }, []);
 
   const { settings, updateSettings, currentTheme } = useBoardSettings();
   const { t } = useLanguage();
@@ -365,6 +383,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               arePremovesAllowed={true}
               showBoardNotation={settings.showCoordinates}
               customArrows={hintArrow}
+              customArrowColor={arrowColor}
               customBoardStyle={{
                 borderRadius: '12px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
