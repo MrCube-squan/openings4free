@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 interface StockfishEval {
-  cp: number;       // centipawns, always from White's perspective
-  mate: number | null;  // mate in N, positive = White mates, negative = Black mates
+  cp: number;
+  mate: number | null;
   depth: number;
 }
 
@@ -13,58 +13,66 @@ let workerRefCount = 0;
 let currentCallback: ((eval_: StockfishEval) => void) | null = null;
 let isReady = false;
 let readyCallbacks: Array<() => void> = [];
+let workerInitPromise: Promise<Worker> | null = null;
 
-const getWorker = (): Worker => {
-  if (!sharedWorker) {
-    sharedWorker = new Worker(STOCKFISH_CDN);
-    
-    sharedWorker.onmessage = (e: MessageEvent) => {
-      const line = typeof e.data === 'string' ? e.data : '';
+const initWorker = (): Promise<Worker> => {
+  if (workerInitPromise) return workerInitPromise;
+  
+  workerInitPromise = fetch(STOCKFISH_CDN)
+    .then(res => res.blob())
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const worker = new Worker(url);
       
-      if (line === 'readyok') {
-        isReady = true;
-        readyCallbacks.forEach(cb => cb());
-        readyCallbacks = [];
-        return;
-      }
-      
-      // Parse "info depth X ... score cp Y" or "info depth X ... score mate Y"
-      if (line.startsWith('info') && line.includes(' score ')) {
-        const depthMatch = line.match(/\bdepth (\d+)/);
-        const cpMatch = line.match(/\bscore cp (-?\d+)/);
-        const mateMatch = line.match(/\bscore mate (-?\d+)/);
+      worker.onmessage = (e: MessageEvent) => {
+        const line = typeof e.data === 'string' ? e.data : '';
         
-        if (!depthMatch) return;
-        const depth = parseInt(depthMatch[1], 10);
-        
-        // Only use depth >= 6 for stability
-        if (depth < 6) return;
-
-        let cpVal = 0;
-        let mateVal: number | null = null;
-
-        if (mateMatch) {
-          mateVal = parseInt(mateMatch[1], 10);
-        } else if (cpMatch) {
-          cpVal = parseInt(cpMatch[1], 10);
-        } else {
+        if (line === 'readyok') {
+          isReady = true;
+          readyCallbacks.forEach(cb => cb());
+          readyCallbacks = [];
           return;
         }
+        
+        if (line.startsWith('info') && line.includes(' score ')) {
+          const depthMatch = line.match(/\bdepth (\d+)/);
+          const cpMatch = line.match(/\bscore cp (-?\d+)/);
+          const mateMatch = line.match(/\bscore mate (-?\d+)/);
+          
+          if (!depthMatch) return;
+          const depth = parseInt(depthMatch[1], 10);
+          if (depth < 6) return;
 
-        // Stockfish reports score from the side to move's perspective.
-        // We need to determine whose turn it is from the current FEN to normalize.
-        // The callback handler will normalize based on the FEN's side to move.
-        if (currentCallback) {
-          currentCallback({ cp: cpVal, mate: mateVal, depth });
+          let cpVal = 0;
+          let mateVal: number | null = null;
+
+          if (mateMatch) {
+            mateVal = parseInt(mateMatch[1], 10);
+          } else if (cpMatch) {
+            cpVal = parseInt(cpMatch[1], 10);
+          } else {
+            return;
+          }
+
+          if (currentCallback) {
+            currentCallback({ cp: cpVal, mate: mateVal, depth });
+          }
         }
-      }
-    };
+      };
 
-    sharedWorker.postMessage('uci');
-    sharedWorker.postMessage('isready');
-  }
+      worker.postMessage('uci');
+      worker.postMessage('isready');
+      
+      sharedWorker = worker;
+      return worker;
+    });
+  
+  return workerInitPromise;
+};
+
+const getWorker = async (): Promise<Worker> => {
   workerRefCount++;
-  return sharedWorker;
+  return initWorker();
 };
 
 const releaseWorker = () => {
@@ -76,6 +84,7 @@ const releaseWorker = () => {
     workerRefCount = 0;
     isReady = false;
     currentCallback = null;
+    workerInitPromise = null;
   }
 };
 
@@ -85,8 +94,14 @@ export const useStockfish = (fen: string) => {
   const fenRef = useRef(fen);
 
   useEffect(() => {
-    workerRef.current = getWorker();
-    return () => releaseWorker();
+    let cancelled = false;
+    getWorker().then(w => {
+      if (!cancelled) workerRef.current = w;
+    });
+    return () => {
+      cancelled = true;
+      releaseWorker();
+    };
   }, []);
 
   const analyze = useCallback((fenToAnalyze: string) => {
@@ -94,14 +109,10 @@ export const useStockfish = (fen: string) => {
     if (!worker) return;
 
     fenRef.current = fenToAnalyze;
-
-    // Determine side to move from FEN
-    const sideToMove = fenToAnalyze.split(' ')[1]; // 'w' or 'b'
+    const sideToMove = fenToAnalyze.split(' ')[1];
 
     currentCallback = (raw: StockfishEval) => {
-      // Normalize: Stockfish reports from side-to-move perspective
-      // We always want from White's perspective
-      if (fenRef.current !== fenToAnalyze) return; // stale
+      if (fenRef.current !== fenToAnalyze) return;
       
       const normalized: StockfishEval = {
         depth: raw.depth,
@@ -112,7 +123,6 @@ export const useStockfish = (fen: string) => {
       };
       
       setEvaluation(prev => {
-        // Only update if deeper or same depth
         if (normalized.depth >= prev.depth || normalized.mate !== null) {
           return normalized;
         }
@@ -134,13 +144,9 @@ export const useStockfish = (fen: string) => {
   }, []);
 
   useEffect(() => {
-    // Reset depth for new position so we accept lower-depth results
     setEvaluation(prev => ({ ...prev, depth: 0 }));
     analyze(fen);
-
-    return () => {
-      workerRef.current?.postMessage('stop');
-    };
+    return () => { workerRef.current?.postMessage('stop'); };
   }, [fen, analyze]);
 
   return evaluation;
