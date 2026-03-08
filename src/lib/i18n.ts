@@ -20,6 +20,7 @@ export const languages = [
   { code: 'no', name: 'Norsk', flag: '🇳🇴' },
   { code: 'da', name: 'Dansk', flag: '🇩🇰' },
   { code: 'el', name: 'Ελληνικά', flag: '🇬🇷' },
+  { code: 'en-US', name: 'English (US)', flag: '🇺🇸' },
 ] as const;
 
 export type LangCode = (typeof languages)[number]['code'];
