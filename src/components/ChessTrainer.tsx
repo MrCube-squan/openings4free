@@ -125,16 +125,20 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   }, [hintData.knightArrow, userKnightArrows]);
 
   const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
+    if (arrows.length === 0) {
+      // User cleared all arrows (right-click on empty)
+      setUserKnightArrows([]);
+      return;
+    }
+    // Only keep knight-move arrows; show only the latest one to avoid duplicates
     const knightArrows: Array<{ from: Square; to: Square; color: string }> = [];
-    const straightArrows: Array<[Square, Square, string?]> = [];
     for (const arr of arrows) {
       if (isKnightMove(arr[0], arr[1])) {
         knightArrows.push({ from: arr[0], to: arr[1], color: arr[2] || arrowColor });
-      } else {
-        straightArrows.push(arr);
       }
     }
-    setUserKnightArrows(knightArrows);
+    // Only keep the most recently drawn knight arrow
+    setUserKnightArrows(knightArrows.length > 0 ? [knightArrows[knightArrows.length - 1]] : []);
   }, [arrowColor]);
 
   const checkLineComplete = useCallback((moveIdx: number) => {
