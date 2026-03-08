@@ -648,7 +648,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': 'Sei sicuro di voler eliminare permanentemente il tuo account? Questa azione non può essere annullata.',
     'nav.streak': 'giorni consecutivi',
     'home.badge': 'Allenatore di Aperture Gratuito',
-    'home.title': 'Padroneggia le aperture Nel ',
+    'home.title': 'Padroneggia le aperture: Il ',
     'home.titleHighlight': 'Modo Migliore',
     'home.subtitle': 'Non perdere ore su video di teoria. Allena linee che ricorderai sulla scacchiera.',
     'home.browseCourses': 'Sfoglia i Corsi',
