@@ -12,6 +12,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { useLineNotes } from '@/hooks/useLineNotes';
 import { Link } from 'react-router-dom';
 import confetti from 'canvas-confetti';
+import FlameOverlay from '@/components/FlameOverlay';
+import { useStreak } from '@/hooks/useStreak';
 
 interface Line {
   moves: string[];
