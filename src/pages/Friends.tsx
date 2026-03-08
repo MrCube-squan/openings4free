@@ -20,7 +20,7 @@ interface SearchProfile {
 }
 
 const Friends = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { user, isAuthenticated, loading: authLoading } = useAuth();
   const {
     friends, pendingRequests, sentRequests,

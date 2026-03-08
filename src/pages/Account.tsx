@@ -27,7 +27,7 @@ import {
 
 const Account = () => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { user, isAuthenticated, loading: authLoading, signOut } = useAuth();
   const { myProfile, updateUsername, canChangeUsername, refresh } = useFriends();
   const fileInputRef = useRef<HTMLInputElement>(null);
