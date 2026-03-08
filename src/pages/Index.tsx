@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
-import { ArrowRight, Zap, TrendingUp, Brain, RefreshCw, ShieldAlert, LayoutGrid, Users, Mail } from 'lucide-react';
+import { ArrowRight, Zap, TrendingUp, Brain, ShieldAlert, LayoutGrid, Users, Mail } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Index = () => {
