@@ -1562,7 +1562,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Sıfırla',
     'trainer.next': 'Sonraki',
     'trainer.accuracy': 'Doğruluk',
-    'trainer.correct': 'Doğru',
+    'trainer.mistakes': 'Hatalar',
     'trainer.cancel': 'İptal',
     'trainer.addNote': 'Not Ekle',
     'trainer.notePlaceholder': 'Bu hamle için kişisel bir not ekleyin...',
