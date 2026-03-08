@@ -168,6 +168,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
       const move = currentLine.moves[currentMoveIndex];
+      const delay = pendingPremove ? 250 : 400;
       setTimeout(() => {
         const newGame = new Chess(game.fen());
         try {
@@ -176,13 +177,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           const newMoveIndex = currentMoveIndex + 1;
           setCurrentMoveIndex(newMoveIndex);
           checkLineComplete(newMoveIndex);
-          if (pendingPremove) {
-            setTimeout(() => setPendingPremove(null), 0);
-          }
         } catch (e) {
           console.error('Invalid move:', move);
         }
-      }, 500);
+      }, delay);
     }
   }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove, checkLineComplete]);
 
@@ -192,7 +190,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     if (isPlayerTurn && pendingPremove) {
       const { from, to, piece } = pendingPremove;
       setPendingPremove(null);
-      setTimeout(() => { handlePieceDrop(from, to, piece); }, 50);
+      // Use rAF for immediate, smooth execution on touch devices
+      requestAnimationFrame(() => { handlePieceDrop(from, to, piece); });
     }
   }, [isPlayerTurn, pendingPremove]);
 
@@ -284,22 +283,22 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         return;
       }
 
-      if (selectedSquare === square) {
-        setSelectedSquare(null);
-        setCustomSquareStyles({});
-        return;
-      }
-
-      // If clicking another own piece, re-select
+      // If clicking another own piece, re-select it (allows changing premove piece)
       if (piece && piece.color === playerPieceColor) {
-        setSelectedSquare(square);
-        setCustomSquareStyles({
-          [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
-        });
+        if (selectedSquare === square) {
+          // Deselect
+          setSelectedSquare(null);
+          setCustomSquareStyles({});
+        } else {
+          setSelectedSquare(square);
+          setCustomSquareStyles({
+            [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
+          });
+        }
         return;
       }
 
-      // Set premove via tap
+      // Set premove via tap — allow any target square
       const selectedPiece = game.get(selectedSquare as Square);
       if (selectedPiece) {
         const pieceString = `${selectedPiece.color}${selectedPiece.type.toUpperCase()}`;
