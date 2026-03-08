@@ -56,7 +56,8 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
     const controller = new AbortController();
     abortRef.current = controller;
 
-    const fetchEval = async () => {
+    // Debounce to avoid Lichess rate limiting (429)
+    const timer = setTimeout(async () => {
       try {
         const res = await fetch(
           `https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fen)}&multiPv=1`,
@@ -75,10 +76,12 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
       } catch {
         // Keep material fallback
       }
-    };
+    }, 800);
 
-    fetchEval();
-    return () => controller.abort();
+    return () => {
+      clearTimeout(timer);
+      controller.abort();
+    };
   }, [fen]);
 
   // Convert eval to percentage (white's perspective)
