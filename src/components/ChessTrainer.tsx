@@ -212,6 +212,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         return true;
       } else {
         setHadMistake(true);
+        setTotalMistakes(prev => prev + 1);
         setFeedback('incorrect');
         setCustomSquareStyles({
           [sourceSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
