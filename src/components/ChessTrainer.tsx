@@ -115,24 +115,31 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
-      const lineAccuracy = lineTotalMoves > 0 ? Math.round((lineCorrectMoves / lineTotalMoves) * 100) : 100;
-      
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
       
       setTimeout(() => {
         setLinesCompleted(prev => prev + 1);
-        if (onLineComplete) onLineComplete(currentLineIndex, lineAccuracy);
+        
         if (hadMistake) {
-          setRepeatPending(true);
-          setIsFirstAttempt(false);
+          // Had a mistake — restart this pass
+          resetLine();
+        } else if (linePass === 1) {
+          // Pass 1 perfect — move to pass 2 (test without shown moves)
+          setPass1Perfect(true);
+          setLinePass(2);
           resetLine();
         } else {
-          setIsFirstAttempt(true);
+          // Pass 2 perfect (and pass1 was perfect) — mark as learned
+          if (pass1Perfect && onLineComplete) {
+            onLineComplete(currentLineIndex, 100);
+          }
+          setLinePass(1);
+          setPass1Perfect(false);
           nextLine();
         }
       }, 1000);
     }
-  }, [currentLine.moves.length, lineTotalMoves, lineCorrectMoves, onLineComplete, currentLineIndex, hadMistake]);
+  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect]);
 
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
