@@ -852,7 +852,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': '您确定要永久删除您的账户吗？此操作无法撤销。',
     'nav.streak': '天连续',
     'home.badge': '免费开局训练器',
-    'home.title': '以最好的方式掌握开局 ',
+    'home.title': '掌握开局：',
     'home.titleHighlight': '最佳方式',
     'home.subtitle': '不要浪费时间看开局理论视频。训练你在棋盘上能记住的变例。',
     'home.browseCourses': '浏览课程',
