@@ -1807,6 +1807,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Logga in för att lägga till personliga anteckningar och följa din utveckling',
     'trainer.savedNote': 'Anteckning sparad',
     'trainer.errorReport': 'Hittat fel i teorin eller har problem? Maila mig på',
+    'trainer.pass': 'Steg',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Skapad av Mr.Cube_k6j på YouTube och TikTok',
   },
   uk: {
