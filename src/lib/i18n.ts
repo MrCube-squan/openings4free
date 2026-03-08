@@ -1387,6 +1387,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Log in om persoonlijke notities toe te voegen en voortgang bij te houden',
     'trainer.savedNote': 'Notitie opgeslagen',
     'trainer.errorReport': 'Fouten gevonden in de theorie of problemen? Mail me op',
+    'trainer.pass': 'Stap',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Gemaakt door Mr.Cube_k6j op YouTube en TikTok',
   },
   pl: {
