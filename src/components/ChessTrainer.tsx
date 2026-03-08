@@ -202,7 +202,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         [sourceSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
         [targetSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
       });
-      return false;
+      // Return true to prevent snap-back animation — piece stays at target
+      return true;
     }
 
     const expectedMove = currentLine.moves[currentMoveIndex];
