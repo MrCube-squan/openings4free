@@ -211,7 +211,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         setCurrentMoveIndex(prev => prev + 1);
         setFeedback('correct');
         setShowHint(false);
-        setUserKnightArrows([]);
         setCustomSquareStyles({
           [sourceSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.4)' },
           [targetSquare]: { backgroundColor: 'hsl(152, 76%, 45%, 0.4)' },
