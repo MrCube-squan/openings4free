@@ -1541,7 +1541,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'auth.haveAccount': 'Zaten hesabınız var mı?',
     'auth.signUp': 'Kaydol',
     'auth.signIn': 'Giriş yap',
-    'trainer.currentLine': 'Mevcut Çizgi',
+    'trainer.currentLine': 'Mevcut Varyant',
     'trainer.opponentTurn': 'Rakibin sırası...',
     'trainer.showMove': 'Hamleyi Göster',
     'trainer.reset': 'Sıfırla',
