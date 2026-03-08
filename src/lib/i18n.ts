@@ -1141,6 +1141,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'الدقة',
     'trainer.correct': 'صحيح',
     'trainer.cancel': 'إلغاء',
+    'trainer.addNote': 'إضافة ملاحظة',
+    'trainer.notePlaceholder': 'أضف ملاحظة شخصية لهذه النقلة...',
+    'trainer.signInNotes': 'سجل الدخول لإضافة ملاحظات شخصية وتتبع تقدمك',
+    'trainer.savedNote': 'تم حفظ الملاحظة',
+    'trainer.errorReport': 'وجدت أخطاء في النظرية أو لديك مشاكل؟ أرسل لي بريدًا إلى',
+    'home.creatorBadge': 'أنشأه Mr.Cube_k6j على YouTube و TikTok',
   },
   ko: {
     'nav.courses': '코스',
