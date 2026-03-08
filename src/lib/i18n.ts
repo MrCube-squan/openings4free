@@ -899,7 +899,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': '完成变例以解锁练习模式',
     'train.arrowColors': '右键拖动绘制箭头 — 按住Alt为红色，Shift为绿色，Ctrl为蓝色',
     'train.backToCourse': '返回课程',
-    'train.browseCourses': '浏览课程',
+    'train.browseCourses': '探索课程',
     'train.trainingDemo': '训练演示',
     'train.tryItalian': '试试意大利开局',
     'train.learning': '学习模式',
