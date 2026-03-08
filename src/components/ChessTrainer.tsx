@@ -176,8 +176,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     if (!isPlayerTurn) {
       setPendingPremove({ from: sourceSquare, to: targetSquare, piece });
       setCustomSquareStyles({
-        [sourceSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
-        [targetSquare]: { backgroundColor: 'hsl(210, 80%, 55%, 0.3)' },
+        [sourceSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
+        [targetSquare]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
       });
       return false;
     }
