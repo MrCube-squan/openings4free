@@ -125,6 +125,8 @@ type TranslationKeys = {
   'trainer.signInNotes': string;
   'trainer.savedNote': string;
   'trainer.errorReport': string;
+  'trainer.pass': string;
+  'trainer.test': string;
   'home.creatorBadge': string;
 };
 
