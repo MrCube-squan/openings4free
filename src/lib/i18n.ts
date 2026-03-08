@@ -1549,6 +1549,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'Doğruluk',
     'trainer.correct': 'Doğru',
     'trainer.cancel': 'İptal',
+    'trainer.addNote': 'Not Ekle',
+    'trainer.notePlaceholder': 'Bu hamle için kişisel bir not ekleyin...',
+    'trainer.signInNotes': 'Kişisel notlar eklemek ve ilerlemenizi takip etmek için giriş yapın',
+    'trainer.savedNote': 'Not kaydedildi',
+    'trainer.errorReport': 'Teoride hatalar buldunuz veya sorunlarınız mı var? Bana e-posta gönderin',
+    'home.creatorBadge': 'Mr.Cube_k6j tarafından YouTube ve TikTok\'ta oluşturuldu',
   },
   hi: {
     'nav.courses': 'कोर्स',
