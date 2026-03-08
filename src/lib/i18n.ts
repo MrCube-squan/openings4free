@@ -1314,7 +1314,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Cursussen bekijken',
     'train.trainingDemo': 'Training Demo',
     'train.tryItalian': 'Probeer de Italiaanse opening',
-    'train.learning': 'Leren',
+    'train.learning': 'Studiemodus',
     'train.drilling': 'Oefenen',
     'train.noDrillYet': 'Nog geen lijnen om te oefenen',
     'train.noDrillDesc': 'Voltooi lijnen in leermodus om oefenen te ontgrendelen.',
