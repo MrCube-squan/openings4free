@@ -218,33 +218,18 @@ const Navbar = () => {
                   </div>
                 ) : isAuthenticated ? (
                   <>
-                    <span className="text-sm text-muted-foreground truncate px-3">
-                      {user?.email}
-                    </span>
+                    <Link to="/account" className="flex items-center gap-2 px-3 py-2 hover:opacity-80" onClick={() => setMobileMenuOpen(false)}>
+                      <div className="h-7 w-7 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary">
+                        {user?.email?.[0]?.toUpperCase() || '?'}
+                      </div>
+                      <span className="text-sm text-muted-foreground truncate">
+                        {user?.email}
+                      </span>
+                    </Link>
                     <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
                       <LogOut className="h-4 w-4 mr-2" />
                       {t('nav.logout')}
                     </Button>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="ghost" className="w-full justify-start text-destructive hover:text-destructive">
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          {t('nav.deleteAccount')}
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>{t('nav.deleteAccount')}</AlertDialogTitle>
-                          <AlertDialogDescription>{t('nav.deleteConfirm')}</AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>{t('trainer.cancel')}</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDeleteAccount} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                            {t('nav.deleteAccount')}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
                   </>
                 ) : (
                   <div className="flex gap-2">
