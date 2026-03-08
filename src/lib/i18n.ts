@@ -2332,6 +2332,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Συνδεθείτε για να προσθέσετε σημειώσεις και να παρακολουθήσετε την πρόοδό σας',
     'trainer.savedNote': 'Σημείωση αποθηκεύτηκε',
     'trainer.errorReport': 'Βρήκατε λάθη στη θεωρία ή έχετε προβλήματα; Στείλτε email στο',
+    'trainer.pass': 'Φάση',
+    'trainer.test': 'Δοκιμή',
     'home.creatorBadge': 'Δημιουργήθηκε από τον Mr.Cube_k6j στο YouTube και TikTok',
   },
 };
