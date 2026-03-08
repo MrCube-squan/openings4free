@@ -2122,6 +2122,8 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.signInNotes': 'Logg inn for å legge til personlige notater og følge fremgangen din',
     'trainer.savedNote': 'Notat lagret',
     'trainer.errorReport': 'Fant du feil i teorien eller har problemer? Send e-post til',
+    'trainer.pass': 'Runde',
+    'trainer.test': 'Test',
     'home.creatorBadge': 'Laget av Mr.Cube_k6j på YouTube og TikTok',
   },
   da: {
