@@ -696,7 +696,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Sfoglia corsi',
     'train.trainingDemo': 'Demo di Allenamento',
     'train.tryItalian': "Prova l'apertura Italiana",
-    'train.learning': 'Apprendimento',
+    'train.learning': 'Modalità studio',
     'train.drilling': 'Pratica',
     'train.noDrillYet': 'Nessuna linea da praticare ancora',
     'train.noDrillDesc': 'Completa linee in modalità Impara per sbloccare la pratica.',
