@@ -635,7 +635,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Zurücksetzen',
     'trainer.next': 'Nächste',
     'trainer.accuracy': 'Genauigkeit',
-    'trainer.correct': 'Richtig',
+    'trainer.mistakes': 'Fehler',
     'trainer.cancel': 'Abbrechen',
     'trainer.addNote': 'Notiz hinzufügen',
     'trainer.notePlaceholder': 'Füge eine persönliche Notiz für diesen Zug hinzu...',
