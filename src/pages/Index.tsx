@@ -108,8 +108,8 @@ const Index = () => {
                   index === features.length - 1 ? 'md:col-span-3 md:max-w-md md:mx-auto' : ''
                 }`}
               >
-                <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                  <feature.icon className="h-6 w-6 text-primary" />
+                <div className={`h-12 w-12 rounded-lg ${feature.bg} flex items-center justify-center mb-4 ${feature.bgHover} transition-colors`}>
+                  <feature.icon className={`h-6 w-6 ${feature.color}`} />
                 </div>
                 <h3 className="text-lg font-bold mb-2">{t(feature.titleKey)}</h3>
                 <p className="text-muted-foreground text-sm">{t(feature.descKey)}</p>

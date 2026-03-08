@@ -266,7 +266,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'nav.friends': 'Friends',
     'friends.title': 'Friends & Challenges',
     'friends.subtitle': 'Compete with friends on weekly and monthly leaderboards.',
-    'friends.loginRequired': 'Log in to connect with friends and compete on leaderboards.',
+    'friends.loginRequired': 'Sign in to make friends, compete on leaderboards, and push each other to learn more lines!',
     'friends.yourName': 'Your display name',
     'friends.leaderboard': 'Leaderboard',
     'friends.friendsList': 'Friends',
