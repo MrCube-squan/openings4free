@@ -31,20 +31,15 @@ const Auth = () => {
 
     try {
       if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        toast.success('Welcome back!');
+        toast.success(t('auth.welcomeBack') + '!');
         navigate('/courses');
       } else {
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: {
-            emailRedirectTo: window.location.origin,
-          },
+          options: { emailRedirectTo: window.location.origin },
         });
         if (error) throw error;
         toast.success('Check your email to confirm your account!');
@@ -84,18 +79,16 @@ const Auth = () => {
         >
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold mb-2">
-              {isLogin ? 'Welcome back' : 'Create your account'}
+              {isLogin ? t('auth.welcomeBack') : t('auth.createAccount')}
             </h1>
             <p className="text-muted-foreground">
-              {isLogin
-                ? 'Sign in to continue your training'
-                : 'Start mastering openings today'}
+              {isLogin ? t('auth.signInContinue') : t('auth.startMastering')}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('auth.email')}</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -111,7 +104,7 @@ const Auth = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">{t('auth.password')}</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -138,7 +131,7 @@ const Auth = () => {
               {loading ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  {isLogin ? 'Signing in...' : 'Creating account...'}
+                  {isLogin ? t('auth.signingIn') : t('auth.creatingAccount')}
                 </>
               ) : (
                 <>{isLogin ? t('nav.login') : t('nav.signup')}</>
@@ -154,13 +147,13 @@ const Auth = () => {
             >
               {isLogin ? (
                 <>
-                  Don't have an account?{' '}
-                  <span className="text-primary font-medium">Sign up</span>
+                  {t('auth.noAccount')}{' '}
+                  <span className="text-primary font-medium">{t('auth.signUp')}</span>
                 </>
               ) : (
                 <>
-                  Already have an account?{' '}
-                  <span className="text-primary font-medium">Sign in</span>
+                  {t('auth.haveAccount')}{' '}
+                  <span className="text-primary font-medium">{t('auth.signIn')}</span>
                 </>
               )}
             </button>

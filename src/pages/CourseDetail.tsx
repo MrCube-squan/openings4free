@@ -9,6 +9,7 @@ import { getTrainingLines, TrainingLine } from '@/lib/courseLines';
 import { categorizeLines, getSortedCategories, CategorizedLine } from '@/lib/lineCategories';
 import { useLearnedLines } from '@/hooks/useLearnedLines';
 import { useCustomLines } from '@/hooks/useCustomLines';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { ArrowLeft, BookOpen, Play, Dumbbell, Check, ChevronDown, ChevronRight, X as XIcon } from 'lucide-react';
 import {
   Collapsible,
@@ -22,6 +23,7 @@ const CourseDetail = () => {
   const course = courses.find((c) => c.id === courseId);
   const { getLearnedCount, isLineLearned, getLearnedLinesForCourse } = useLearnedLines();
   const { customLines } = useCustomLines(courseId || '');
+  const { t } = useLanguage();
   
   const [hiddenLines, setHiddenLines] = useState<Set<string>>(() => {
     if (typeof window === 'undefined') return new Set();
@@ -43,12 +45,8 @@ const CourseDetail = () => {
   const learnedCount = courseId ? getLearnedCount(courseId) : 0;
   const canDrill = learnedCount > 0;
 
-  // Categorize built-in lines
-  const categorizedBuiltInLines = useMemo(() => {
-    return categorizeLines(allLines);
-  }, [allLines]);
+  const categorizedBuiltInLines = useMemo(() => categorizeLines(allLines), [allLines]);
 
-  // Categorize custom lines
   const categorizedCustomLines = useMemo(() => {
     const customTrainingLines: TrainingLine[] = customLines.map(cl => ({
       name: cl.name,
@@ -57,11 +55,9 @@ const CourseDetail = () => {
     return categorizeLines(customTrainingLines);
   }, [customLines]);
 
-  // Merge categories and filter hidden lines
   const allCategories = useMemo(() => {
     const merged = new Map<string, CategorizedLine[]>();
     
-    // Add built-in lines (filter out hidden ones)
     categorizedBuiltInLines.forEach((lines, category) => {
       const visibleLines = lines.filter(l => !hiddenLines.has(`builtin_${l.index}`));
       if (visibleLines.length > 0) {
@@ -69,7 +65,6 @@ const CourseDetail = () => {
       }
     });
     
-    // Add custom lines
     categorizedCustomLines.forEach((lines, category) => {
       if (merged.has(category)) {
         merged.get(category)!.push(...lines.map(l => ({
@@ -87,14 +82,10 @@ const CourseDetail = () => {
     return merged;
   }, [categorizedBuiltInLines, categorizedCustomLines, allLines, customLines, hiddenLines]);
 
-  const sortedCategoryNames = useMemo(() => {
-    return getSortedCategories(allCategories);
-  }, [allCategories]);
+  const sortedCategoryNames = useMemo(() => getSortedCategories(allCategories), [allCategories]);
 
-  // Get starting moves for the opening
   const getStartingMoves = () => {
     if (!course) return [];
-    // Parse the moves string like "1.e4 e5 2.Nf3 Nc6 3.Bc4"
     const movesStr = course.moves;
     const moves: string[] = [];
     const regex = /(\d+\.+)?\s*([a-zA-Z0-9+#=\-]+)/g;
@@ -111,7 +102,6 @@ const CourseDetail = () => {
     navigate(`/train?course=${courseId}&startLine=${lineIndex}`);
   };
 
-
   const toggleCategory = (category: string) => {
     setExpandedCategories(prev => {
       const newSet = new Set(prev);
@@ -124,15 +114,14 @@ const CourseDetail = () => {
     });
   };
 
-
   if (!course) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="pt-32 text-center">
-          <h1 className="text-2xl font-bold">Course not found</h1>
+          <h1 className="text-2xl font-bold">{t('course.notFound')}</h1>
           <Link to="/courses" className="text-primary hover:underline mt-4 inline-block">
-            Back to courses
+            {t('course.backToCourses')}
           </Link>
         </div>
       </div>
@@ -147,23 +136,20 @@ const CourseDetail = () => {
 
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4">
-          {/* Back link */}
           <Link
             to="/courses"
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to courses
+            {t('course.backToCourses')}
           </Link>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main content */}
             <div className="lg:col-span-2">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                {/* Header */}
                 <div className="flex items-start gap-4 mb-6">
                   <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-xl bg-muted text-4xl">
                     {course.color === 'white' ? '♚' : '♔'}
@@ -174,32 +160,28 @@ const CourseDetail = () => {
                   </div>
                 </div>
 
-                {/* Description */}
                 <p className="text-xl text-muted-foreground mb-8">
                   {course.description}
                 </p>
 
-                {/* Stats */}
                 <div className="flex gap-4 mb-8">
                   <div className="inline-flex rounded-xl border border-border bg-card p-4">
                     <BookOpen className="h-5 w-5 text-primary mr-3" />
                     <div>
                       <div className="text-2xl font-bold">{totalLines}</div>
-                      <div className="text-sm text-muted-foreground">Total Lines</div>
+                      <div className="text-sm text-muted-foreground">{t('general.totalLines')}</div>
                     </div>
                   </div>
                 </div>
 
-                {/* Starting position */}
                 <div className="rounded-xl border border-border bg-card p-6 mb-8">
-                  <h3 className="font-bold mb-3">Starting Position</h3>
+                  <h3 className="font-bold mb-3">{t('course.startingPosition')}</h3>
                   <code className="text-lg font-mono text-primary">{course.moves}</code>
                 </div>
 
-                {/* All lines by category */}
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xl font-bold">Lines in this course</h3>
+                    <h3 className="text-xl font-bold">{t('course.linesInCourse')}</h3>
                   </div>
                   
                   <div className="space-y-4">
@@ -234,7 +216,6 @@ const CourseDetail = () => {
                             {lines.map((line, idx) => {
                               const isLearned = courseId && isLineLearned(courseId, line.index);
                               
-                              
                               return (
                                 <motion.div
                                   key={`${category}-${line.name}-${idx}`}
@@ -261,19 +242,19 @@ const CourseDetail = () => {
                                         {line.name}
                                       </span>
                                       <span className="text-xs text-muted-foreground">
-                                        {line.moves.length} moves
+                                        {line.moves.length} {t('general.moves')}
                                       </span>
                                     </div>
                                   </div>
                                   
-                                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                  <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <Button
                                       variant="secondary"
                                       size="sm"
                                       onClick={() => handleStartLine(line.index)}
                                     >
                                       <Play className="h-4 w-4 mr-1" />
-                                      Learn
+                                      {t('general.learn')}
                                     </Button>
                                   </div>
                                 </motion.div>
@@ -297,16 +278,15 @@ const CourseDetail = () => {
                 className="sticky top-24"
               >
                 <div className="rounded-xl border border-border bg-card p-6">
-                  <h3 className="font-bold mb-4">Start Training</h3>
+                  <h3 className="font-bold mb-4">{t('general.startTraining')}</h3>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Learn the moves that real players at your rating actually play.
+                    {t('course.learnDescription')}
                   </p>
                   
-                  {/* Progress indicator */}
                   {learnedCount > 0 && (
                     <div className="mb-4 p-3 rounded-lg bg-primary/10 border border-primary/20">
                       <div className="text-sm font-medium text-primary">
-                        {learnedCount} of {totalLines} lines learned
+                        {learnedCount} {t('general.of')} {totalLines} {t('general.linesLearned')}
                       </div>
                       <div className="mt-2 h-2 bg-muted rounded-full overflow-hidden">
                         <div 
@@ -324,19 +304,18 @@ const CourseDetail = () => {
                     return allLearned ? (
                       <Button variant="hero" size="lg" className="w-full" disabled>
                         <Check className="h-5 w-5 mr-2" />
-                        All Lines Learned!
+                        {t('general.allLearned')}
                       </Button>
                     ) : (
                       <Link to={`/train?course=${course.id}&startLine=${firstUnlearned}`}>
                         <Button variant="hero" size="lg" className="w-full">
                           <Play className="h-5 w-5 mr-2" />
-                          Learn New Lines
+                          {t('general.learnNewLines')}
                         </Button>
                       </Link>
                     );
                   })()}
                   
-                  {/* Drill button */}
                   <Link to={`/train?course=${course.id}&mode=drill`}>
                     <Button 
                       variant={canDrill ? "secondary" : "ghost"} 
@@ -345,7 +324,7 @@ const CourseDetail = () => {
                       disabled={!canDrill}
                     >
                       <Dumbbell className="h-5 w-5 mr-2" />
-                      {canDrill ? `Drill ${learnedCount} Learned Lines` : 'Learn lines to unlock drilling'}
+                      {canDrill ? `${t('general.drill')} ${learnedCount} ${t('general.linesLearned')}` : t('course.unlockDrill')}
                     </Button>
                   </Link>
                 </div>
@@ -354,7 +333,6 @@ const CourseDetail = () => {
           </div>
         </div>
       </main>
-
     </div>
   );
 };

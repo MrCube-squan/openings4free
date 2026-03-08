@@ -6,10 +6,12 @@ import CourseCard from '@/components/CourseCard';
 import { courses } from '@/lib/courses';
 import { Button } from '@/components/ui/button';
 import { Search, Filter, X } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Courses = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [colorFilter, setColorFilter] = useState<'all' | 'white' | 'black'>('all');
+  const { t } = useLanguage();
 
   const filteredCourses = courses
     .filter((course) => {
@@ -19,6 +21,12 @@ const Courses = () => {
       return matchesSearch && matchesColor;
     })
     .sort((a, b) => a.name.localeCompare(b.name));
+
+  const colorLabels: Record<string, string> = {
+    all: t('courses.allColors'),
+    white: t('courses.white'),
+    black: t('courses.black'),
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -33,13 +41,12 @@ const Courses = () => {
             className="max-w-2xl mb-12"
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Opening Courses
+              {t('courses.title')}
             </h1>
             <p className="text-lg text-muted-foreground">
-              Curated repertoires built from real games.
+              {t('courses.subtitle')}
             </p>
           </motion.div>
-
 
           {/* Filters */}
           <motion.div
@@ -53,7 +60,7 @@ const Courses = () => {
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search openings..."
+                placeholder={t('courses.search')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full h-11 pl-10 pr-10 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
@@ -76,12 +83,11 @@ const Courses = () => {
                   variant={colorFilter === color ? 'default' : 'secondary'}
                   size="sm"
                   onClick={() => setColorFilter(color)}
-                  className="capitalize"
                 >
-                  {color === 'all' ? 'All Colors' : (
+                  {color === 'all' ? colorLabels[color] : (
                     <span className="flex items-center gap-1.5">
                       <span className="text-lg">{color === 'white' ? '♚' : '♔'}</span>
-                      {color}
+                      {colorLabels[color]}
                     </span>
                   )}
                 </Button>
@@ -104,14 +110,12 @@ const Courses = () => {
               className="text-center py-16"
             >
               <Filter className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-xl font-bold mb-2">No courses found</h3>
-              <p className="text-muted-foreground">Try adjusting your filters</p>
+              <h3 className="text-xl font-bold mb-2">{t('courses.noResults')}</h3>
+              <p className="text-muted-foreground">{t('courses.noResultsDesc')}</p>
             </motion.div>
           )}
         </div>
       </main>
-
-      
     </div>
   );
 };
