@@ -744,7 +744,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.courses': 'Курсы',
     'nav.train': 'Тренировка',
     'nav.login': 'Войти',
-    'nav.signup': 'Регистрация',
+    'nav.signup': 'Бесплатная регистрация',
     'nav.logout': 'Выйти',
     'nav.deleteAccount': 'Удалить аккаунт',
     'nav.deleteConfirm': 'Вы уверены, что хотите навсегда удалить свой аккаунт? Это действие нельзя отменить.',
