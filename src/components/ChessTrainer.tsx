@@ -786,6 +786,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         onUpdateSettings={updateSettings}
       />
     </div>
+    </>
   );
 };
 
