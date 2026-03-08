@@ -38,24 +38,6 @@ const Navbar = () => {
     navigate('/');
   };
 
-  const handleDeleteAccount = async () => {
-    try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        toast.error('Not authenticated');
-        return;
-      }
-      const res = await supabase.functions.invoke('delete-account', {
-        headers: { Authorization: `Bearer ${session.access_token}` },
-      });
-      if (res.error) throw res.error;
-      await supabase.auth.signOut();
-      toast.success('Account deleted successfully');
-      navigate('/');
-    } catch (e: any) {
-      toast.error(e.message || 'Failed to delete account');
-    }
-  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
