@@ -9,6 +9,7 @@ import { useStreak } from '@/hooks/useStreak';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { languages } from '@/lib/i18n';
 import { supabase } from '@/integrations/supabase/client';
+import StreakBadge from '@/components/StreakBadge';
 import { toast } from 'sonner';
 import {
   DropdownMenu,
