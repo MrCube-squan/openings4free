@@ -75,6 +75,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
+  const [userKnightArrows, setUserKnightArrows] = useState<Array<{ from: Square; to: Square; color: string }>>([]);
 
   // Listen for modifier keys to change arrow color
   useEffect(() => {
