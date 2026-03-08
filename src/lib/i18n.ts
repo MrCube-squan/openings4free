@@ -2236,7 +2236,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Οι λάθος κινήσεις δίνουν ανατροφοδότηση και μπορείτε να ξαναπροσπαθήσετε',
     'train.hintTip': 'Χρησιμοποιήστε το κουμπί εμφάνισης κίνησης αν κολλήσετε (δείχνει βέλος στη σκακιέρα!)',
     'train.drillUnlock': 'Ολοκληρώστε γραμμές για να ξεκλειδώσετε τη λειτουργία εξάσκησης',
-    'train.arrowColors': 'Δεξί κλικ και σύρσιμο για βέλη — Alt για κόκκινο, Shift για πράσινο, Alt+Shift για μπλε',
+    'train.arrowColors': 'Δεξί κλικ και σύρσιμο για βέλη — Alt για κόκκινο, Shift για πράσινο, Ctrl για μπλε',
     'train.backToCourse': 'Πίσω στο μάθημα',
     'train.browseCourses': 'Περιήγηση μαθημάτων',
     'train.trainingDemo': 'Επίδειξη εξάσκησης',
