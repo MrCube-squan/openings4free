@@ -254,7 +254,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         if (piece && piece.color === playerPieceColor) {
           setSelectedSquare(square);
           setCustomSquareStyles({
-            [square]: { backgroundColor: 'hsl(210, 80%, 55%, 0.4)' },
+            [square]: { backgroundColor: 'hsl(0, 72%, 55%, 0.4)' },
           });
         }
         return;
