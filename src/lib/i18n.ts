@@ -1362,7 +1362,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'nav.deleteConfirm': 'Czy na pewno chcesz trwale usunąć swoje konto? Tej operacji nie można cofnąć.',
     'nav.streak': 'dni z rzędu',
     'home.badge': 'Darmowy Trener Debiutów',
-    'home.title': 'Opanuj debiuty W ',
+    'home.title': 'Opanuj debiuty: ',
     'home.titleHighlight': 'Najlepszy Sposób',
     'home.subtitle': 'Nie marnuj godzin na filmy z teorii. Trenuj warianty, które zapamiętasz przy szachownicy.',
     'home.browseCourses': 'Przeglądaj Kursy',
