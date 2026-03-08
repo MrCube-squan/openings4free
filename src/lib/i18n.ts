@@ -1623,7 +1623,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'कोर्स देखें',
     'train.trainingDemo': 'प्रशिक्षण डेमो',
     'train.tryItalian': 'इटालियन गेम ओपनिंग आज़माएं',
-    'train.learning': 'सीख रहे हैं',
+    'train.learning': 'अध्ययन मोड',
     'train.drilling': 'अभ्यास कर रहे हैं',
     'train.noDrillYet': 'अभी तक अभ्यास के लिए कोई लाइन नहीं',
     'train.noDrillDesc': 'अभ्यास अनलॉक करने के लिए सीखें मोड में लाइन्स पूरी करें।',
