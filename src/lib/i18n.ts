@@ -1475,7 +1475,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'home.ctaButton': 'Ücretsiz Antrenmana Başla',
     'home.credit': 'Mr.Cube_k6j tarafından YouTube ve TikTok\'ta oluşturuldu',
     'home.contact': 'Teoride hatalar veya sorunlar buldunuz mu? Bana e-posta gönderin:',
-    'feature.realGameLines': 'Gerçek Maç Çizgileri',
+    'feature.realGameLines': 'Gerçek Parti Varyantları',
     'feature.realGameLinesDesc': 'Milyonlarca Lichess oyunundan çıkarılan hamleler. Gerçekten karşılaşacağınızı öğrenin.',
     'feature.spacedRepetition': 'Aralıklı Tekrar',
     'feature.spacedRepetitionDesc': 'Doğruluğunuza göre akıllı zamanlama. Zor çizgiler daha sık geri gelir.',
