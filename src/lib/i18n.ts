@@ -1932,7 +1932,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': 'Selaa kursseja',
     'train.trainingDemo': 'Harjoitteludemo',
     'train.tryItalian': 'Kokeile Italialaista peliä',
-    'train.learning': 'Oppiminen',
+    'train.learning': 'Opiskelutila',
     'train.drilling': 'Harjoittelu',
     'train.noDrillYet': 'Ei vielä harjoiteltavia linjoja',
     'train.noDrillDesc': 'Suorita linjat oppimistilassa avataksesi harjoittelun.',
