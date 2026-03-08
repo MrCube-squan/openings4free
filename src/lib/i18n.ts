@@ -1039,6 +1039,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': '正確さ',
     'trainer.correct': '正解',
     'trainer.cancel': 'キャンセル',
+    'trainer.addNote': 'メモを追加',
+    'trainer.notePlaceholder': 'この手に個人メモを追加...',
+    'trainer.signInNotes': 'ログインしてメモを追加し、進捗を追跡しましょう',
+    'trainer.savedNote': 'メモを保存しました',
+    'trainer.errorReport': '理論のエラーや問題を見つけましたか？メールしてください',
+    'home.creatorBadge': 'Mr.Cube_k6j が YouTube と TikTok で制作',
   },
   ar: {
     'nav.courses': 'الدورات',
