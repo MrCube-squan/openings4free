@@ -1618,6 +1618,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'गलत चालें फीडबैक दिखाती हैं और आप फिर से कोशिश कर सकते हैं',
     'train.hintTip': 'अटक गए तो हिंट बटन का उपयोग करें (बोर्ड पर तीर दिखाता है!)',
     'train.drillUnlock': 'Drill मोड अनलॉक करने के लिए लाइन्स पूरी करें',
+    'train.arrowColors': 'तीर बनाने के लिए राइट-क्लिक ड्रैग करें — Alt लाल के लिए, Shift हरे के लिए, Alt+Shift नीले के लिए',
     'train.backToCourse': 'कोर्स पर वापस',
     'train.browseCourses': 'कोर्स देखें',
     'train.trainingDemo': 'प्रशिक्षण डेमो',
