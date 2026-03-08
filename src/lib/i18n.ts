@@ -2059,6 +2059,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'Nøyaktighet',
     'trainer.correct': 'Riktig',
     'trainer.cancel': 'Avbryt',
+    'trainer.addNote': 'Legg til notat',
+    'trainer.notePlaceholder': 'Legg til et personlig notat for dette trekket...',
+    'trainer.signInNotes': 'Logg inn for å legge til personlige notater og følge fremgangen din',
+    'trainer.savedNote': 'Notat lagret',
+    'trainer.errorReport': 'Fant du feil i teorien eller har problemer? Send e-post til',
+    'home.creatorBadge': 'Laget av Mr.Cube_k6j på YouTube og TikTok',
   },
   da: {
     'nav.courses': 'Kurser',
