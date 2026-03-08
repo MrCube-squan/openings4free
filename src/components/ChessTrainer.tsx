@@ -237,7 +237,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         }
       }, 1000);
     }
-  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect]);
+  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday]);
 
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
