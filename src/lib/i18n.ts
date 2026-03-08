@@ -1927,6 +1927,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Väärät siirrot näyttävät palautteen ja voit yrittää uudelleen',
     'train.hintTip': 'Käytä näytä siirto -painiketta jos jäät jumiin (näyttää nuolen laudalla!)',
     'train.drillUnlock': 'Suorita linjat avataksesi harjoittelutilan',
+    'train.arrowColors': 'Vedä hiiren oikealla painikkeella piirtääksesi nuolia — Alt punaiselle, Shift vihreälle, Alt+Shift siniselle',
     'train.backToCourse': 'Takaisin kurssiin',
     'train.browseCourses': 'Selaa kursseja',
     'train.trainingDemo': 'Harjoitteludemo',
