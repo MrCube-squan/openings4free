@@ -1723,7 +1723,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Slutför linjer för att låsa upp Drill-läget',
     'train.arrowColors': 'Högerklicka och dra för pilar — Alt för röd, Shift för grön, Ctrl för blå',
     'train.backToCourse': 'Tillbaka till kursen',
-    'train.browseCourses': 'Bläddra kurser',
+    'train.browseCourses': 'Utforska kurser',
     'train.trainingDemo': 'Träningsdemo',
     'train.tryItalian': 'Prova Italienska öppningen',
     'train.learning': 'Studieläge',
