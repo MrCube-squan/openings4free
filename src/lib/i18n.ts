@@ -841,7 +841,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Сбросить',
     'trainer.next': 'Далее',
     'trainer.accuracy': 'Точность',
-    'trainer.correct': 'Верно',
+    'trainer.mistakes': 'Ошибки',
     'trainer.cancel': 'Отмена',
     'trainer.addNote': 'Добавить заметку',
     'trainer.notePlaceholder': 'Добавьте личную заметку к этому ходу...',
