@@ -116,6 +116,39 @@ export type Database = {
         }
         Relationships: []
       }
+      line_notes: {
+        Row: {
+          course_id: string
+          created_at: string
+          id: string
+          line_index: number
+          move_index: number
+          note: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          id?: string
+          line_index: number
+          move_index: number
+          note?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          id?: string
+          line_index?: number
+          move_index?: number
+          note?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_streaks: {
         Row: {
           created_at: string
