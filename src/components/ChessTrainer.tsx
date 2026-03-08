@@ -432,6 +432,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               showBoardNotation={settings.showCoordinates}
               customArrows={hintData.arrows}
               customArrowColor={arrowColor}
+              onArrowsChange={handleArrowsChange}
               customBoardStyle={{
                 borderRadius: '12px',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
@@ -440,69 +441,51 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               customLightSquareStyle={{ backgroundColor: currentTheme.light }}
               customSquareStyles={customSquareStyles}
             />
-            {/* L-shaped knight arrow overlay */}
-            {hintData.knightArrow && (() => {
-              const from = squareToCoords(hintData.knightArrow.from, playerColor);
-              const to = squareToCoords(hintData.knightArrow.to, playerColor);
-              const dx = to.x - from.x;
-              const dy = to.y - from.y;
-              const adx = Math.abs(dx);
-              const ady = Math.abs(dy);
-              
-              // L-shape: longer leg first, then short perpendicular leg
-              // For knight: one axis is 2 squares (200 units), other is 1 square (100 units)
-              const mid = ady > adx
-                ? { x: from.x, y: to.y }  // vertical first, then horizontal
-                : { x: to.x, y: from.y }; // horizontal first, then vertical
-              
-              // Arrow direction for the last segment (mid → to)
-              const lastDx = to.x - mid.x;
-              const lastDy = to.y - mid.y;
-              const lastLen = Math.sqrt(lastDx * lastDx + lastDy * lastDy);
-              const ndx = lastDx / lastLen;
-              const ndy = lastDy / lastLen;
-              
-              // Shorten the line so arrowhead tip lands at square center
-              const headSize = 28;
-              const lineEnd = {
-                x: to.x - ndx * headSize,
-                y: to.y - ndy * headSize,
-              };
-              
-              // Arrowhead triangle points
-              const tipX = to.x;
-              const tipY = to.y;
-              const baseX = to.x - ndx * headSize;
-              const baseY = to.y - ndy * headSize;
-              const perpX = -ndy;
-              const perpY = ndx;
-              const halfW = 18;
-              
-              const arrowHead = `${tipX},${tipY} ${baseX + perpX * halfW},${baseY + perpY * halfW} ${baseX - perpX * halfW},${baseY - perpY * halfW}`;
-              
-              return (
-                <svg
-                  viewBox="0 0 800 800"
-                  className="absolute inset-0 w-full h-full pointer-events-none"
-                  style={{ zIndex: 10, borderRadius: '12px' }}
-                >
-                  <polyline
-                    points={`${from.x},${from.y} ${mid.x},${mid.y} ${lineEnd.x},${lineEnd.y}`}
-                    fill="none"
-                    stroke="hsl(38, 95%, 55%)"
-                    strokeWidth="14"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    opacity="0.85"
-                  />
-                  <polygon
-                    points={arrowHead}
-                    fill="hsl(38, 95%, 55%)"
-                    opacity="0.85"
-                  />
-                </svg>
-              );
-            })()}
+            {/* L-shaped knight arrows overlay (hint + user-drawn) */}
+            {allKnightArrows.length > 0 && (
+              <svg
+                viewBox="0 0 800 800"
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                style={{ zIndex: 10, borderRadius: '12px' }}
+              >
+                {allKnightArrows.map((ka, idx) => {
+                  const from = squareToCoords(ka.from, playerColor);
+                  const to = squareToCoords(ka.to, playerColor);
+                  const adx = Math.abs(to.x - from.x);
+                  const ady = Math.abs(to.y - from.y);
+                  const mid = ady > adx
+                    ? { x: from.x, y: to.y }
+                    : { x: to.x, y: from.y };
+                  const lastDx = to.x - mid.x;
+                  const lastDy = to.y - mid.y;
+                  const lastLen = Math.sqrt(lastDx * lastDx + lastDy * lastDy);
+                  const ndx = lastDx / lastLen;
+                  const ndy = lastDy / lastLen;
+                  const headSize = 32;
+                  const lineEnd = { x: to.x - ndx * headSize, y: to.y - ndy * headSize };
+                  const baseX = to.x - ndx * headSize;
+                  const baseY = to.y - ndy * headSize;
+                  const perpX = -ndy;
+                  const perpY = ndx;
+                  const halfW = 22;
+                  const arrowHead = `${to.x},${to.y} ${baseX + perpX * halfW},${baseY + perpY * halfW} ${baseX - perpX * halfW},${baseY - perpY * halfW}`;
+                  return (
+                    <g key={idx}>
+                      <polyline
+                        points={`${from.x},${from.y} ${mid.x},${mid.y} ${lineEnd.x},${lineEnd.y}`}
+                        fill="none"
+                        stroke={ka.color}
+                        strokeWidth="22"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        opacity="0.8"
+                      />
+                      <polygon points={arrowHead} fill={ka.color} opacity="0.8" />
+                    </g>
+                  );
+                })}
+              </svg>
+            )}
           </div>
 
           <AnimatePresence>
