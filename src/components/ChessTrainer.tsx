@@ -64,13 +64,12 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [feedback, setFeedback] = useState<'correct' | 'incorrect' | null>(null);
   const [showHint, setShowHint] = useState(false);
   const [linesCompleted, setLinesCompleted] = useState(0);
-  const [correctMoves, setCorrectMoves] = useState(0);
+  const [totalMistakes, setTotalMistakes] = useState(0);
   const [totalMoves, setTotalMoves] = useState(0);
-  const [lineCorrectMoves, setLineCorrectMoves] = useState(0);
-  const [lineTotalMoves, setLineTotalMoves] = useState(0);
   const [hadMistake, setHadMistake] = useState(false);
-  const [repeatPending, setRepeatPending] = useState(false);
-  const [isFirstAttempt, setIsFirstAttempt] = useState(true);
+  // linePass: 1 = guided (moves shown), 2 = test (moves hidden)
+  const [linePass, setLinePass] = useState<1 | 2>(1);
+  const [pass1Perfect, setPass1Perfect] = useState(false);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
   const [settingsOpen, setSettingsOpen] = useState(false);
