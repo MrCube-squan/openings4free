@@ -186,27 +186,30 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     // Ignore empty calls so user-drawn arrows persist until position changes.
     if (arrows.length === 0) return;
 
-    const nonKnight: Array<[Square, Square, string]> = [];
-    let lastKnight: { from: Square; to: Square; color: string } | null = null;
-    const previousKnight = userKnightArrowRef.current;
-
+    // Process incoming arrows — separate knight vs non-knight
     for (const arr of arrows) {
       const [from, to, color] = arr;
-      if (isKnightMove(from, to)) {
-        const preservedColor = color && color !== HIDDEN_KNIGHT_ARROW_COLOR
-          ? color
-          : (previousKnight?.from === from && previousKnight?.to === to
-            ? previousKnight.color
-            : arrowColor);
+      if (color === HIDDEN_KNIGHT_ARROW_COLOR) continue; // skip our own hidden placeholders
 
-        lastKnight = { from, to, color: preservedColor };
+      if (isKnightMove(from, to)) {
+        const resolvedColor = color || arrowColor;
+        setUserKnightArrow((prev) => {
+          // Toggle off if same arrow already exists
+          if (prev && prev.from === from && prev.to === to) return null;
+          return { from, to, color: resolvedColor };
+        });
       } else {
-        nonKnight.push([from, to, color || arrowColor]);
+        const resolvedColor = color || arrowColor;
+        setUserNonKnightArrows((prev) => {
+          // Toggle off if same from-to already exists
+          const existingIdx = prev.findIndex(a => a[0] === from && a[1] === to);
+          if (existingIdx !== -1) {
+            return prev.filter((_, i) => i !== existingIdx);
+          }
+          return [...prev, [from, to, resolvedColor]];
+        });
       }
     }
-
-    setUserKnightArrow((prev) => (isSameKnightArrow(prev, lastKnight) ? prev : lastKnight));
-    setUserNonKnightArrows((prev) => (areArrowListsEqual(prev, nonKnight) ? prev : nonKnight));
   }, [arrowColor]);
 
   // Clear user-drawn arrows when position changes
