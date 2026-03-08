@@ -2238,7 +2238,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'Ολοκληρώστε γραμμές για να ξεκλειδώσετε τη λειτουργία εξάσκησης',
     'train.arrowColors': 'Δεξί κλικ και σύρσιμο για βέλη — Alt για κόκκινο, Shift για πράσινο, Ctrl για μπλε',
     'train.backToCourse': 'Πίσω στο μάθημα',
-    'train.browseCourses': 'Περιήγηση μαθημάτων',
+    'train.browseCourses': 'Εξερεύνηση μαθημάτων',
     'train.trainingDemo': 'Επίδειξη εξάσκησης',
     'train.tryItalian': 'Δοκιμάστε το Ιταλικό άνοιγμα',
     'train.learning': 'Λειτουργία μελέτης',
