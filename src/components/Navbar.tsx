@@ -100,13 +100,7 @@ const Navbar = () => {
           {/* Right side */}
           <div className="hidden md:flex items-center gap-3">
             {/* Streak badge */}
-            {isAuthenticated && streak > 0 && (
-              <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent/10 border border-accent/20">
-                <Flame className="h-4 w-4 text-accent" />
-                <span className="text-sm font-bold text-accent">{streak}</span>
-                <span className="text-xs text-muted-foreground">{t('nav.streak')}</span>
-              </div>
-            )}
+            {isAuthenticated && <StreakBadge streak={streak} />}
 
             {/* Language Switcher */}
             <DropdownMenu>
