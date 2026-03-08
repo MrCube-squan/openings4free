@@ -1871,7 +1871,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Скинути',
     'trainer.next': 'Далі',
     'trainer.accuracy': 'Точність',
-    'trainer.correct': 'Правильно',
+    'trainer.mistakes': 'Помилки',
     'trainer.cancel': 'Скасувати',
     'trainer.addNote': 'Додати нотатку',
     'trainer.notePlaceholder': 'Додайте особисту нотатку до цього ходу...',
