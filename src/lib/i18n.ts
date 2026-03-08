@@ -1211,7 +1211,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.browseCourses': '코스 보기',
     'train.trainingDemo': '훈련 데모',
     'train.tryItalian': '이탈리안 게임을 시도해 보세요',
-    'train.learning': '학습 중',
+    'train.learning': '학습 모드',
     'train.drilling': '연습 중',
     'train.noDrillYet': '아직 연습할 라인이 없습니다',
     'train.noDrillDesc': '학습 모드에서 라인을 완료하여 연습을 해제하세요.',
