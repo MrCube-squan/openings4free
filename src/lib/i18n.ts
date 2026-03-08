@@ -118,7 +118,7 @@ type TranslationKeys = {
   'trainer.reset': string;
   'trainer.next': string;
   'trainer.accuracy': string;
-  'trainer.correct': string;
+  'trainer.mistakes': string;
   'trainer.cancel': string;
   'trainer.addNote': string;
   'trainer.notePlaceholder': string;
