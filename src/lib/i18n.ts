@@ -1002,7 +1002,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.drillUnlock': 'ラインを完了してドリルモードを解除',
     'train.arrowColors': '右クリックドラッグで矢印を描画 — Altで赤、Shiftで緑、Ctrlで青',
     'train.backToCourse': 'コースに戻る',
-    'train.browseCourses': 'コースを見る',
+    'train.browseCourses': 'コースを探す',
     'train.trainingDemo': 'トレーニングデモ',
     'train.tryItalian': 'イタリアンゲームを試す',
     'train.learning': '学習モード',
