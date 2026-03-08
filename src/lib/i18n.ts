@@ -1253,7 +1253,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': '초기화',
     'trainer.next': '다음',
     'trainer.accuracy': '정확도',
-    'trainer.correct': '정답',
+    'trainer.mistakes': '실수',
     'trainer.cancel': '취소',
     'trainer.addNote': '메모 추가',
     'trainer.notePlaceholder': '이 수에 대한 개인 메모를 추가하세요...',
