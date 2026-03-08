@@ -691,6 +691,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'train.wrongFeedback': 'Le mosse sbagliate mostrano feedback e puoi riprovare',
     'train.hintTip': "Usa il pulsante suggerimento se sei bloccato (mostra una freccia sulla scacchiera!)",
     'train.drillUnlock': 'Completa linee per sbloccare la modalità Drill',
+    'train.arrowColors': 'Trascina con clic destro per disegnare frecce — Alt per rosso, Shift per verde, Alt+Shift per blu',
     'train.backToCourse': 'Torna al corso',
     'train.browseCourses': 'Sfoglia corsi',
     'train.trainingDemo': 'Demo di Allenamento',
