@@ -1855,6 +1855,12 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.accuracy': 'Точність',
     'trainer.correct': 'Правильно',
     'trainer.cancel': 'Скасувати',
+    'trainer.addNote': 'Додати нотатку',
+    'trainer.notePlaceholder': 'Додайте особисту нотатку до цього ходу...',
+    'trainer.signInNotes': 'Увійдіть, щоб додавати нотатки та відстежувати прогрес',
+    'trainer.savedNote': 'Нотатку збережено',
+    'trainer.errorReport': 'Знайшли помилки в теорії або маєте проблеми? Напишіть мені на',
+    'home.creatorBadge': 'Створено Mr.Cube_k6j на YouTube та TikTok',
   },
   fi: {
     'nav.courses': 'Kurssit',
