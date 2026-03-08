@@ -6,6 +6,8 @@ import { toast } from 'sonner';
 interface Profile {
   id: string;
   display_name: string;
+  username: string | null;
+  username_changed_at: string | null;
 }
 
 interface FriendRequest {
@@ -41,7 +43,7 @@ export const useFriends = () => {
       .select('*')
       .eq('id', user.id)
       .single();
-    if (data) setMyProfile(data as Profile);
+    if (data) setMyProfile(data as unknown as Profile);
   }, [user]);
 
   const fetchFriends = useCallback(async () => {
@@ -57,7 +59,7 @@ export const useFriends = () => {
         .from('profiles')
         .select('*')
         .in('id', friendIds);
-      if (profiles) setFriends(profiles as Profile[]);
+      if (profiles) setFriends(profiles as unknown as Profile[]);
     } else {
       setFriends([]);
     }
@@ -66,7 +68,6 @@ export const useFriends = () => {
   const fetchRequests = useCallback(async () => {
     if (!user) return;
     
-    // Pending requests received
     const { data: incoming } = await supabase
       .from('friend_requests')
       .select('*')
@@ -82,13 +83,12 @@ export const useFriends = () => {
       const profileMap = new Map((profiles || []).map(p => [p.id, p]));
       setPendingRequests(incoming.map(r => ({
         ...r,
-        sender_profile: profileMap.get(r.sender_id) as Profile | undefined
+        sender_profile: profileMap.get(r.sender_id) as unknown as Profile | undefined
       })));
     } else {
       setPendingRequests([]);
     }
 
-    // Sent requests
     const { data: outgoing } = await supabase
       .from('friend_requests')
       .select('*')
@@ -104,7 +104,7 @@ export const useFriends = () => {
       const profileMap = new Map((profiles || []).map(p => [p.id, p]));
       setSentRequests(outgoing.map(r => ({
         ...r,
-        receiver_profile: profileMap.get(r.receiver_id) as Profile | undefined
+        receiver_profile: profileMap.get(r.receiver_id) as unknown as Profile | undefined
       })));
     } else {
       setSentRequests([]);
@@ -114,7 +114,6 @@ export const useFriends = () => {
   const fetchLeaderboards = useCallback(async () => {
     if (!user) return;
     
-    // Weekly: start of current week (Monday)
     const now = new Date();
     const dayOfWeek = now.getDay();
     const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
@@ -122,7 +121,6 @@ export const useFriends = () => {
     weekStart.setDate(now.getDate() + mondayOffset);
     weekStart.setHours(0, 0, 0, 0);
 
-    // Monthly: start of current month
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
     const { data: weekly } = await supabase.rpc('get_friend_leaderboard', {
@@ -151,13 +149,11 @@ export const useFriends = () => {
 
   const searchUsers = async (query: string): Promise<Profile[]> => {
     if (!query || query.length < 2 || !user) return [];
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .ilike('display_name', `%${query}%`)
-      .neq('id', user.id)
-      .limit(10);
-    return (data || []) as Profile[];
+    const { data } = await supabase.rpc('search_users_by_query', {
+      p_query: query,
+      p_current_user_id: user.id,
+    });
+    return (data || []) as unknown as Profile[];
   };
 
   const sendRequest = async (receiverId: string) => {
@@ -196,17 +192,32 @@ export const useFriends = () => {
     await refresh();
   };
 
-  const updateDisplayName = async (name: string) => {
-    if (!user) return;
-    const { error } = await supabase
-      .from('profiles')
-      .update({ display_name: name })
-      .eq('id', user.id);
-    if (error) toast.error('Failed to update name');
-    else {
-      toast.success('Display name updated!');
-      await fetchProfile();
+  const updateUsername = async (username: string): Promise<boolean> => {
+    if (!user) return false;
+    const { data, error } = await supabase.rpc('update_username', {
+      p_user_id: user.id,
+      p_username: username,
+    });
+    if (error) {
+      toast.error('Failed to update username');
+      return false;
     }
+    const result = data as unknown as { success: boolean; error?: string };
+    if (!result.success) {
+      toast.error(result.error || 'Failed to update username');
+      return false;
+    }
+    toast.success('Username updated!');
+    await fetchProfile();
+    return true;
+  };
+
+  const canChangeUsername = (): { allowed: boolean; nextChangeDate?: Date } => {
+    if (!myProfile?.username_changed_at) return { allowed: true };
+    const lastChanged = new Date(myProfile.username_changed_at);
+    const nextChange = new Date(lastChanged.getTime() + 7 * 24 * 60 * 60 * 1000);
+    if (new Date() >= nextChange) return { allowed: true };
+    return { allowed: false, nextChangeDate: nextChange };
   };
 
   return {
@@ -222,7 +233,8 @@ export const useFriends = () => {
     acceptRequest,
     rejectRequest,
     removeFriend,
-    updateDisplayName,
+    updateUsername,
+    canChangeUsername,
     refresh,
   };
 };
