@@ -738,7 +738,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Ricomincia',
     'trainer.next': 'Successiva',
     'trainer.accuracy': 'Precisione',
-    'trainer.correct': 'Corrette',
+    'trainer.mistakes': 'Errori',
     'trainer.cancel': 'Annulla',
     'trainer.addNote': 'Aggiungi Nota',
     'trainer.notePlaceholder': 'Aggiungi una nota personale per questa mossa...',
