@@ -2180,7 +2180,7 @@ const translations: Record<LangCode, TranslationKeys> = {
     'trainer.reset': 'Nulstil',
     'trainer.next': 'Næste',
     'trainer.accuracy': 'Nøjagtighed',
-    'trainer.correct': 'Rigtigt',
+    'trainer.mistakes': 'Fejl',
     'trainer.cancel': 'Annuller',
     'trainer.addNote': 'Tilføj note',
     'trainer.notePlaceholder': 'Tilføj en personlig note til dette træk...',
