@@ -46,15 +46,6 @@ const Friends = () => {
     setSearching(false);
   };
 
-  const handleShare = () => {
-    const url = window.location.origin;
-    if (navigator.share) {
-      navigator.share({ title: 'Openings4Free', text: t('friends.shareText'), url });
-    } else {
-      navigator.clipboard.writeText(url);
-      import('sonner').then(({ toast }) => toast.success(t('friends.linkCopied')));
-    }
-  };
 
   const handleUsernameUpdate = async () => {
     if (!newName.trim()) return;
