@@ -56,54 +56,80 @@ const Account = () => {
     if (success) setEditingUsername(false);
   };
 
-  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !user) return;
-
+    if (!file) return;
     if (!file.type.startsWith('image/')) {
       toast.error('Please upload an image file');
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      toast.error('Image must be under 2MB');
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image must be under 5MB');
       return;
     }
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+    setCropSize(100);
+    setShowCropper(true);
+  };
 
+  const cropAndUpload = useCallback(async () => {
+    if (!selectedFile || !user || !previewUrl) return;
     setUploading(true);
     try {
-      const ext = file.name.split('.').pop();
-      const filePath = `${user.id}/avatar.${ext}`;
+      const img = new Image();
+      img.src = previewUrl;
+      await new Promise((resolve) => { img.onload = resolve; });
 
-      // Remove old avatar if exists
+      const canvas = canvasRef.current;
+      if (!canvas) throw new Error('Canvas not available');
+      const outputSize = 256;
+      canvas.width = outputSize;
+      canvas.height = outputSize;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas context not available');
+
+      const minDim = Math.min(img.width, img.height);
+      const cropPx = minDim * (cropSize / 100);
+      const sx = (img.width - cropPx) / 2;
+      const sy = (img.height - cropPx) / 2;
+
+      ctx.drawImage(img, sx, sy, cropPx, cropPx, 0, 0, outputSize, outputSize);
+
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Failed to create blob')), 'image/webp', 0.85);
+      });
+
+      const filePath = `${user.id}/avatar.webp`;
       await supabase.storage.from('avatars').remove([filePath]);
 
       const { error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(filePath, file, { upsert: true });
-
+        .upload(filePath, blob, { upsert: true, contentType: 'image/webp' });
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage
         .from('avatars')
         .getPublicUrl(filePath);
 
-      const avatarUrl = `${publicUrl}?t=${Date.now()}`;
-
+      const avatarUrlWithCache = `${publicUrl}?t=${Date.now()}`;
       const { error: updateError } = await supabase
         .from('profiles')
-        .update({ avatar_url: avatarUrl } as any)
+        .update({ avatar_url: avatarUrlWithCache } as any)
         .eq('id', user.id);
-
       if (updateError) throw updateError;
 
       toast.success('Avatar updated!');
+      setShowCropper(false);
+      setSelectedFile(null);
+      setPreviewUrl(null);
       await refresh();
     } catch (err: any) {
       toast.error(err.message || 'Failed to upload avatar');
     } finally {
       setUploading(false);
     }
-  };
+  }, [selectedFile, user, previewUrl, cropSize, refresh]);
 
   const handleSignOut = async () => {
     await signOut();
