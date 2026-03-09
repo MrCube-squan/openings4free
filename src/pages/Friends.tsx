@@ -244,19 +244,6 @@ const Friends = () => {
                 />
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/10 to-accent/5 p-6 text-center"
-              >
-                <Share2 className="h-8 w-8 mx-auto mb-3 text-primary" />
-                <h3 className="text-lg font-bold mb-2">{t('friends.shareCta')}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{t('friends.shareCtaDesc')}</p>
-                <Button variant="default" onClick={handleShare}>
-                  <Share2 className="h-4 w-4 mr-2" />
-                  {t('friends.shareButton')}
-                </Button>
-              </motion.div>
             </TabsContent>
 
             {/* Friends List Tab */}
