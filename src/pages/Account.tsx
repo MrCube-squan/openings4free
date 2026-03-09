@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
@@ -8,10 +8,11 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { 
-  User, Mail, Pencil, Check, X, Camera, AlertCircle, Loader2, LogOut, Trash2
+  User, Mail, Pencil, Check, X, Camera, AlertCircle, Loader2, LogOut, Trash2, ZoomIn
 } from 'lucide-react';
 import {
   AlertDialog,
