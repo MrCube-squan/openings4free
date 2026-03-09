@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Search, UserPlus, UserCheck, UserX, Trophy, Crown, 
-  Medal, Clock, Users, Flame, Share2, Loader2, Pencil, Check, X, AlertCircle
+  Medal, Clock, Users, Flame, Loader2, Pencil, Check, X, AlertCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -46,15 +46,6 @@ const Friends = () => {
     setSearching(false);
   };
 
-  const handleShare = () => {
-    const url = window.location.origin;
-    if (navigator.share) {
-      navigator.share({ title: 'Openings4Free', text: t('friends.shareText'), url });
-    } else {
-      navigator.clipboard.writeText(url);
-      import('sonner').then(({ toast }) => toast.success(t('friends.linkCopied')));
-    }
-  };
 
   const handleUsernameUpdate = async () => {
     if (!newName.trim()) return;
@@ -244,19 +235,6 @@ const Friends = () => {
                 />
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="rounded-xl border border-primary/20 bg-gradient-to-br from-primary/10 to-accent/5 p-6 text-center"
-              >
-                <Share2 className="h-8 w-8 mx-auto mb-3 text-primary" />
-                <h3 className="text-lg font-bold mb-2">{t('friends.shareCta')}</h3>
-                <p className="text-sm text-muted-foreground mb-4">{t('friends.shareCtaDesc')}</p>
-                <Button variant="default" onClick={handleShare}>
-                  <Share2 className="h-4 w-4 mr-2" />
-                  {t('friends.shareButton')}
-                </Button>
-              </motion.div>
             </TabsContent>
 
             {/* Friends List Tab */}

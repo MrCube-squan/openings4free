@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
@@ -8,10 +8,11 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { 
-  User, Mail, Pencil, Check, X, Camera, AlertCircle, Loader2, LogOut, Trash2
+  User, Mail, Pencil, Check, X, Camera, AlertCircle, Loader2, LogOut, Trash2, ZoomIn
 } from 'lucide-react';
 import {
   AlertDialog,
@@ -35,6 +36,11 @@ const Account = () => {
   const [editingUsername, setEditingUsername] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [cropSize, setCropSize] = useState(100); // percentage of image to use
+  const [showCropper, setShowCropper] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const usernameStatus = canChangeUsername();
 
@@ -50,54 +56,80 @@ const Account = () => {
     if (success) setEditingUsername(false);
   };
 
-  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file || !user) return;
-
+    if (!file) return;
     if (!file.type.startsWith('image/')) {
       toast.error('Please upload an image file');
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      toast.error('Image must be under 2MB');
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image must be under 5MB');
       return;
     }
+    setSelectedFile(file);
+    setPreviewUrl(URL.createObjectURL(file));
+    setCropSize(100);
+    setShowCropper(true);
+  };
 
+  const cropAndUpload = useCallback(async () => {
+    if (!selectedFile || !user || !previewUrl) return;
     setUploading(true);
     try {
-      const ext = file.name.split('.').pop();
-      const filePath = `${user.id}/avatar.${ext}`;
+      const img = new Image();
+      img.src = previewUrl;
+      await new Promise((resolve) => { img.onload = resolve; });
 
-      // Remove old avatar if exists
+      const canvas = canvasRef.current;
+      if (!canvas) throw new Error('Canvas not available');
+      const outputSize = 256;
+      canvas.width = outputSize;
+      canvas.height = outputSize;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas context not available');
+
+      const minDim = Math.min(img.width, img.height);
+      const cropPx = minDim * (cropSize / 100);
+      const sx = (img.width - cropPx) / 2;
+      const sy = (img.height - cropPx) / 2;
+
+      ctx.drawImage(img, sx, sy, cropPx, cropPx, 0, 0, outputSize, outputSize);
+
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((b) => b ? resolve(b) : reject(new Error('Failed to create blob')), 'image/webp', 0.85);
+      });
+
+      const filePath = `${user.id}/avatar.webp`;
       await supabase.storage.from('avatars').remove([filePath]);
 
       const { error: uploadError } = await supabase.storage
         .from('avatars')
-        .upload(filePath, file, { upsert: true });
-
+        .upload(filePath, blob, { upsert: true, contentType: 'image/webp' });
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage
         .from('avatars')
         .getPublicUrl(filePath);
 
-      const avatarUrl = `${publicUrl}?t=${Date.now()}`;
-
+      const avatarUrlWithCache = `${publicUrl}?t=${Date.now()}`;
       const { error: updateError } = await supabase
         .from('profiles')
-        .update({ avatar_url: avatarUrl } as any)
+        .update({ avatar_url: avatarUrlWithCache } as any)
         .eq('id', user.id);
-
       if (updateError) throw updateError;
 
       toast.success('Avatar updated!');
+      setShowCropper(false);
+      setSelectedFile(null);
+      setPreviewUrl(null);
       await refresh();
     } catch (err: any) {
       toast.error(err.message || 'Failed to upload avatar');
     } finally {
       setUploading(false);
     }
-  };
+  }, [selectedFile, user, previewUrl, cropSize, refresh]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -169,12 +201,59 @@ const Account = () => {
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
-                  onChange={handleAvatarUpload}
+                  onChange={handleFileSelect}
                   className="hidden"
                 />
               </div>
               <h1 className="text-2xl font-bold">{myProfile?.username || myProfile?.display_name || user?.email}</h1>
             </div>
+
+            {/* Avatar Cropper */}
+            {showCropper && previewUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-xl border border-border bg-card p-6 space-y-4"
+              >
+                <h2 className="text-lg font-bold flex items-center gap-2">
+                  <ZoomIn className="h-5 w-5 text-primary" />
+                  Resize Avatar
+                </h2>
+                <div className="flex justify-center">
+                  <div className="h-48 w-48 rounded-full overflow-hidden border-2 border-primary/30 bg-muted">
+                    <img
+                      src={previewUrl}
+                      alt="Preview"
+                      className="h-full w-full object-cover"
+                      style={{
+                        transform: `scale(${100 / cropSize})`,
+                        transformOrigin: 'center center',
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm text-muted-foreground">Zoom</Label>
+                  <Slider
+                    value={[cropSize]}
+                    onValueChange={([v]) => setCropSize(v)}
+                    min={30}
+                    max={100}
+                    step={1}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={cropAndUpload} disabled={uploading} className="flex-1">
+                    {uploading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                    Save
+                  </Button>
+                  <Button variant="outline" onClick={() => { setShowCropper(false); setSelectedFile(null); setPreviewUrl(null); }}>
+                    Cancel
+                  </Button>
+                </div>
+                <canvas ref={canvasRef} className="hidden" />
+              </motion.div>
+            )}
 
             {/* Account Info */}
             <div className="rounded-xl border border-border bg-card p-6 space-y-5">
