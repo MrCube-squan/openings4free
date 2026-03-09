@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Search, UserPlus, UserCheck, UserX, Trophy, Crown, 
-  Medal, Clock, Users, Flame, Share2, Loader2, Pencil, Check, X, AlertCircle
+  Medal, Clock, Users, Flame, Loader2, Pencil, Check, X, AlertCircle
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

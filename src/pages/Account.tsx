@@ -201,12 +201,59 @@ const Account = () => {
                   ref={fileInputRef}
                   type="file"
                   accept="image/*"
-                  onChange={handleAvatarUpload}
+                  onChange={handleFileSelect}
                   className="hidden"
                 />
               </div>
               <h1 className="text-2xl font-bold">{myProfile?.username || myProfile?.display_name || user?.email}</h1>
             </div>
+
+            {/* Avatar Cropper */}
+            {showCropper && previewUrl && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-xl border border-border bg-card p-6 space-y-4"
+              >
+                <h2 className="text-lg font-bold flex items-center gap-2">
+                  <ZoomIn className="h-5 w-5 text-primary" />
+                  Resize Avatar
+                </h2>
+                <div className="flex justify-center">
+                  <div className="h-48 w-48 rounded-full overflow-hidden border-2 border-primary/30 bg-muted">
+                    <img
+                      src={previewUrl}
+                      alt="Preview"
+                      className="h-full w-full object-cover"
+                      style={{
+                        transform: `scale(${100 / cropSize})`,
+                        transformOrigin: 'center center',
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-sm text-muted-foreground">Zoom</Label>
+                  <Slider
+                    value={[cropSize]}
+                    onValueChange={([v]) => setCropSize(v)}
+                    min={30}
+                    max={100}
+                    step={1}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button onClick={cropAndUpload} disabled={uploading} className="flex-1">
+                    {uploading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                    Save
+                  </Button>
+                  <Button variant="outline" onClick={() => { setShowCropper(false); setSelectedFile(null); setPreviewUrl(null); }}>
+                    Cancel
+                  </Button>
+                </div>
+                <canvas ref={canvasRef} className="hidden" />
+              </motion.div>
+            )}
 
             {/* Account Info */}
             <div className="rounded-xl border border-border bg-card p-6 space-y-5">
