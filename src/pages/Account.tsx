@@ -36,6 +36,11 @@ const Account = () => {
   const [editingUsername, setEditingUsername] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [cropSize, setCropSize] = useState(100); // percentage of image to use
+  const [showCropper, setShowCropper] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const usernameStatus = canChangeUsername();
 
