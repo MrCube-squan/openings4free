@@ -166,7 +166,7 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: 'QGD Showalter Variation', moves: ['d4','d5','c4','e6','Nc3','Nf6','Bg5','Be7','e3','O-O','Nf3','c6','Qc2','Nbd7','Rd1','Re8','a3'] },
     { name: 'QGD Canal Variation', moves: ['d4','d5','c4','e6','Nc3','Nf6','Bg5','Be7','e3','O-O','Nf3','Nbd7','Qc2','c5','cxd5','Nxd5','Bxe7','Qxe7','Nxd5','exd5'] },
     { name: 'QGD Duras Variation', moves: ['d4','d5','c4','e6','Nc3','Nf6','Bg5','Be7','e3','O-O','Nf3','Nbd7','Qc2','a6','cxd5','exd5','Bd3'] },
-    { name: 'Slav Defense (Modern Line)', moves: ['d4','d5','c4','c6','Nf3','Nf6','Nc3','dxc4','a4','Bf5','Ne5','e6','f3','Bb4','e4','Bxe4','fxe4','Nxe4','Bd2','Qxd4','Nxe4','Qxe4+','Qe2'] },
+    { name: 'Slav Defense (Modern Line)', moves: ['d4','d5','c4','c6','Nf3','Nf6','e3','Bf5','Nc3','e6','Nh4','Bg6','Nxg6','hxg6','Bd2','Nbd7','Bd3'] },
     { name: 'Slav Defense (Exchange Variation)', moves: ['d4','d5','c4','c6','cxd5','cxd5','Nc3','Nf6','Bf4','Nc6','e3','Bf5','Qb3','Na5','Qa4+','Bd7','Qc2','e6','Nf3','Rc8','Bd3'] },
     { name: 'Slav Defense (Chebanenko Variation)', moves: ['d4','d5','c4','c6','Nf3','Nf6','Nc3','a6','c5','Nbd7','Bf4','Nh5','e3','Nxf4','exf4','g6','Bd3','Bg7','O-O','O-O','Re1'] },
     { name: 'Slav Defense (Schallopp Defense)', moves: ['d4','d5','c4','c6','Nf3','Nf6','Nc3','Bf5','cxd5','cxd5','Qb3','Bc8','Bg5','e6','e3','Be7','Bd3','O-O','O-O','Nc6','Rac1'] },
