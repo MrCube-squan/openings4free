@@ -337,7 +337,7 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: 'Delayed Russian System', moves: ['d4','Nf6','c4','g6','Nc3','d5','Nf3','Bg7','e3','O-O','Qb3','dxc4','Bxc4','a6','O-O','b5'] },
     { name: 'Closed Variation (4. e3)', moves: ['d4','Nf6','c4','g6','Nc3','d5','e3','Bg7','Nf3','O-O','Bd3','c5','O-O','cxd4','exd4','Nc6'] },
   ],
-  'vienna-game': [
+  'vienna-gambit': [
     { name: 'Vienna Gambit: Main Accepted (7. Nd5 Qd7) 1', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd7','exd6+','Ne7','Nxc7+','Kd8','dxe7+','Bxe7','Nxa8'] },
     { name: 'Vienna Gambit: Accepted (7. Nd5 Qd8) 2', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','exd6+','Be6','Nxc7+','Kd7','Ne5+','Kxd6','Nxe6','Kxe6','Nc6+','Kd7','Qd3+','Kxc6','Qxd8'] },
     { name: 'Vienna Gambit: Accepted (8. d4 c6) 3', moves: ['e4','e5','Nc3','Nf6','f4','exf4','e5','Qe7','Qe2','Ng8','Nf3','d6','Nd5','Qd8','exd6+','Be6','Nxc7+','Kd7','Ne5+','Kxd6','Nxe6','fxe6','Nf7+','Kc7','Nxd8'] },
