@@ -122,7 +122,7 @@ export const courses: Course[] = [
     moves: '1.d4 Nf6 2.c4 g6 3.Nc3 d5',
   },
   {
-    id: 'vienna-game',
+    id: 'vienna-gambit',
     name: 'Vienna Game',
     eco: 'C25',
     color: 'white',
