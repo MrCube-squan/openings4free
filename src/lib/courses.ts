@@ -34,6 +34,17 @@ export const courses: Course[] = [
     moves: '1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6',
   },
   {
+    id: 'martian-gambit',
+    name: 'Martian Gambit',
+    eco: 'C26',
+    color: 'white',
+    lines: 40,
+    difficulty: 'intermediate',
+    description: "sacrificial opening against the Caro-Kann Defence (1. e4 c6) that involves an early knight sacrifice on e6 to expose black's king.",
+    popularity: 20,
+    moves: '1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Bf5',
+  },
+  {
   id: 'vienna-game',
   name: 'Vienna Game',
   eco: 'C25',
