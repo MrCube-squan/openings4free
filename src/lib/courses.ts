@@ -34,6 +34,17 @@ export const courses: Course[] = [
     moves: '1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 g6',
   },
   {
+  id: 'vienna-game',
+  name: 'Vienna Game',
+  eco: 'C25',
+  color: 'white',
+  lines: 4,
+  difficulty: 'beginner',
+  description: "If the opponent doesn't play Nc6 in the Vienna, they stop the gambit, but you can still continue with the Vienna Game.",
+  popularity: 52,
+  moves: '1.e4 e5 2.Nc3 Nc6',
+  },
+  {
     id: 'london-system',
     name: 'London System',
     eco: 'D02',
