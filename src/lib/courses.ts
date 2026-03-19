@@ -320,7 +320,7 @@ export const courses: Course[] = [
     moves: '1.e4 e5 2.Bc4',
   },
   {
-    id: 'alekhine-defense',
+    id: 'alien-gambit',
     name: 'Alien Gambit',
     eco: 'B02',
     color: 'white',
