@@ -66,6 +66,17 @@ export const courses: Course[] = [
     popularity: 94,
     moves: '1.d4 d5 2.Bf4',
   },
+   {
+    id: 'jobava-london',
+    name: 'Jobava London',
+    eco: 'D00',
+    color: 'white',
+    lines: 40,
+    difficulty: 'beginner',
+    description: " An aggressive London System where you play Nc3. Basically a superior London",
+    popularity: 60,
+    moves: '1.d4 d5 2.Nc3',
+  },
   {
     id: 'caro-kann',
     name: 'Caro-Kann Defense',
