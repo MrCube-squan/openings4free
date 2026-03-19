@@ -123,7 +123,7 @@ export const courses: Course[] = [
   },
   {
     id: 'vienna-gambit',
-    name: 'Vienna Game',
+    name: 'Vienna Gambit',
     eco: 'C25',
     color: 'white',
     lines: 40,
