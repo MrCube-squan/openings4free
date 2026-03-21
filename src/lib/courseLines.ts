@@ -872,14 +872,12 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { "Englund Gambit, 3. dxe5 Nc6 4. Nf3 Qe7 5. e3": ['d4','e5','dxe5','Nc6','Nf3','Qe7','e3','Nxe5','Nxe5','Qxe5','Bd3','Nf6','O-O','d5','c4','Bd6'] },
   ],
   'bishops-opening': [
-{ name: "Bishop's Opening: Main", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Qe7","fxe5","dxe5","Kd1","c6","a4","Rg8","Rf1","h6","Ne2","O-O","Nxd4","exd4","c3","Bd6","cxd4","Bxg3","Rxf7","Qd6","Qb6","Rd7","Bc5","Rxf7","Qxf7","Rf2+","Qxf2","Nxf2","Bc5"] },
-{ name: "Bishop's Opening: exf4", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","exf4","Bxf4","d6","Nf3","Bg4","Nc3","Nd4","O-O","Bxf3","gxf3","Qh4","Bg3","Qh5","f4","Qxd1","Raxd1"] },
-{ name: "Bishop's Opening: O-O", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","O-O","f5","Bd7","Bg5"] },
-{ name: "Bishop's Opening: Nxc2+ Bh6", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Nxc2+","Kd1","Nxa1","Qxg7","Rf8","Bh6"] },
-{ name: "Bishop's Opening: Nxc2+ Mate", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Nxc2+","Kd1","Nxa1","Qxg7","Bf6","Qxf7#"] },
-{ name: "Bishop's Opening: axb6 Bxf7", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Qe7","fxe5","dxe5","Kd1","c6","a4","Rg8","Rf1","h6","Ne2","O-O","Nxd4","exd4","c3","Bd6","cxd4","Bxg3","Rxf7","Qd6","Qb6","axb6","Bxa7+","Kxa7","Rxf7","Rxf7","Bxf7"] },
-{ name: "Bishop's Opening: axb6 Mate", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Qe7","fxe5","dxe5","Kd1","c6","a4","Rg8","Rf1","h6","Ne2","O-O","Nxd4","exd4","c3","Bd6","cxd4","Bxg3","Rxf7","Qd6","Qb6","axb6","Bxa7+","Kxa7","Rxf7","Ba6","Ra8#"] },
-{ name: "Bishop's Opening: Qxf7 Trade", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Qe7","fxe5","dxe5","Kd1","c6","a4","Rg8","Rf1","h6","Ne2","O-O","Nxd4","exd4","c3","Bd6","cxd4","Bxg3","Rxf7","Qxf7","Qxf7","Rxf7","Bxf7"] }
+{ name: "Bishop's Opening: Main", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Qe7","fxe5","dxe5","Kd1","c6","a4","Rg8","Rf1","h6","Ne2","O-O","Nxd4","exd4","c3","Bd6","cxd4","Bxg3","Rxf7","Qd6","Qb6"] },
+{ name: "Bishop's Opening: 4...exf4", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","exf4","Bxf4","Be7","Nf3","Nf6","Nc3","O-O","O-O"] },
+{ name: "Bishop's Opening: Early O-O", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","O-O","f5","Bd7","Bg5"] },
+{ name: "Bishop's Opening: Nxc2+ Trick", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Nxc2+","Kd1","Nxa1","Qxg7"] },
+{ name: "Bishop's Opening: Qb6 Sac Idea", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Qe7","fxe5","dxe5","Kd1","c6","a4","Rg8","Rf1","h6","Ne2","O-O","Nxd4","exd4","c3","Bd6","cxd4","Bxg3","Rxf7","Qd6","Qb6","axb6","Bxa7+"] },
+{ name: "Bishop's Opening: Queen Trade Line", moves: ["e4","e5","Bc4","d6","d3","Nc6","f4","Be7","Nf3","Bg4","h3","Bxf3","Qxf3","Nd4","Qg3","Qe7","fxe5","dxe5","Kd1","c6","a4","Rg8","Rf1","h6","Ne2","O-O","Nxd4","exd4","c3","Bd6","cxd4","Bxg3","Rxf7","Qxf7","Qxf7","Rxf7"] },
  ],
   'alien-gambit': [
     { "Alien Gambit, Main Line, 6. Nxf7": ['e4','c6','d4','d5','Nc3','dxe4','Nxe4','Nf6','Ng5','h6','Nxf7','Kxf7','Nf3','e6','Bd3','Bd6','O-O','Rf8','Ne5+','Kg8'] },
