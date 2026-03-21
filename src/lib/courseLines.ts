@@ -873,7 +873,7 @@ const rawCourseLines: Record<string, RawLine[]> = {
   ],
   'bishops-opening': [
     { name: "Bishop's Opening, Berlin Defense", moves: ['e4', 'e5', 'Bc4', 'Nf6', 'd3', 'c6', 'Nf3', 'd5', 'exd5', 'cxd5', 'Bb3', 'Bd6', 'Bg5', 'Be6', 'O-O'] },
-    { name: "Bishop's Opening, Greco Gambit", moves: ['e4', 'e5', 'Bc4', 'Nf6', 'f4', 'Nxe4', 'd3', 'Qh4', 'g3', 'Nxg3', 'Nf3', 'Qh5', 'Rg1', 'Nf5', 'Rg5'] },
+    { name: "Bishop's Opening, Greco Gambit", moves: ['e4', 'e5', 'Bc4', 'Nf6', 'f4', 'Nxe4', 'd3', 'Qh4+', 'g3', 'Nxg3', 'Nf3', 'Qh5', 'Rg1', 'Nf5', 'Rg5', 'Qh3', 'Bxf7+', 'Kxf7', 'Rh5', 'Qg2', 'Rxf5+', 'Kg8', 'Rg5', 'Qh3', 'Nc3'] },
     { name: "Bishop's Opening, Urusov Gambit, Accepted", moves: ['e4', 'e5', 'Bc4', 'Nf6', 'd4', 'exd4', 'Nf3', 'Nxe4', 'Qxd4', 'Nf6', 'Bg5', 'Be7', 'Nc3', 'Nc6', 'Qh4'] },
     { name: "Bishop's Opening, Urusov Gambit, Declined", moves: ['e4', 'e5', 'Bc4', 'Nf6', 'd4', 'exd4', 'Nf3', 'd5', 'exd5', 'Bb4', 'c3', 'Qe7', 'Be2', 'dxc3', 'bxc3'] },
     { name: "Bishop's Opening, Ponziani Gambit", moves: ['e4', 'e5', 'Bc4', 'Nf6', 'd4', 'exd4', 'Nf3', 'Nc6', 'O-O', 'Bc5', 'e5', 'd5', 'exf6', 'dxc4', 'Re1'] },
