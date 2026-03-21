@@ -946,6 +946,9 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: 'Martian Gambit, Lasker Trap', moves: ['e4', 'c6', 'd4', 'd5', 'Nc3', 'dxe4', 'Nxe4', 'Bf5', 'Ng5', 'Bg6', 'N1f3', 'h6', 'Ne6', 'fxe6', 'Ne5', 'Bf7', 'Bc4', 'Nf6', 'Qe2', 'Qxd4', 'Nxf7', 'Kxf7', 'Qxe6', 'Kg6', 'Qf7', 'Kf5', 'Be6', 'Ke5', 'O-O'], },
   ],
   'danish-gambit': [
+    { name: 'Danish Gambit Accepted, Svenonius Variation', moves: ['e4','e5','d4','exd4','c3','dxc3','Bc4','cxb2','Bxb2','Nf6','e5','Ne4','Bxf7+','Kxf7','Qd5+','Ke8','Qxe4'] },
+    { name: 'Danish Gambit Accepted, Loman Defense', moves: ['e4','e5','d4','exd4','c3','dxc3','Bc4','cxb2','Bxb2','Nf6','e5','Bb4+','Bc3','Qe7','Qe2','Ng8','Nf3'] },
+    { name: 'Danish Gambit Accepted, Bb4+ mianline', moves: ['e4','e5','d4','exd4','c3','dxc3','Bc4','cxb2','Bxb2','Bb4+','Nd2','Nf6','e5','Ne4','Bxf7+','Kxf7','Qb3+','d5','exd6+','Be6','Qxb4','Nxd2','Qf4+','Kg8','dxc7','Qe8','Qe5','Qf7','cxb8=Q+','Rxb8','Qxb8+','Qf8','Qxf8+','Kxf8','Kxd2'] },
     { "Danish, Main Bxf7": ["e4","e5","d4","exd4","c3","dxc3","Bc4","cxb2","Bxb2","d5","Bxd5","Nf6","Bxf7+","Kxf7","Qxd8","Bb4+","Qd2","Bxd2+","Nxd2","Re8","Ngf3","Nc6","O-O","Kg8","Rfe1","Bg4","Nd4","Nxd4","Bxd4","Rad8","Bc3","c5","f3","Be6","a4","Rd3","Rec1","Red8","Nf1","b6","Kf2","Nd7","Ne3","Nb8","Ke2","Nc6"] },
     { "Danish, Bxf7 c6": ["e4","e5","d4","exd4","c3","dxc3","Bc4","cxb2","Bxb2","d5","Bxd5","Nf6","Bxf7+","Kxf7","Qxd8","Bb4+","Qd2","Bxd2+","Nxd2","Re8","Ngf3","c6","O-O","Kg8","Rfe1","Na6","a3","Nc5","e5","Nd5","Nc4","Nd3","Red1","N5f4","Bc3","Ne2+","Kf1","Nef4","Nd6","Rf8","Nxc8","Raxc8","g3","Nd5","Rxd3","Nxc3","Rxc3"] },
     { "Danish, Bxf7 Nc6": ["e4","e5","d4","exd4","c3","dxc3","Bc4","cxb2","Bxb2","d5","Bxd5","Nf6","Bxf7+","Kxf7","Qxd8","Bb4+","Qd2","Bxd2+","Nxd2","Re8","Ngf3","Nc6","O-O","Kg8","Rfe1","Bg4","Nd4","Ne5","f3","Bd7","Re3","Rad8","Rc1","c6","Nb1","Bc8","Nd2","Nfd7","Nf5","Nb6","Bxe5","Rxe5","Nc4","Nxc4","Rxc4","Bxf5"] },
