@@ -355,7 +355,7 @@ export const courses: Course[] = [
   {
   id: 'grand-prix-attack',
   name: 'Grand Prix Attack',
-  eco: 'C51',
+  eco: 'B22',
   color: 'white',
   lines: 35,
   difficulty: 'beginner',
