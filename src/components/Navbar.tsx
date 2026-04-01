@@ -219,7 +219,7 @@ const Navbar = () => {
                         )}
                       </div>
                       <span className="text-sm text-muted-foreground truncate">
-                        {user?.email}
+                        {displayName || user?.email}
                       </span>
                     </Link>
                     <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>
