@@ -352,6 +352,17 @@ export const courses: Course[] = [
     popularity: 48,
     moves: '1.e4 e5 2.d4 exd4 3.c3',
   },
+  {
+  id: 'grand-prix-attack',
+  name: 'Grand Prix Attack',
+  eco: 'C50',
+  color: 'white',
+  lines: 35,
+  difficulty: 'beginner',
+  description: "A sharp and aggressive opening against the Sicilian, perfect for quick attacks and fun games.",
+  popularity: 82,
+  moves: '1.e4 c5 2.Nc3 Nc6 3.f4',
+},
 ];
 
 export const getDifficultyColor = (difficulty: Course['difficulty']) => {
