@@ -50,8 +50,9 @@ const Train = () => {
     return allLines;
   }, [mode, allLines, learnedLinesData]);
 
-  const handleLineComplete = (lineIndex: number, accuracy: number) => {
-    recordActivity();
+  const handleLineComplete = async (lineIndex: number, accuracy: number) => {
+    await recordActivity();
+    refreshStreak();
     
     if (courseId) {
       if (mode === 'drill') {
