@@ -126,7 +126,7 @@ const Navbar = () => {
                     )}
                   </div>
                   <span className="text-sm text-muted-foreground truncate max-w-[150px]">
-                    {user?.email}
+                    {displayName || user?.email}
                   </span>
                 </Link>
                 <Button variant="ghost" size="sm" onClick={handleSignOut}>
