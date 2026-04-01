@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, Loader2, Globe } from 'lucide-react';
+import { useLearnedLines } from '@/hooks/useLearnedLines';
 import logo from '@/assets/logo.png';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -25,7 +26,18 @@ const Navbar = () => {
   const { streak } = useStreak();
   const { language, setLanguage, t } = useLanguage();
   const { myProfile } = useFriends();
+  const { learnedLines } = useLearnedLines();
   const avatarUrl = (myProfile as any)?.avatar_url;
+
+  // Get last trained course for Train nav link
+  const lastTrainedCourseId = (() => {
+    if (learnedLines.length === 0) return null;
+    const sorted = [...learnedLines].sort((a, b) => b.completedAt.localeCompare(a.completedAt));
+    return sorted[0]?.courseId || null;
+  })();
+  const trainPath = lastTrainedCourseId ? `/train?course=${lastTrainedCourseId}` : '/train';
+
+  const displayName = myProfile?.username || myProfile?.display_name || null;
   const getInitial = () => {
     if (myProfile?.username) return myProfile.username[0].toUpperCase();
     if (user?.email) return user.email[0].toUpperCase();
@@ -34,11 +46,11 @@ const Navbar = () => {
 
   const navLinks = [
     { path: '/courses', labelKey: 'nav.courses' as const },
-    { path: '/train', labelKey: 'nav.train' as const },
+    { path: trainPath, labelKey: 'nav.train' as const },
     { path: '/friends', labelKey: 'nav.friends' as const },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path.split('?')[0];
   const currentLang = languages.find(l => l.code === language);
 
   const handleSignOut = async () => {
@@ -114,7 +126,7 @@ const Navbar = () => {
                     )}
                   </div>
                   <span className="text-sm text-muted-foreground truncate max-w-[150px]">
-                    {user?.email}
+                    {displayName || user?.email}
                   </span>
                 </Link>
                 <Button variant="ghost" size="sm" onClick={handleSignOut}>
@@ -207,7 +219,7 @@ const Navbar = () => {
                         )}
                       </div>
                       <span className="text-sm text-muted-foreground truncate">
-                        {user?.email}
+                        {displayName || user?.email}
                       </span>
                     </Link>
                     <Button variant="ghost" className="w-full justify-start" onClick={handleSignOut}>

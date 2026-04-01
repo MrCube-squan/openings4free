@@ -28,7 +28,7 @@ const Train = () => {
   const [trainerKey, setTrainerKey] = useState(0);
   const { markLineAsLearned, getLearnedLinesForCourse, getLearnedCount } = useLearnedLines();
   const { customLines } = useCustomLines(courseId || 'italian-game');
-  const { recordActivity } = useStreak();
+  const { recordActivity, refreshStreak } = useStreak();
 
   const builtInLines = getTrainingLines(courseId || 'italian-game');
   const allLines = useMemo(() => {
@@ -50,8 +50,9 @@ const Train = () => {
     return allLines;
   }, [mode, allLines, learnedLinesData]);
 
-  const handleLineComplete = (lineIndex: number, accuracy: number) => {
-    recordActivity();
+  const handleLineComplete = async (lineIndex: number, accuracy: number) => {
+    await recordActivity();
+    refreshStreak();
     
     if (courseId) {
       if (mode === 'drill') {

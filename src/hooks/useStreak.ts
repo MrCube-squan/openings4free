@@ -46,5 +46,5 @@ export const useStreak = () => {
     }
   }, [user]);
 
-  return { streak, loading, recordActivity };
+  return { streak, loading, recordActivity, refreshStreak: fetchStreak };
 };
