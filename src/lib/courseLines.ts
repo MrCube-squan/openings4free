@@ -1002,16 +1002,16 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: 'Danish Gambit Accepted, Collijn Defense, Alekhine Variation', moves: ['e4','e5','d4','exd4','c3','dxc3','Bc4','cxb2','Bxb2','d5','Bxd5','Nf6','Bxf7+','Ke7','Ba3+','Kd7','Nf3','Bd6','e5','Qe7','O-O','Kd8'] },
   ],
   'grand-prix-attack': [   
-    { name: 'Magnus Model Grand Prix (D6–G6 Setup)', moves: ['e4','c5','Nc3','d6','f4','Nc6','Nf3','a6','Bc4','e6','d3','Nf6','O-O','Be7','Qe1','Rb8','f5','Nd4','Qh4','b5','Bb3','Nxb3','axb3'] },
-    { name: 'Classical Grand Prix vs ...Nc6 & ...d6', moves: ['e4','c5','Nc3','Nc6','f4','d6','Nf3','a6','Bc4','e6','d3','Nf6','O-O','Qe1','Be7','a4'] },
-    { name: 'Anti-B5 A4 System', moves: ['e4','c5','Nc3','Nc6','f4','d6','Nf3','a6','a4','Bc4','e6','d3','Be7','O-O','Qe1'] },
-    { name: 'Professional Bb5 Grand Prix', moves: ['e4','c5','Nc3','Nc6','f4','g6','Bb5','Bg7','O-O','d3','Nd4','a4','c4','Bxc4','e6','Qe1','Qh4'] },
-    { name: 'Immediate F5 Gambit Line', moves: ['e4','c5','Nc3','f4','Nc6','f5','gxf5','exf5','d5','Nf3','Bxf5','Bb5'] },
-    { name: 'Anti-d5 Closed Center Attack', moves: ['e4','c5','Nc3','f4','Nc6','Nf3','d5','e5','d4','Ne4','Qe1','Qh4','h3','g4','f5'] },
-    { name: 'E6–D5 Tactical Refutation', moves: ['e4','c5','Nc3','e6','f4','d5','exd5','exd5','Qe2','Be7','Nf3','O-O','d3','Nc6','Bd2'] },
-    { name: 'A6–B5 Closed Sicilian Setup', moves: ['e4','c5','Nc3','a6','f4','b5','d3','g3','Bg2','Nf6','Nf3','Bb7','O-O'] },
-    { name: 'Opponent Castles Long – Queenside Attack Prep', moves: ['e4','c5','Nc3','f4','Nc6','Nf3','d6','Bc4','Be7','d3','O-O','Qf2','a6','a4','Be6','O-O-O'] },
-    { name: 'E5 Vienna-Style Grand Prix', moves: ['e4','c5','Nc3','e5','Bc4','d3','f4','Nc6','Nf3','d6','g4','h4'] }
+    { name: 'Main Grand Prix Attack (Plan A)', moves: ['e4','c5','Nc3','d6','f4','Nc6','Bb5','Bd7','O-O','a6','Bxc6','bxc6','d3','Bg7','Qe1','Qh4','f5','Bxh6','Ng5','Rxf6','Qxh7'] },
+    { name: 'Main Line vs ...g6 (Bishop B5 First)', moves: ['e4','c5','Nc3','g6','f4','Bb5','Bg7','O-O','a6','Bxc6','bxc6','d3','Qe1','Qh4','f5','Bh6'] },
+    { name: 'Ignoring ...fxe4 and Continuing Attack', moves: ['e4','c5','Nc3','d6','f4','Nc6','Bb5','a6','Bxc6','bxc6','d3','Bg7','Qe1','Qh4','f5','Bh6','Ng5','Rxf6','Qxh7'] },
+    { name: 'Anti-B5 Line (Opponent Plays b5/b4)', moves: ['e4','c5','Nc3','d6','f4','Nc6','Bb5','a6','Bxc6','bxc6','d3','Bg7','Qe1','Qh4','f5','Bh6','b5','b4','Ng5','dxc3','Bxh6','Rxf6','Qxh7'] },
+    { name: 'Plan B vs ...e6 and ...d5', moves: ['e4','c5','Nc3','e6','f4','Nf3','d5','Bb5','a6','Bxc6','bxc6','d3','Nf6','O-O','d4','Na4','b3','O-O','Ne5','Ba3'] },
+    { name: 'Plan B: Fixing the Doubled Pawns with b3', moves: ['e4','c5','Nc3','e6','f4','Nf3','d5','Bb5','a6','Bxc6','bxc6','d3','Nf6','O-O','d4','Na4','b3','O-O','Ne5','Ba3'] },
+    { name: 'Queen to g3 Pressure Line (Plan B Variation)', moves: ['e4','c5','Nc3','e6','f4','Nf3','d5','Bb5','a6','Bxc6','bxc6','d3','Nf6','O-O','d4','Na4','b3','O-O','Qg3','Ne5','Ba3'] },
+    { name: 'Advanced Opponent: ...g6 with No Central Pawn Moves', moves: ['e4','c5','Nc3','g6','f4','Bb5','Nd4','O-O','Bxb5','Nxb5','d3','Qe1','Qh4','f5'] },
+    { name: 'Advanced Opponent: A3–B4 Anti-...Nd4 System', moves: ['e4','c5','Nc3','g6','f4','a3','e6','Bb5','Ne7','b4','cxb4','axb4','Ba3','Nb5','Nd6'] },
+    { name: 'A3–B4 Crush Line (Bishop A3 Domination)', moves: ['e4','c5','Nc3','g6','f4','a3','e6','b4','cxb4','axb4','Ba3','Nb5','Nd6','Bxd6','Qxd6','Qf3'] },
   ],
    };
 
