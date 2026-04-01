@@ -17,12 +17,21 @@ export const useStreak = () => {
     try {
       const { data, error } = await supabase
         .from('user_streaks')
-        .select('current_streak')
+        .select('current_streak, last_active_date')
         .eq('user_id', user.id)
         .maybeSingle();
 
       if (error) throw error;
-      setStreak(data?.current_streak ?? 0);
+      if (data) {
+        const lastActive = new Date(data.last_active_date + 'T00:00:00');
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const diffDays = Math.floor((today.getTime() - lastActive.getTime()) / (1000 * 60 * 60 * 24));
+        // If last active was today or yesterday, streak is valid; otherwise it's reset
+        setStreak(diffDays <= 1 ? data.current_streak : 0);
+      } else {
+        setStreak(0);
+      }
     } catch {
       setStreak(0);
     } finally {
