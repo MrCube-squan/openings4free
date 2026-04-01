@@ -26,7 +26,18 @@ const Navbar = () => {
   const { streak } = useStreak();
   const { language, setLanguage, t } = useLanguage();
   const { myProfile } = useFriends();
+  const { learnedLines } = useLearnedLines();
   const avatarUrl = (myProfile as any)?.avatar_url;
+
+  // Get last trained course for Train nav link
+  const lastTrainedCourseId = (() => {
+    if (learnedLines.length === 0) return null;
+    const sorted = [...learnedLines].sort((a, b) => b.completedAt.localeCompare(a.completedAt));
+    return sorted[0]?.courseId || null;
+  })();
+  const trainPath = lastTrainedCourseId ? `/train?course=${lastTrainedCourseId}` : '/train';
+
+  const displayName = myProfile?.username || myProfile?.display_name || null;
   const getInitial = () => {
     if (myProfile?.username) return myProfile.username[0].toUpperCase();
     if (user?.email) return user.email[0].toUpperCase();
