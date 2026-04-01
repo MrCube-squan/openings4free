@@ -50,7 +50,7 @@ const Navbar = () => {
     { path: '/friends', labelKey: 'nav.friends' as const },
   ];
 
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => location.pathname === path.split('?')[0];
   const currentLang = languages.find(l => l.code === language);
 
   const handleSignOut = async () => {
