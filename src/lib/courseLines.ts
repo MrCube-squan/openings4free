@@ -1001,7 +1001,26 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: 'Danish Gambit Accepted, Collijn Defense, Spielmann Variation', moves: ['e4','e5','d4','exd4','c3','dxc3','Bc4','cxb2','Bxb2','d5','Bxd5','Nf6','Bxf7+','Ke7','Ba3+','Kd7','Nf3','Nc6','O-O','Nxe4','Re1','Nf6'] },
     { name: 'Danish Gambit Accepted, Collijn Defense, Alekhine Variation', moves: ['e4','e5','d4','exd4','c3','dxc3','Bc4','cxb2','Bxb2','d5','Bxd5','Nf6','Bxf7+','Ke7','Ba3+','Kd7','Nf3','Bd6','e5','Qe7','O-O','Kd8'] },
   ],
-};
+  'grand-prix-attack': [
+    { name: 'Grand Prix Attack, Closed Main Line', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'e6', 'f5', 'Nge7', 'fxe6', 'fxe6', 'd3'], },
+    { name: 'Grand Prix Attack, Botvinnik System', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'e6', 'd3', 'Nge7', 'O-O', 'O-O', 'Bb3'], },
+    { name: 'Grand Prix Attack, Byrne Variation', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'e6', 'd3', 'Nge7', 'O-O', 'd5', 'Bb3'], },
+    { name: 'Grand Prix Attack, Bb5 System', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bb5', 'Nd4', 'O-O', 'a6', 'Bd3', 'd6', 'Nxd4'], },
+    { name: 'Grand Prix Attack, Smyslov Variation', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bb5', 'Nd4', 'Nxd4', 'cxd4', 'Ne2', 'a6', 'Bd3'], },
+    { name: 'Grand Prix Attack, Troger Variation', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'd6', 'O-O', 'Nf6', 'd3', 'O-O', 'Qe1'], },
+    { name: 'Grand Prix Attack, Steiner Variation', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'e6', 'd3', 'Nge7', 'f5', 'd5', 'Bb3'], },
+    { name: 'Grand Prix Attack, 2...e6 Variation', moves: ['e4', 'c5', 'Nc3', 'e6', 'f4', 'd5', 'Nf3', 'Nf6', 'Bb5', 'Bd7', 'Bxd7', 'Nbxd7', 'd3', 'Be7', 'O-O'], },
+    { name: 'Grand Prix Attack, 2...d6 Variation', moves: ['e4', 'c5', 'Nc3', 'd6', 'f4', 'Nc6', 'Nf3', 'g6', 'Bc4', 'Bg7', 'O-O', 'e6', 'd3', 'Nge7', 'Qe1'], },
+    { name: 'Grand Prix Attack, 3...d6 Variation', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'd6', 'Nf3', 'g6', 'Bc4', 'Bg7', 'O-O', 'e6', 'd3', 'Nge7', 'Qe1'], },
+    { name: 'Grand Prix Attack, Positional Line', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'e6', 'd3', 'Nge7', 'O-O', 'd5', 'Bb3'], },
+    { name: 'Grand Prix Attack, 2...Nc6 Main Line', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'e6', 'd3', 'Nge7', 'O-O', 'O-O', 'Qe1'], },
+    { name: 'Grand Prix Attack, McSheehy Variation', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bb5', 'Nd4', 'O-O', 'a6', 'Bc4', 'e6', 'd3'], },
+    { name: 'Grand Prix Attack, Bronstein System', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'e6', 'd3', 'Nge7', 'O-O', 'O-O', 'f5'], },
+    { name: 'Grand Prix Attack, Sveshnikov System', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bb5', 'Nd4', 'Bd3', 'd6', 'Nxd4', 'cxd4', 'Ne2'], },
+    { name: 'Grand Prix Attack, Mieses Variation', moves: ['e4', 'c5', 'Nc3', 'Nc6', 'f4', 'g6', 'Nf3', 'Bg7', 'Bc4', 'e6', 'f5', 'Nge7', 'fxe6', 'fxe6', 'O-O'], },
+    { name: 'Grand Prix Attack, Paulsen Defense', moves: ['e4', 'c5', 'Nc3', 'e6', 'f4', 'a6', 'Nf3', 'Nc6', 'g3', 'd5', 'd3', 'Nf6', 'Bg2', 'Be7', 'O-O'], },
+   ],
+   };
 
 // Normalized course lines
 export const courseLines: Record<string, TrainingLine[]> = Object.fromEntries(
