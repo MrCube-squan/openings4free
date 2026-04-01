@@ -305,7 +305,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       const moveResult = newGame.move({
         from: sourceSquare,
         to: targetSquare,
-        promotion: piece[1]?.toLowerCase() === 'p' ? 'q' : undefined,
+        promotion: 'q',
       });
 
       if (!moveResult) return false;
