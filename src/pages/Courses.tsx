@@ -29,12 +29,7 @@ const Courses = () => {
       if (!matchesColor) return false;
       if (!normQuery) return true;
 
-      const name = normalize(course.name);
-      let qi = 0;
-      for (let i = 0; i < name.length && qi < normQuery.length; i++) {
-        if (name[i] === normQuery[qi]) qi++;
-      }
-      return qi === normQuery.length;
+      return normalize(course.name).startsWith(normQuery);
     });
 
     if (isAuthenticated && learnedLines.length > 0) {
