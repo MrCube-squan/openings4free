@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, LogOut, Loader2, Globe } from 'lucide-react';
+import { useLearnedLines } from '@/hooks/useLearnedLines';
 import logo from '@/assets/logo.png';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
