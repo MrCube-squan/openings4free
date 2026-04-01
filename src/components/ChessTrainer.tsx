@@ -513,7 +513,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setShowHint(true);
     setUserKnightArrow(null);
     setUserNonKnightArrows([]);
-    setHadMistake(true);
+    if (linePass === 2) {
+      setHadMistake(true);
+    }
     setTotalMistakes(prev => prev + 1);
   };
 
