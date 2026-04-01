@@ -46,7 +46,7 @@ const Navbar = () => {
 
   const navLinks = [
     { path: '/courses', labelKey: 'nav.courses' as const },
-    { path: '/train', labelKey: 'nav.train' as const },
+    { path: trainPath, labelKey: 'nav.train' as const },
     { path: '/friends', labelKey: 'nav.friends' as const },
   ];
 
