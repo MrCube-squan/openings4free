@@ -327,7 +327,10 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         checkLineComplete(currentMoveIndex + 1);
         return true;
       } else {
-        setHadMistake(true);
+        // Only mark as mistake requiring repeat if we're on pass 2 (test mode)
+        if (linePass === 2) {
+          setHadMistake(true);
+        }
         setTotalMistakes(prev => prev + 1);
         setFeedback('incorrect');
         setCustomSquareStyles({
