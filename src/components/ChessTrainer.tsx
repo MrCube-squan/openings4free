@@ -3,7 +3,7 @@ import { Chessboard } from 'react-chessboard';
 import { Chess, Square } from 'chess.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Undo2, MessageSquare, Mail, LogIn } from 'lucide-react';
+import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Undo2, MessageSquare, Mail, LogIn, BookmarkCheck } from 'lucide-react';
 import { useBoardSettings } from '@/hooks/useBoardSettings';
 import BoardSettingsModal from '@/components/BoardSettingsModal';
 
