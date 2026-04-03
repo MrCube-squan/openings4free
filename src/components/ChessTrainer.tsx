@@ -100,6 +100,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [pass1Perfect, setPass1Perfect] = useState(false);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
+  const [markLearntAnimating, setMarkLearntAnimating] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
