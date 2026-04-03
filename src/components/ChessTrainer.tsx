@@ -225,6 +225,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   }, [game]);
 
+  const isDrillMode = mode === 'drill';
+
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
@@ -238,26 +240,36 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setTimeout(() => {
         setLinesCompleted(prev => prev + 1);
         
-        if (hadMistake) {
-          // Had a mistake — restart this pass
-          resetLine();
-        } else if (linePass === 1) {
-          // Pass 1 perfect — move to pass 2 (test without shown moves)
-          setPass1Perfect(true);
-          setLinePass(2);
-          resetLine();
-        } else {
-          // Pass 2 perfect (and pass1 was perfect) — mark as learned
-          if (pass1Perfect && onLineComplete) {
-            onLineComplete(currentLineIndex, 100);
+        if (isDrillMode) {
+          // Drill mode: single pass, mistakes require repeat
+          if (hadMistake) {
+            resetLine();
+          } else {
+            if (onLineComplete) {
+              onLineComplete(currentLineIndex, 100);
+            }
+            nextLine();
           }
-          setLinePass(1);
-          setPass1Perfect(false);
-          nextLine();
+        } else {
+          // Learn mode: two-pass system
+          if (hadMistake) {
+            resetLine();
+          } else if (linePass === 1) {
+            setPass1Perfect(true);
+            setLinePass(2);
+            resetLine();
+          } else {
+            if (pass1Perfect && onLineComplete) {
+              onLineComplete(currentLineIndex, 100);
+            }
+            setLinePass(1);
+            setPass1Perfect(false);
+            nextLine();
+          }
         }
       }, 1000);
     }
-  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday]);
+  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday, isDrillMode]);
 
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
