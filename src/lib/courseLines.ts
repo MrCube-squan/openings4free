@@ -1066,6 +1066,14 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: '2...d6 #2', moves: ['e4','c5','Be2','d6','f4','Nc6','Nf3','Nf6','d3','e6','O-O','Be7','c3','O-O','Kh1','b5','a3','Qc7','Be3','Ng4','Bg1','f5','exf5','exf5','d4'] },
     { name: '2...d6 #3', moves: ['e4','c5','Be2','d6','f4','Nc6','Nf3','Nf6','d3','e6','O-O','Be7','c3','O-O','Kh1','b6','Be3','Bb7','Nbd2'] },
   ],
+  'halloween-gambit': [
+    { name: 'Main Line: 4...Nxe5 5.d4', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Ne5','f4','Ng6','e5','Ng8','d6','cxd6','exd6','Qf6','Nb5','Kd8','Bf4','Nxf4','Qd4'] },
+    { name: 'Main Line: 5...Ng6 6.e5', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Ng6','e5','Ng8','Bc4','d5','Bxd5','N8e7','Bf3','Nf5','g4','Nge7','gxf5','Nxf5','Be4'] },
+    { name: 'Declined: 4...Nxe5 5.d4 Nc6 5...Bb4', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Bb4','dxc6','Nxe4','Qd4','Qe7','Be2','Nxc3','bxc3','Bxc3+','Kf1','Bxa1','cxb7','Bxb7'] },
+    { name: '4...Nxe5 5.d4 Nc6 6.d5 Ne5 7.f4 Ng6 8.e5 Bb4', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Ne5','f4','Ng6','e5','Bb4','exf6','Qxf6','Bd3','d6','O-O','O-O','Ne4','Qh4','Qf3'] },
+    { name: '4...Nxe5 5.d4 Nc6 6.d5 Nb8', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Nb8','e5','Ng8','d6','cxd6','exd6','Qf6','Nb5','Na6','Bf4','Qg6','Qd2','Qxg2','O-O-O'] },
+    { name: '4...Nxe5 5.d4 Nc6 6.d5 Ne5 7.f4 Ng6 8.e5 Ng8 9.d6 Qf6', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Ne5','f4','Ng6','e5','Ng8','d6','Qf6','Nb5','Kd8','dxc7+','Kxc7','Bf4','Kb8','Qd6+','Ka8'] },
+  ],
    };
 
 // Normalized course lines

@@ -363,6 +363,17 @@ export const courses: Course[] = [
   popularity: 82,
   moves: '1.e4 c5 2.Nc3',
 },
+  {
+    id: 'halloween-gambit',
+    name: 'Halloween Gambit',
+    eco: 'C47',
+    color: 'white',
+    lines: 1,
+    difficulty: 'intermediate',
+    description: "Sacrifice a whole knight on move 4. Insane, but it works at blitz.",
+    popularity: 42,
+    moves: '1.e4 e5 2.Nf3 Nc6 3.Nc3 Nf6 4.Nxe5',
+  },
 ];
 
 export const getDifficultyColor = (difficulty: Course['difficulty']) => {
