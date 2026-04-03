@@ -341,8 +341,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         checkLineComplete(currentMoveIndex + 1);
         return true;
       } else {
-        // Only mark as mistake requiring repeat if we're on pass 2 (test mode)
-        if (linePass === 2) {
+        // Mark as mistake requiring repeat in pass 2 (test mode) or drill mode
+        if (linePass === 2 || isDrillMode) {
           setHadMistake(true);
         }
         setTotalMistakes(prev => prev + 1);
