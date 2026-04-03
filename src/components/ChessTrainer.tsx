@@ -81,7 +81,7 @@ const isSameKnightArrow = (
   return a.from === b.from && a.to === b.to && a.color === b.color;
 };
 
-const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
+const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, onMarkAsLearned, startLineIndex, mode = 'learn' }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const [showFlame, setShowFlame] = useState(false);
   const { streak } = useStreak();
