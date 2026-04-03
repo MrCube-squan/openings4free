@@ -755,11 +755,19 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         {!isDrillMode && onMarkAsLearned && (
           <Button
             variant="outline"
-            onClick={() => onMarkAsLearned(currentLineIndex)}
-            className="w-full border-primary/30 text-primary hover:bg-primary/10"
+            onClick={() => {
+              setMarkLearntAnimating(true);
+              onMarkAsLearned(currentLineIndex);
+              setTimeout(() => setMarkLearntAnimating(false), 1200);
+            }}
+            className={`w-full transition-all duration-500 ${
+              markLearntAnimating 
+                ? 'bg-primary border-primary text-primary-foreground scale-105' 
+                : 'border-primary/30 text-primary hover:bg-primary/10'
+            }`}
           >
-            <BookmarkCheck className="h-4 w-4 mr-2" />
-            {t('trainer.markAsLearnt') || 'Mark as Learnt'}
+            <BookmarkCheck className={`h-4 w-4 mr-2 transition-transform duration-500 ${markLearntAnimating ? 'scale-125' : ''}`} />
+            {markLearntAnimating ? '✓' : (t('trainer.markAsLearnt') || 'Mark as Learnt')}
           </Button>
         )}
 
