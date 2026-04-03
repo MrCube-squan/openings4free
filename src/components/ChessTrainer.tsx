@@ -696,7 +696,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50 border border-border">
                 <span className="text-muted-foreground text-sm">{t('trainer.opponentTurn')}</span>
               </div>
-            ) : (linePass === 1 || showHint) ? (
+            ) : ((linePass === 1 && !isDrillMode) || showHint) ? (
               <div className="flex items-center gap-2 p-3 rounded-lg bg-accent/10 border border-accent/20">
                 <Lightbulb className="h-5 w-5 text-accent" />
                 <span className="text-accent font-mono font-bold text-lg">
