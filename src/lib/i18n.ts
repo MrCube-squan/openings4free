@@ -128,6 +128,7 @@ type TranslationKeys = {
   'trainer.errorReport': string;
   'trainer.pass': string;
   'trainer.test': string;
+  'trainer.markAsLearnt': string;
   'home.creatorBadge': string;
   'nav.friends': string;
   'friends.title': string;
@@ -268,6 +269,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Found errors in theory or have problems? Email me at',
     'trainer.pass': 'Pass',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Created by Mr.Cube_k6j on YouTube and TikTok',
     'nav.friends': 'Friends',
     'friends.title': 'Friends & Challenges',
@@ -406,6 +408,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': '¿Encontraste errores en la teoría o tienes problemas? Escríbeme a',
     'trainer.pass': 'Fase',
     'trainer.test': 'Prueba',
+    'trainer.markAsLearnt': 'Marcar como aprendido',
     'home.creatorBadge': 'Creado por Mr.Cube_k6j en YouTube y TikTok',
     'nav.friends': 'Amigos',
     'friends.title': 'Amigos y Desafíos',
@@ -538,6 +541,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Vous avez trouvé des erreurs dans la théorie ou des problèmes ? Écrivez-moi à',
     'trainer.pass': 'Étape',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Créé par Mr.Cube_k6j sur YouTube et TikTok',
   },
   pt: {
@@ -643,6 +647,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Encontrou erros na teoria ou tem problemas? Envie-me um email em',
     'trainer.pass': 'Fase',
     'trainer.test': 'Teste',
+    'trainer.markAsLearnt': 'Marcar como aprendido',
     'home.creatorBadge': 'Criado por Mr.Cube_k6j no YouTube e TikTok',
   },
   de: {
@@ -748,6 +753,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Fehler in der Theorie gefunden oder Probleme? Schreib mir eine E-Mail an',
     'trainer.pass': 'Durchgang',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Erstellt von Mr.Cube_k6j auf YouTube und TikTok',
   },
   it: {
@@ -853,6 +859,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Hai trovato errori nella teoria o hai problemi? Scrivimi a',
     'trainer.pass': 'Fase',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Creato da Mr.Cube_k6j su YouTube e TikTok',
   },
   ru: {
@@ -958,6 +965,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Нашли ошибки в теории или проблемы? Напишите мне на',
     'trainer.pass': 'Этап',
     'trainer.test': 'Тест',
+    'trainer.markAsLearnt': 'Отметить как изученное',
     'home.creatorBadge': 'Создано Mr.Cube_k6j на YouTube и TikTok',
   },
   zh: {
@@ -1063,6 +1071,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': '发现理论错误或有问题？请发邮件至',
     'trainer.pass': '阶段',
     'trainer.test': '测试',
+    'trainer.markAsLearnt': '标记为已学',
     'home.creatorBadge': '由 Mr.Cube_k6j 在 YouTube 和 TikTok 上创建',
   },
   ja: {
@@ -1168,6 +1177,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': '理論のエラーや問題を見つけましたか？メールしてください',
     'trainer.pass': 'パス',
     'trainer.test': 'テスト',
+    'trainer.markAsLearnt': '習得済みにする',
     'home.creatorBadge': 'Mr.Cube_k6j が YouTube と TikTok で制作',
   },
   ar: {
@@ -1273,6 +1283,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'وجدت أخطاء في النظرية أو لديك مشاكل؟ أرسل لي بريدًا إلى',
     'trainer.pass': 'مرحلة',
     'trainer.test': 'اختبار',
+    'trainer.markAsLearnt': 'تعلمت',
     'home.creatorBadge': 'أنشأه Mr.Cube_k6j على YouTube و TikTok',
   },
   ko: {
@@ -1378,6 +1389,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': '이론에 오류가 있거나 문제가 있으신가요? 이메일을 보내주세요',
     'trainer.pass': '단계',
     'trainer.test': '테스트',
+    'trainer.markAsLearnt': '학습 완료로 표시',
     'home.creatorBadge': 'Mr.Cube_k6j가 YouTube와 TikTok에서 제작',
   },
   nl: {
@@ -1483,6 +1495,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Fouten gevonden in de theorie of problemen? Mail me op',
     'trainer.pass': 'Stap',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Gemaakt door Mr.Cube_k6j op YouTube en TikTok',
   },
   pl: {
@@ -1588,6 +1601,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Znalazłeś błędy w teorii lub masz problemy? Napisz do mnie na',
     'trainer.pass': 'Etap',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Stworzone przez Mr.Cube_k6j na YouTube i TikTok',
   },
   tr: {
@@ -1693,6 +1707,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Teoride hatalar buldunuz veya sorunlarınız mı var? Bana e-posta gönderin',
     'trainer.pass': 'Aşama',
     'trainer.test': 'Sınav',
+    'trainer.markAsLearnt': 'Öğrenildi olarak işaretle',
     'home.creatorBadge': 'Mr.Cube_k6j tarafından YouTube ve TikTok\'ta oluşturuldu',
   },
   hi: {
@@ -1798,6 +1813,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'सिद्धांत में त्रुटियां मिलीं या समस्याएं हैं? मुझे ईमेल करें',
     'trainer.pass': 'चरण',
     'trainer.test': 'परीक्षा',
+    'trainer.markAsLearnt': 'सीखा हुआ चिह्नित करें',
     'home.creatorBadge': 'Mr.Cube_k6j द्वारा YouTube और TikTok पर बनाया गया',
   },
   sv: {
@@ -1903,6 +1919,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Hittat fel i teorin eller har problem? Maila mig på',
     'trainer.pass': 'Steg',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Skapad av Mr.Cube_k6j på YouTube och TikTok',
   },
   uk: {
@@ -2008,6 +2025,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Знайшли помилки в теорії або маєте проблеми? Напишіть мені на',
     'trainer.pass': 'Етап',
     'trainer.test': 'Тест',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Створено Mr.Cube_k6j на YouTube та TikTok',
   },
   fi: {
@@ -2113,6 +2131,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Löysitkö virheitä teoriassa tai ongelmia? Lähetä sähköpostia',
     'trainer.pass': 'Vaihe',
     'trainer.test': 'Testi',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Luonut Mr.Cube_k6j YouTubessa ja TikTokissa',
   },
   no: {
@@ -2218,6 +2237,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Fant du feil i teorien eller har problemer? Send e-post til',
     'trainer.pass': 'Runde',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Laget av Mr.Cube_k6j på YouTube og TikTok',
   },
   da: {
@@ -2323,6 +2343,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Fandt du fejl i teorien eller har problemer? Send e-mail til',
     'trainer.pass': 'Trin',
     'trainer.test': 'Test',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Skabt af Mr.Cube_k6j på YouTube og TikTok',
   },
   el: {
@@ -2428,6 +2449,7 @@ const translations: { en: TranslationKeys } & Record<Exclude<LangCode, 'en'>, Pa
     'trainer.errorReport': 'Βρήκατε λάθη στη θεωρία ή έχετε προβλήματα; Στείλτε email στο',
     'trainer.pass': 'Φάση',
     'trainer.test': 'Δοκιμή',
+    'trainer.markAsLearnt': 'Mark as Learnt',
     'home.creatorBadge': 'Δημιουργήθηκε από τον Mr.Cube_k6j στο YouTube και TikTok',
   },
   'en-US': {

@@ -191,7 +191,13 @@ const Train = () => {
               courseName={course?.name || 'Italian Game'}
               courseId={courseId || 'italian-game'}
               onLineComplete={handleLineComplete}
+              onMarkAsLearned={(lineIndex) => {
+                if (courseId) {
+                  markLineAsLearned(courseId, lineIndex, 100);
+                }
+              }}
               startLineIndex={startLineIndex}
+              mode={mode}
             />
           </motion.div>
 

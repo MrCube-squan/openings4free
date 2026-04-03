@@ -3,7 +3,7 @@ import { Chessboard } from 'react-chessboard';
 import { Chess, Square } from 'chess.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Undo2, MessageSquare, Mail, LogIn } from 'lucide-react';
+import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Undo2, MessageSquare, Mail, LogIn, BookmarkCheck } from 'lucide-react';
 import { useBoardSettings } from '@/hooks/useBoardSettings';
 import BoardSettingsModal from '@/components/BoardSettingsModal';
 
@@ -26,7 +26,9 @@ interface ChessTrainerProps {
   courseName?: string;
   courseId?: string;
   onLineComplete?: (lineIndex: number, accuracy: number) => void;
+  onMarkAsLearned?: (lineIndex: number) => void;
   startLineIndex?: number;
+  mode?: 'learn' | 'drill';
 }
 
 const getArrowFromMove = (game: Chess, sanMove: string): [Square, Square] | null => {
@@ -79,7 +81,7 @@ const isSameKnightArrow = (
   return a.from === b.from && a.to === b.to && a.color === b.color;
 };
 
-const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, startLineIndex }: ChessTrainerProps) => {
+const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete, onMarkAsLearned, startLineIndex, mode = 'learn' }: ChessTrainerProps) => {
   const [game, setGame] = useState(new Chess());
   const [showFlame, setShowFlame] = useState(false);
   const { streak } = useStreak();
@@ -223,6 +225,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   }, [game]);
 
+  const isDrillMode = mode === 'drill';
+
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
       confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
@@ -236,26 +240,36 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setTimeout(() => {
         setLinesCompleted(prev => prev + 1);
         
-        if (hadMistake) {
-          // Had a mistake — restart this pass
-          resetLine();
-        } else if (linePass === 1) {
-          // Pass 1 perfect — move to pass 2 (test without shown moves)
-          setPass1Perfect(true);
-          setLinePass(2);
-          resetLine();
-        } else {
-          // Pass 2 perfect (and pass1 was perfect) — mark as learned
-          if (pass1Perfect && onLineComplete) {
-            onLineComplete(currentLineIndex, 100);
+        if (isDrillMode) {
+          // Drill mode: single pass, mistakes require repeat
+          if (hadMistake) {
+            resetLine();
+          } else {
+            if (onLineComplete) {
+              onLineComplete(currentLineIndex, 100);
+            }
+            nextLine();
           }
-          setLinePass(1);
-          setPass1Perfect(false);
-          nextLine();
+        } else {
+          // Learn mode: two-pass system
+          if (hadMistake) {
+            resetLine();
+          } else if (linePass === 1) {
+            setPass1Perfect(true);
+            setLinePass(2);
+            resetLine();
+          } else {
+            if (pass1Perfect && onLineComplete) {
+              onLineComplete(currentLineIndex, 100);
+            }
+            setLinePass(1);
+            setPass1Perfect(false);
+            nextLine();
+          }
         }
       }, 1000);
     }
-  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday]);
+  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday, isDrillMode]);
 
   const makeOpponentMove = useCallback(() => {
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
@@ -327,8 +341,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         checkLineComplete(currentMoveIndex + 1);
         return true;
       } else {
-        // Only mark as mistake requiring repeat if we're on pass 2 (test mode)
-        if (linePass === 2) {
+        // Mark as mistake requiring repeat in pass 2 (test mode) or drill mode
+        if (linePass === 2 || isDrillMode) {
           setHadMistake(true);
         }
         setTotalMistakes(prev => prev + 1);
@@ -513,7 +527,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setShowHint(true);
     setUserKnightArrow(null);
     setUserNonKnightArrows([]);
-    if (linePass === 2) {
+    if (linePass === 2 || isDrillMode) {
       setHadMistake(true);
     }
     setTotalMistakes(prev => prev + 1);
@@ -638,15 +652,22 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
         {/* Current line info */}
         <div className="rounded-xl border border-border bg-card p-5">
-          <div className="flex items-center justify-between mb-1">
+           <div className="flex items-center justify-between mb-1">
             <div className="text-xs text-muted-foreground">{t('trainer.currentLine')}</div>
-            <div className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-              linePass === 1 
-                ? 'bg-accent/15 text-accent' 
-                : 'bg-primary/15 text-primary'
-            }`}>
-              {linePass === 1 ? `${t('trainer.pass')} 1 — ${t('train.learning')}` : `${t('trainer.pass')} 2 — ${t('trainer.test')}`}
-            </div>
+            {!isDrillMode && (
+              <div className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                linePass === 1 
+                  ? 'bg-accent/15 text-accent' 
+                  : 'bg-primary/15 text-primary'
+              }`}>
+                {linePass === 1 ? `${t('trainer.pass')} 1 — ${t('train.learning')}` : `${t('trainer.pass')} 2 — ${t('trainer.test')}`}
+              </div>
+            )}
+            {isDrillMode && (
+              <div className="text-xs font-medium px-2 py-0.5 rounded-full bg-primary/15 text-primary">
+                {t('train.drilling')}
+              </div>
+            )}
           </div>
           <div className="text-lg font-bold text-foreground mb-3">{currentLine.name}</div>
           
@@ -675,7 +696,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
               <div className="flex items-center gap-2 p-3 rounded-lg bg-muted/50 border border-border">
                 <span className="text-muted-foreground text-sm">{t('trainer.opponentTurn')}</span>
               </div>
-            ) : (linePass === 1 || showHint) ? (
+            ) : ((linePass === 1 && !isDrillMode) || showHint) ? (
               <div className="flex items-center gap-2 p-3 rounded-lg bg-accent/10 border border-accent/20">
                 <Lightbulb className="h-5 w-5 text-accent" />
                 <span className="text-accent font-mono font-bold text-lg">
@@ -712,7 +733,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         </div>
 
         {/* Action buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <Button variant="outline" onClick={previousLine} disabled={lineHistory.length <= 1} size="icon" className="shrink-0">
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -728,6 +749,18 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </div>
+
+        {/* Mark as Learnt button (learn mode only) */}
+        {!isDrillMode && onMarkAsLearned && (
+          <Button
+            variant="outline"
+            onClick={() => onMarkAsLearned(currentLineIndex)}
+            className="w-full border-primary/30 text-primary hover:bg-primary/10"
+          >
+            <BookmarkCheck className="h-4 w-4 mr-2" />
+            {t('trainer.markAsLearnt') || 'Mark as Learnt'}
+          </Button>
+        )}
 
         {/* Personal Notes Section */}
         <div className="rounded-xl border border-border bg-card p-4">
