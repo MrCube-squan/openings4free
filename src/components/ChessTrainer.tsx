@@ -733,7 +733,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         </div>
 
         {/* Action buttons */}
-        <div className="flex gap-3">
+        <div className="flex gap-3 flex-wrap">
           <Button variant="outline" onClick={previousLine} disabled={lineHistory.length <= 1} size="icon" className="shrink-0">
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -749,6 +749,18 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </div>
+
+        {/* Mark as Learnt button (learn mode only) */}
+        {!isDrillMode && onMarkAsLearned && (
+          <Button
+            variant="outline"
+            onClick={() => onMarkAsLearned(currentLineIndex)}
+            className="w-full border-primary/30 text-primary hover:bg-primary/10"
+          >
+            <BookmarkCheck className="h-4 w-4 mr-2" />
+            {t('trainer.markAsLearnt') || 'Mark as Learnt'}
+          </Button>
+        )}
 
         {/* Personal Notes Section */}
         <div className="rounded-xl border border-border bg-card p-4">
