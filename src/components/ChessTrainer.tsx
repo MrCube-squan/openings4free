@@ -665,7 +665,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             )}
             {isDrillMode && (
               <div className="text-xs font-medium px-2 py-0.5 rounded-full bg-destructive/15 text-destructive">
-                Drill Mode 🎯
+                {t('train.drilling')} 🎯
               </div>
             )}
           </div>
