@@ -90,11 +90,11 @@ const Train = () => {
                   </Link>
                   <div className="flex items-center gap-3">
                     <h1 className="text-3xl font-bold">{course.name}</h1>
-                    <Badge variant={mode === 'drill' ? 'default' : 'secondary'}>
+                    <Badge variant={mode === 'drill' ? 'destructive' : 'secondary'}>
                       {mode === 'drill' ? (
                         <>
                           <Dumbbell className="h-3 w-3 mr-1" />
-                          {t('train.drilling')}
+                          {t('train.drilling')} 🎯
                         </>
                       ) : (
                         <>

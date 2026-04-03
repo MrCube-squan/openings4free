@@ -100,6 +100,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [pass1Perfect, setPass1Perfect] = useState(false);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [customSquareStyles, setCustomSquareStyles] = useState<Record<string, Record<string, string | number>>>({});
+  const [markLearntAnimating, setMarkLearntAnimating] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
@@ -665,7 +666,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             )}
             {isDrillMode && (
               <div className="text-xs font-medium px-2 py-0.5 rounded-full bg-destructive/15 text-destructive">
-                Drill Mode 🎯
+                {t('train.drilling')} 🎯
               </div>
             )}
           </div>
@@ -754,11 +755,19 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         {!isDrillMode && onMarkAsLearned && (
           <Button
             variant="outline"
-            onClick={() => onMarkAsLearned(currentLineIndex)}
-            className="w-full border-primary/30 text-primary hover:bg-primary/10"
+            onClick={() => {
+              setMarkLearntAnimating(true);
+              onMarkAsLearned(currentLineIndex);
+              setTimeout(() => setMarkLearntAnimating(false), 1200);
+            }}
+            className={`w-full transition-all duration-500 ${
+              markLearntAnimating 
+                ? 'bg-primary border-primary text-primary-foreground scale-105' 
+                : 'border-primary/30 text-primary hover:bg-primary/10'
+            }`}
           >
-            <BookmarkCheck className="h-4 w-4 mr-2" />
-            {t('trainer.markAsLearnt') || 'Mark as Learnt'}
+            <BookmarkCheck className={`h-4 w-4 mr-2 transition-transform duration-500 ${markLearntAnimating ? 'scale-125' : ''}`} />
+            {markLearntAnimating ? '✓' : (t('trainer.markAsLearnt') || 'Mark as Learnt')}
           </Button>
         )}
 
