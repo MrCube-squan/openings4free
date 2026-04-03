@@ -128,6 +128,7 @@ type TranslationKeys = {
   'trainer.errorReport': string;
   'trainer.pass': string;
   'trainer.test': string;
+  'trainer.markAsLearnt': string;
   'home.creatorBadge': string;
   'nav.friends': string;
   'friends.title': string;
