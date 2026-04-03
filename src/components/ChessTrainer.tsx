@@ -26,7 +26,9 @@ interface ChessTrainerProps {
   courseName?: string;
   courseId?: string;
   onLineComplete?: (lineIndex: number, accuracy: number) => void;
+  onMarkAsLearned?: (lineIndex: number) => void;
   startLineIndex?: number;
+  mode?: 'learn' | 'drill';
 }
 
 const getArrowFromMove = (game: Chess, sanMove: string): [Square, Square] | null => {
