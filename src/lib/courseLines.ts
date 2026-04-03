@@ -1068,7 +1068,8 @@ const rawCourseLines: Record<string, RawLine[]> = {
   ],
   'halloween-gambit': [
     { name: 'Halloween Gambit: 5.Neg4??', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Neg4','e5','Qe7','Be2'] },
-    { name: 'Halloween Gambit: 5.Nc6 -Nb8 Variation', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Nb8','e5','Ng8','d6','cxd6','exd6','Qf6','Nb5','Na6','Bc4'] },
+    { name: 'Halloween Gambit: 5.Nc6 - Nb8 Variation',moves:['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Nb8','e5','Ng8','d6','cxd6','exd6','Qf6','Nb5','Na6','Bc4','Nc5','O-O','Ne6','Re1','Kd8','Be3','Qh4','Bxe6','fxe6','Nc7','b6','Nxa8','Bb7','Nc7'] },
+    { name: 'Halloween Gambit: 12.a6',moves:['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Nb8','e5','Ng8','d6','cxd6','exd6','Qf6','Nb5','Na6','Bc4','Nc5','O-O','a6','Qe1+','Ne6','Nc7+','Kd8','Qa5','Bxd6','Nxe6+','Ke8','Ng5','b6','Qd5','Qe5','Qxe5+','Bxe5','Nxf7','Bf6','Nxh8'] },
     { name: 'Halloween Gambit: 5.Nc6-Ne7 Variation', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Ne7','e5','Nfg8','d6','cxd6','exd6','Nc6','Qe2+','Be7','Bf4'] },
     { name: 'Halloween Gambit: 5.Nc6-Ne5-Qb6 Variation', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Ne5','f4','Ng6','e5','Ng8','d6','cxd6','exd6','Qb6','Nb5','Kd8','f5','Ne5','Bf4','f6','Qd2','a6','Be3','Qc6','Qa5+','Ke8','Nc7+','Kf7','Nxa8','Bxd6','Nb6'] },
     { name: 'Halloween Gambit: 5.Nc6-Ne5-Qf6-Kd8 Variation', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Ne5','f4','Ng6','e5','Ng8','d6','cxd6','exd6','Qf6','Qe2+','Kd8','Ne4','Qe6','Be3','Bxd6','f5','Qxf5','Nxd6'] },
