@@ -701,6 +701,7 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { "Scotch Game, Potter Variation, 7. Nd5 Exchange": ['e4','e5','Nf3','Nc6','d4','exd4','Nxd4','Bc5','Nb3','Bb6','Nc3','Nf6','Qe2','d6','Nd5','Nxd5','exd5+','Ne7'] },
   ],
   'nimzo-indian': [
+    { name: 'Variation 1', moves: ['nimzo-indian-defence','d4','Nf6','c4','e6','Nc3','Bb4','Qc2'] },
     { name: 'Variation 2', moves: ['nimzo-indian-defence','d4','Nf6','c4','e6','Nc3','Bb4','Qc2','Nf3','c5','g3','cxd4','Nxd4','O-O','Bg2','d5','cxd5'] },
     { name: 'Variation 3', moves: ['nimzo-indian-defence','d4','Nf6','c4','e6','Nc3','Bb4','Qc2','Nf3','c5','g3','cxd4','Nxd4','O-O','Bg2','d5','cxd5','O-O','dxc4','Qa4','a5','Rd1','Bd7','Qc2','Qb6','Ne4','Nd5','Ng5','Nf6','Ne4'] },
     { name: 'Variation 4', moves: ['nimzo-indian-defence','d4','Nf6','c4','e6','Nc3','Bb4','Qc2','Nf3','c5','g3','cxd4','Nxd4','O-O','Bg2','d5','cxd5','Nxd5','Bxd5','Qxd5','f3','Rd8','Be3','Qc4','Qd3','Qxd3','exd3','Bc5','Nc2'] },
