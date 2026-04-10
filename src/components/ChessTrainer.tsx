@@ -542,7 +542,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     <FlameOverlay show={showFlame} streak={streak} />
     <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
       {/* Chessboard */}
-      <div className="flex gap-2 items-stretch w-full max-w-[480px] mx-auto lg:mx-0">
+      <div className="flex gap-2 items-stretch w-full max-w-[520px] mx-auto lg:mx-0">
+        <EvalBar fen={game.fen()} orientation={playerColor} />
         <div className="relative flex-1">
           <div className="chess-board relative">
             <Chessboard
