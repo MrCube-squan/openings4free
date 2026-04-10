@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import EvalBar from '@/components/EvalBar';
 import { Chessboard } from 'react-chessboard';
 import { Chess, Square } from 'chess.js';
 import { motion, AnimatePresence } from 'framer-motion';
