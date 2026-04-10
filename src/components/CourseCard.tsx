@@ -15,7 +15,7 @@ const CourseCard = ({ course, index = 0 }: CourseCardProps) => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.05, duration: 0.3 }}
+      transition={{ duration: 0.15 }}
     >
       <Link to={`/course/${course.id}`}>
         <div className="group relative overflow-hidden rounded-xl border border-border/50 bg-card p-5 transition-all duration-300 hover:border-primary/30 hover:bg-card-hover hover:shadow-lg hover:shadow-primary/5">
