@@ -6,7 +6,7 @@ interface StockfishEval {
   depth: number;
 }
 
-const STOCKFISH_CDN = 'https://cdn.jsdelivr.net/npm/stockfish@16.0.0/src/stockfish-nnue-16.js';
+const STOCKFISH_CDN = 'https://cdn.jsdelivr.net/npm/stockfish.js@10.0.2/stockfish.js';
 
 let sharedWorker: Worker | null = null;
 let workerRefCount = 0;
