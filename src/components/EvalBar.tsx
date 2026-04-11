@@ -29,29 +29,28 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
   const textOnWhiteSide = orientation === 'white' ? isWhiteWinning : !isWhiteWinning;
 
   return (
-    <div className="flex flex-col w-8 rounded-lg overflow-hidden border border-border relative" style={{ height: '100%', minHeight: '300px' }}>
+    <div className="flex flex-col w-7 rounded-md overflow-hidden border border-border relative select-none" style={{ height: '100%', minHeight: '300px' }}>
+      {/* Black side */}
       <div
-        className="bg-zinc-800 transition-all duration-300 ease-out"
+        className="bg-zinc-800 transition-all duration-500 ease-out"
         style={{ height: `${100 - displayPercent}%` }}
       />
+      {/* White side */}
       <div
-        className="bg-zinc-100 transition-all duration-300 ease-out flex-1"
+        className="bg-zinc-100 transition-all duration-500 ease-out flex-1"
       />
+      {/* Eval text - always visible at the edge of the winning side */}
       <div
-        className={`absolute left-0 right-0 flex justify-center ${
-          textOnWhiteSide ? 'bottom-1' : 'top-1'
+        className={`absolute left-0 right-0 flex justify-center z-10 ${
+          textOnWhiteSide ? 'bottom-0.5' : 'top-0.5'
         }`}
       >
         <span
-          className={`text-[10px] font-bold leading-none ${
+          className={`text-[11px] font-black leading-none px-0.5 ${
             textOnWhiteSide ? 'text-zinc-800' : 'text-zinc-100'
           }`}
-          style={{
-            writingMode: 'vertical-rl',
-            textOrientation: 'mixed',
-          }}
         >
-          {evalText}
+          {depth === 0 ? '…' : evalText}
         </span>
       </div>
     </div>
