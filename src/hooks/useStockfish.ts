@@ -89,7 +89,7 @@ const releaseWorker = () => {
 };
 
 export const useStockfish = (fen: string) => {
-  const [evaluation, setEvaluation] = useState<StockfishEval>({ cp: 20, mate: null, depth: 0 });
+  const [evaluation, setEvaluation] = useState<StockfishEval>({ cp: 30, mate: null, depth: 0 });
   const workerRef = useRef<Worker | null>(null);
   const fenRef = useRef(fen);
 
