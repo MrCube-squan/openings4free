@@ -8,7 +8,6 @@ interface EvalBarProps {
 const EvalBar = ({ fen, orientation }: EvalBarProps) => {
   const { cp, mate } = useStockfish(fen);
 
-  // Stable bar fill: clamp to ±1000cp, map to 0–100%
   let whitePercent: number;
   let evalText: string;
 
@@ -17,9 +16,9 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
     evalText = `M${Math.abs(mate)}`;
   } else {
     const clamped = Math.max(-1000, Math.min(1000, cp));
-    whitePercent = (clamped + 1000) / 2000 * 100;
-    // Clamp display range
+    whitePercent = ((clamped + 1000) / 2000) * 100;
     whitePercent = Math.min(97, Math.max(3, whitePercent));
+
     const pawns = cp / 100;
     evalText = pawns >= 0 ? `+${pawns.toFixed(1)}` : pawns.toFixed(1);
   }
@@ -29,27 +28,24 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
   const textOnWhiteSide = orientation === 'white' ? isWhiteWinning : !isWhiteWinning;
 
   return (
-    <div className="flex flex-col w-7 rounded-md overflow-hidden border border-border relative select-none" style={{ height: '100%', minHeight: '300px' }}>
-      {/* Black side */}
+    <div className="relative flex w-11 shrink-0 select-none" style={{ height: '100%', minHeight: '300px' }}>
+      <div className="flex w-full flex-col overflow-hidden rounded-md border border-border">
+        <div
+          className="bg-background transition-all duration-700 ease-out"
+          style={{ height: `${100 - displayPercent}%` }}
+        />
+        <div
+          className="flex-1 bg-foreground transition-all duration-700 ease-out"
+          style={{ height: `${displayPercent}%` }}
+        />
+      </div>
+
       <div
-        className="bg-zinc-800 transition-all duration-700 ease-out"
-        style={{ height: `${100 - displayPercent}%` }}
-      />
-      {/* White side */}
-      <div
-        className="bg-zinc-100 transition-all duration-700 ease-out flex-1"
-      />
-      {/* Eval text */}
-      <div
-        className={`absolute left-0 right-0 flex justify-center z-10 ${
-          textOnWhiteSide ? 'bottom-0.5' : 'top-0.5'
+        className={`pointer-events-none absolute left-1/2 z-10 -translate-x-1/2 ${
+          textOnWhiteSide ? 'bottom-1' : 'top-1'
         }`}
       >
-        <span
-          className={`text-[11px] font-black leading-none px-0.5 ${
-            textOnWhiteSide ? 'text-zinc-800' : 'text-zinc-100'
-          }`}
-        >
+        <span className="inline-flex min-w-[2.75rem] items-center justify-center rounded-sm border border-border bg-card/95 px-1 py-0.5 font-mono text-xs font-bold leading-none text-foreground shadow-sm backdrop-blur-sm">
           {evalText}
         </span>
       </div>
