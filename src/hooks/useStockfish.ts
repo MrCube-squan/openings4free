@@ -92,11 +92,15 @@ export const useStockfish = (fen: string) => {
   const [evaluation, setEvaluation] = useState<StockfishEval>({ cp: 30, mate: null, depth: 0 });
   const workerRef = useRef<Worker | null>(null);
   const fenRef = useRef(fen);
+  const [workerReady, setWorkerReady] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     getWorker().then(w => {
-      if (!cancelled) workerRef.current = w;
+      if (!cancelled) {
+        workerRef.current = w;
+        setWorkerReady(true);
+      }
     });
     return () => {
       cancelled = true;
@@ -147,7 +151,7 @@ export const useStockfish = (fen: string) => {
     setEvaluation(prev => ({ ...prev, depth: 0 }));
     analyze(fen);
     return () => { workerRef.current?.postMessage('stop'); };
-  }, [fen, analyze]);
+  }, [fen, analyze, workerReady]);
 
   return evaluation;
 };
