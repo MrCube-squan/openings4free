@@ -5,12 +5,10 @@ interface EvalBarProps {
   orientation: 'white' | 'black';
 }
 
-const MAX_EVAL = 5.0;
-
 const EvalBar = ({ fen, orientation }: EvalBarProps) => {
-  const { cp, mate, depth } = useStockfish(fen);
+  const { cp, mate } = useStockfish(fen);
 
-  // Convert eval to bar percentage and text
+  // Stable bar fill: clamp to ±1000cp, map to 0–100%
   let whitePercent: number;
   let evalText: string;
 
@@ -18,10 +16,12 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
     whitePercent = mate > 0 ? 97 : 3;
     evalText = `M${Math.abs(mate)}`;
   } else {
+    const clamped = Math.max(-1000, Math.min(1000, cp));
+    whitePercent = (clamped + 1000) / 2000 * 100;
+    // Clamp display range
+    whitePercent = Math.min(97, Math.max(3, whitePercent));
     const pawns = cp / 100;
-    const clampedPawns = Math.max(-MAX_EVAL, Math.min(MAX_EVAL, pawns));
-    whitePercent = Math.min(97, Math.max(3, 50 + (clampedPawns / MAX_EVAL) * 47));
-    evalText = pawns >= 0 ? `+${clampedPawns.toFixed(1)}` : clampedPawns.toFixed(1);
+    evalText = pawns >= 0 ? `+${pawns.toFixed(1)}` : pawns.toFixed(1);
   }
 
   const displayPercent = orientation === 'white' ? whitePercent : 100 - whitePercent;
@@ -32,14 +32,14 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
     <div className="flex flex-col w-7 rounded-md overflow-hidden border border-border relative select-none" style={{ height: '100%', minHeight: '300px' }}>
       {/* Black side */}
       <div
-        className="bg-zinc-800 transition-all duration-500 ease-out"
+        className="bg-zinc-800 transition-all duration-700 ease-out"
         style={{ height: `${100 - displayPercent}%` }}
       />
       {/* White side */}
       <div
-        className="bg-zinc-100 transition-all duration-500 ease-out flex-1"
+        className="bg-zinc-100 transition-all duration-700 ease-out flex-1"
       />
-      {/* Eval text - always visible at the edge of the winning side */}
+      {/* Eval text */}
       <div
         className={`absolute left-0 right-0 flex justify-center z-10 ${
           textOnWhiteSide ? 'bottom-0.5' : 'top-0.5'
@@ -50,7 +50,7 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
             textOnWhiteSide ? 'text-zinc-800' : 'text-zinc-100'
           }`}
         >
-          {depth === 0 ? '…' : evalText}
+          {evalText}
         </span>
       </div>
     </div>
