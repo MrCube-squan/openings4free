@@ -10,35 +10,37 @@ const STOCKFISH_CDN = 'https://cdn.jsdelivr.net/npm/stockfish.js@10.0.2/stockfis
 
 let sharedWorker: Worker | null = null;
 let workerRefCount = 0;
-let currentCallback: ((eval_: StockfishEval) => void) | null = null;
 let isReady = false;
 let readyCallbacks: Array<() => void> = [];
 let workerInitPromise: Promise<Worker> | null = null;
 
+// All active subscribers; worker fans out to each one
+const subscribers = new Set<(eval_: StockfishEval) => void>();
+
 const initWorker = (): Promise<Worker> => {
   if (workerInitPromise) return workerInitPromise;
-  
+
   workerInitPromise = fetch(STOCKFISH_CDN)
     .then(res => res.blob())
     .then(blob => {
       const url = URL.createObjectURL(blob);
       const worker = new Worker(url);
-      
+
       worker.onmessage = (e: MessageEvent) => {
         const line = typeof e.data === 'string' ? e.data : '';
-        
+
         if (line === 'readyok') {
           isReady = true;
           readyCallbacks.forEach(cb => cb());
           readyCallbacks = [];
           return;
         }
-        
+
         if (line.startsWith('info') && line.includes(' score ')) {
           const depthMatch = line.match(/\bdepth (\d+)/);
           const cpMatch = line.match(/\bscore cp (-?\d+)/);
           const mateMatch = line.match(/\bscore mate (-?\d+)/);
-          
+
           if (!depthMatch) return;
           const depth = parseInt(depthMatch[1], 10);
           if (depth < 6) return;
@@ -54,19 +56,18 @@ const initWorker = (): Promise<Worker> => {
             return;
           }
 
-          if (currentCallback) {
-            currentCallback({ cp: cpVal, mate: mateVal, depth });
-          }
+          const evalResult = { cp: cpVal, mate: mateVal, depth };
+          subscribers.forEach(cb => cb(evalResult));
         }
       };
 
       worker.postMessage('uci');
       worker.postMessage('isready');
-      
+
       sharedWorker = worker;
       return worker;
     });
-  
+
   return workerInitPromise;
 };
 
@@ -83,7 +84,6 @@ const releaseWorker = () => {
     sharedWorker = null;
     workerRefCount = 0;
     isReady = false;
-    currentCallback = null;
     workerInitPromise = null;
   }
 };
@@ -94,6 +94,33 @@ export const useStockfish = (fen: string) => {
   const fenRef = useRef(fen);
   const [workerReady, setWorkerReady] = useState(false);
 
+  // Subscribe this instance to worker messages
+  useEffect(() => {
+    const handler = (raw: StockfishEval) => {
+      const currentFen = fenRef.current;
+      const sideToMove = currentFen.split(' ')[1];
+
+      const normalized: StockfishEval = {
+        depth: raw.depth,
+        mate: raw.mate !== null
+          ? (sideToMove === 'b' ? -raw.mate : raw.mate)
+          : null,
+        cp: sideToMove === 'b' ? -raw.cp : raw.cp,
+      };
+
+      setEvaluation(prev => {
+        if (normalized.depth >= prev.depth || normalized.mate !== null) {
+          return normalized;
+        }
+        return prev;
+      });
+    };
+
+    subscribers.add(handler);
+    return () => { subscribers.delete(handler); };
+  }, []);
+
+  // Init worker
   useEffect(() => {
     let cancelled = false;
     getWorker().then(w => {
@@ -113,26 +140,6 @@ export const useStockfish = (fen: string) => {
     if (!worker) return;
 
     fenRef.current = fenToAnalyze;
-    const sideToMove = fenToAnalyze.split(' ')[1];
-
-    currentCallback = (raw: StockfishEval) => {
-      if (fenRef.current !== fenToAnalyze) return;
-      
-      const normalized: StockfishEval = {
-        depth: raw.depth,
-        mate: raw.mate !== null 
-          ? (sideToMove === 'b' ? -raw.mate : raw.mate)
-          : null,
-        cp: sideToMove === 'b' ? -raw.cp : raw.cp,
-      };
-      
-      setEvaluation(prev => {
-        if (normalized.depth >= prev.depth || normalized.mate !== null) {
-          return normalized;
-        }
-        return prev;
-      });
-    };
 
     const run = () => {
       worker.postMessage('stop');
