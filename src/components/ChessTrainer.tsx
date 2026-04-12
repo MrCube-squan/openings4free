@@ -745,7 +745,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           </Button>
           <Button variant="secondary" onClick={resetLine} className="flex-1">
             <RotateCcw className="h-4 w-4 mr-2" />
-            {t('trainer.reset')}
+            {t('trainer.resetPosition')}
           </Button>
           <Button variant="default" onClick={nextLine} className="flex-1">
             {t('trainer.next')}

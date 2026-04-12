@@ -3,10 +3,10 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 interface StockfishEval {
   cp: number;
   mate: number | null;
-  depth: number;
 }
 
 const STOCKFISH_CDN = 'https://cdn.jsdelivr.net/npm/stockfish.js@10.0.2/stockfish.js';
+const TARGET_DEPTH = 18;
 
 let sharedWorker: Worker | null = null;
 let workerRefCount = 0;
@@ -14,8 +14,11 @@ let isReady = false;
 let readyCallbacks: Array<() => void> = [];
 let workerInitPromise: Promise<Worker> | null = null;
 
-// All active subscribers; worker fans out to each one
-const subscribers = new Set<(eval_: StockfishEval) => void>();
+// Each subscriber receives the final eval for a completed analysis
+const subscribers = new Set<(eval_: StockfishEval & { requestId: number }) => void>();
+
+let currentGlobalRequestId = 0;
+let pendingEval: (StockfishEval & { requestId: number }) | null = null;
 
 const initWorker = (): Promise<Worker> => {
   if (workerInitPromise) return workerInitPromise;
@@ -56,8 +59,20 @@ const initWorker = (): Promise<Worker> => {
             return;
           }
 
-          const evalResult = { cp: cpVal, mate: mateVal, depth };
-          subscribers.forEach(cb => cb(evalResult));
+          // Store the best result so far for the current request
+          pendingEval = { cp: cpVal, mate: mateVal, requestId: currentGlobalRequestId };
+
+          // If we've reached target depth or found mate, emit immediately
+          if (depth >= TARGET_DEPTH || mateVal !== null) {
+            subscribers.forEach(cb => cb(pendingEval!));
+            pendingEval = null;
+          }
+        }
+
+        // When engine finishes (bestmove), emit whatever we have
+        if (line.startsWith('bestmove') && pendingEval) {
+          subscribers.forEach(cb => cb(pendingEval!));
+          pendingEval = null;
         }
       };
 
@@ -89,31 +104,29 @@ const releaseWorker = () => {
 };
 
 export const useStockfish = (fen: string) => {
-  const [evaluation, setEvaluation] = useState<StockfishEval>({ cp: 30, mate: null, depth: 0 });
+  const [evaluation, setEvaluation] = useState<StockfishEval>({ cp: 30, mate: null });
   const workerRef = useRef<Worker | null>(null);
   const fenRef = useRef(fen);
+  const requestIdRef = useRef(0);
   const [workerReady, setWorkerReady] = useState(false);
 
-  // Subscribe this instance to worker messages
+  // Subscribe this instance
   useEffect(() => {
-    const handler = (raw: StockfishEval) => {
+    const handler = (raw: StockfishEval & { requestId: number }) => {
+      // Discard stale results
+      if (raw.requestId !== requestIdRef.current) return;
+
       const currentFen = fenRef.current;
       const sideToMove = currentFen.split(' ')[1];
 
       const normalized: StockfishEval = {
-        depth: raw.depth,
         mate: raw.mate !== null
           ? (sideToMove === 'b' ? -raw.mate : raw.mate)
           : null,
         cp: sideToMove === 'b' ? -raw.cp : raw.cp,
       };
 
-      setEvaluation(prev => {
-        if (normalized.depth >= prev.depth || normalized.mate !== null) {
-          return normalized;
-        }
-        return prev;
-      });
+      setEvaluation(normalized);
     };
 
     subscribers.add(handler);
@@ -140,11 +153,13 @@ export const useStockfish = (fen: string) => {
     if (!worker) return;
 
     fenRef.current = fenToAnalyze;
+    const id = ++currentGlobalRequestId;
+    requestIdRef.current = id;
 
     const run = () => {
       worker.postMessage('stop');
       worker.postMessage(`position fen ${fenToAnalyze}`);
-      worker.postMessage('go depth 18');
+      worker.postMessage(`go depth ${TARGET_DEPTH}`);
     };
 
     if (isReady) {
@@ -154,8 +169,8 @@ export const useStockfish = (fen: string) => {
     }
   }, []);
 
+  // Trigger analysis on fen change — never clear the eval
   useEffect(() => {
-    setEvaluation(prev => ({ ...prev, depth: 0 }));
     analyze(fen);
     return () => { workerRef.current?.postMessage('stop'); };
   }, [fen, analyze, workerReady]);
