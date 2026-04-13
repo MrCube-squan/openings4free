@@ -164,11 +164,7 @@
 }
 
 /* Hide the in-progress preview arrow while the user is still dragging.
-   react-chessboard renders the active/draft arrow with opacity 0.5,
-   while committed arrows use 0.65. We target lines with that exact opacity. */
+   react-chessboard renders the active/draft arrow with opacity 0.5. */
 svg[style*="pointer-events: none"] line[opacity="0.5"] {
-  display: none;
-}
-svg[style*="pointer-events: none"] marker:last-of-type polygon {
   display: none;
 }
