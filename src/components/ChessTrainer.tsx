@@ -105,7 +105,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
-  const [arrowBumpKey, setArrowBumpKey] = useState(0);
   const [userKnightArrow, setUserKnightArrow] = useState<{ from: Square; to: Square; color: string } | null>(null);
   const [userNonKnightArrows, setUserNonKnightArrows] = useState<Array<[Square, Square, string]>>([]);
   const userKnightArrowRef = useRef<{ from: Square; to: Square; color: string } | null>(null);
@@ -183,19 +182,13 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       ? ([[userKnightArrow.from, userKnightArrow.to, HIDDEN_KNIGHT_ARROW_COLOR]] as Array<[Square, Square, string]>)
       : [];
 
-    // arrowBumpKey forces a new array reference so the library re-syncs after left-click clears
-    void arrowBumpKey;
-    return [...hintData.arrows, ...hiddenKnight] as Array<[Square, Square, string]>;
-  }, [hintData.arrows, userKnightArrow, arrowBumpKey]);
+    return [...hintData.arrows, ...userNonKnightArrows, ...hiddenKnight] as Array<[Square, Square, string]>;
+  }, [hintData.arrows, userNonKnightArrows, userKnightArrow]);
 
   const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
-    // react-chessboard fires onArrowsChange([]) on left-click / piece drop.
-    // Clear user-drawn arrows on left-click.
-    if (arrows.length === 0) {
-      setUserNonKnightArrows([]);
-      setUserKnightArrow(null);
-      return;
-    }
+    // react-chessboard fires onArrowsChange([]) during internal re-syncs and piece interactions.
+    // Ignore empty calls so completed user arrows are managed only by explicit left-click clears.
+    if (arrows.length === 0) return;
 
     // Process incoming arrows — separate knight vs non-knight
     for (const arr of arrows) {
