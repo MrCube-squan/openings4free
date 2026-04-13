@@ -185,14 +185,15 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
 
     // arrowBumpKey forces a new array reference so the library re-syncs after left-click clears
     void arrowBumpKey;
-    return [...hintData.arrows, ...userNonKnightArrows, ...hiddenKnight] as Array<[Square, Square, string]>;
-  }, [hintData.arrows, userNonKnightArrows, userKnightArrow, arrowBumpKey]);
+    return [...hintData.arrows, ...hiddenKnight] as Array<[Square, Square, string]>;
+  }, [hintData.arrows, userKnightArrow, arrowBumpKey]);
 
   const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
     // react-chessboard fires onArrowsChange([]) on left-click / piece drop.
-    // Bump key to force the library to re-sync our customArrows prop.
+    // Clear user-drawn arrows on left-click.
     if (arrows.length === 0) {
-      setArrowBumpKey(k => k + 1);
+      setUserNonKnightArrows([]);
+      setUserKnightArrow(null);
       return;
     }
 
