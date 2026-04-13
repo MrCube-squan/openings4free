@@ -379,6 +379,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   };
 
   const handleSquareClick = (square: string) => {
+    setUserKnightArrow(null);
+    setUserNonKnightArrows([]);
+
     // Allow premove selection during opponent's turn
     if (!isPlayerTurn) {
       const piece = game.get(square as Square);
