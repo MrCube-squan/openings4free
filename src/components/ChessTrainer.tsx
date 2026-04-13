@@ -106,6 +106,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
   const [arrowBumpKey, setArrowBumpKey] = useState(0);
+  const [userKnightArrow, setUserKnightArrow] = useState<{ from: Square; to: Square; color: string } | null>(null);
   const [userNonKnightArrows, setUserNonKnightArrows] = useState<Array<[Square, Square, string]>>([]);
   const userKnightArrowRef = useRef<{ from: Square; to: Square; color: string } | null>(null);
 
