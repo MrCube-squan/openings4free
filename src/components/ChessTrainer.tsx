@@ -105,6 +105,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [pendingPremove, setPendingPremove] = useState<{ from: string; to: string; piece: string } | null>(null);
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
+  const [arrowBumpKey, setArrowBumpKey] = useState(0);
   const [userKnightArrow, setUserKnightArrow] = useState<{ from: Square; to: Square; color: string } | null>(null);
   const [userNonKnightArrows, setUserNonKnightArrows] = useState<Array<[Square, Square, string]>>([]);
   const userKnightArrowRef = useRef<{ from: Square; to: Square; color: string } | null>(null);
@@ -182,13 +183,18 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       ? ([[userKnightArrow.from, userKnightArrow.to, HIDDEN_KNIGHT_ARROW_COLOR]] as Array<[Square, Square, string]>)
       : [];
 
+    // arrowBumpKey forces a new array reference so the library re-syncs after left-click clears
+    void arrowBumpKey;
     return [...hintData.arrows, ...userNonKnightArrows, ...hiddenKnight] as Array<[Square, Square, string]>;
-  }, [hintData.arrows, userNonKnightArrows, userKnightArrow]);
+  }, [hintData.arrows, userNonKnightArrows, userKnightArrow, arrowBumpKey]);
 
   const handleArrowsChange = useCallback((arrows: Array<[Square, Square, string?]>) => {
     // react-chessboard fires onArrowsChange([]) on left-click / piece drop.
-    // Ignore empty calls so user-drawn arrows persist until position changes.
-    if (arrows.length === 0) return;
+    // Bump key to force the library to re-sync our customArrows prop.
+    if (arrows.length === 0) {
+      setArrowBumpKey(k => k + 1);
+      return;
+    }
 
     // Process incoming arrows — separate knight vs non-knight
     for (const arr of arrows) {
