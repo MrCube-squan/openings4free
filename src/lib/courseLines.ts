@@ -207,6 +207,8 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: "King's Indian: Line 12", moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Bd3','O-O','Nge2','Nc6','O-O','Nh5','Be3','e5','d5','Ne7','Qd2','f5','exf5','gxf5','f4','Ng6'] },
   ],
   'queens-gambit': [
+    { name: 'Queen’s Gambit Accepted Main Line', moves: ['d4','d5','c4','dxc4','e4','b5','a4','c6','axb5','cxb5','Nc3','Qb6','b3','e6','bxc4','Bb4','Bd2','bxc4','Bxc4','Ne7'] },
+    { name: 'Queen’s Gambit Accepted 7...cxb3 Line', moves: ['d4','d5','c4','dxc4','e4','b5','a4','c6','axb5','cxb5','Nc3','Qb6','b3','cxb3','Bxb5+','Bd7','Qxb3'] },
     { name: 'QGA Main Line (Smyslov Variation)', moves: ['d4','d5','c4','dxc4','Nf3','Nf6','e3','g6','Bxc4','Bg7','O-O','O-O','Nc3','a6','a4','Nc6','Qe2','Bg4','Rd1','Nd7','h3'] },
     { name: 'QGD Orthodox Defense (Main Line)', moves: ['d4','d5','c4','e6','Nc3','Nf6','Bg5','Be7','e3','O-O','Nf3','Nbd7','Rc1','c6','Bd3','dxc4','Bxc4','Nd5','Bxe7','Qxe7','O-O','Nxc3','Rxc3'] },
     { name: 'QGD Tartakower Defense', moves: ['d4','d5','c4','e6','Nc3','Nf6','Bg5','Be7','e3','O-O','Nf3','h6','Bh4','b6','cxd5','Nxd5','Bxe7','Qxe7','Nxd5','exd5','Rc1','Be6','Qa4'] },
