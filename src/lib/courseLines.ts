@@ -193,8 +193,14 @@ const rawCourseLines: Record<string, RawLine[]> = {
  ],
   'kings-indian': [
     // Classical Variation (1-12)
+   { name: 'King’s Indian Defense Sämisch Variation Closed', moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','f3','O-O','Be3','e5','d5','Nh5','Qd2','f5','O-O-O','a6','Kb1','Nd7','Bd3','Nc5','Bc2','b5','cxb5','axb5','Nxb5','Ba6','Nc3','Qb8','Nge2','Qb4','Bxc5','Qxc5','Rhe1'] },
+{ name: 'King’s Indian Defense Classical Ne1 Ng3', moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','O-O','Nc6','d5','Ne7','Ne1','Ne8','f3','f5','Nd3','f4','Bd2','g5','c5','Nf6','cxd6','cxd6','Rc1','Ng6','Nb5','Ne8','Qc2','Rf7','Nf2','h5','a4','a6','Na3','Bf8','h3','Rg7','Qb3','Nf6','Rc2','Nh4','Be1','g4','fxg4','hxg4','Bxg4','Nxg4','Nxg4','Bxg4','hxg4','Rxg4','Qh3','Qg5','Bxh4','Rxh4','Qe6+','Kh8','Rc8','Rxc8','Qxc8','Kg8','Qe6+','Kh8','Qc8','Kg7','Qd7+','Kg8'] },
+{ name: 'King’s Indian Defense Exchange Trap', moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','dxe5','dxe5','Qxd8','Rxd8','Nxe5','Nxe4','Nxf7','Bxc3+','bxc3','Kxf7'] },
+{ name: 'King’s Indian Defense Petrosian Stein', moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','d5','a5','Bg5','h6','Bh4','Na6','Nd2','Qe8','O-O','Nh7','a3','Bd7','b3','h5','f3','Bh6','Rb1'] },
+{ name: 'King’s Indian Defense Exchange Variation', moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','dxe5','dxe5','Qxd8','Rxd8','Bg5','Re8','Nd5','Nxd5','cxd5','c6','Bc4','cxd5','Bxd5','Nd7','Nd2','Nc5','Nc4','Bf8','O-O','Be6','Rfd1','Rac8'] },
+{ name: 'King’s Indian Defense Classical Kozul Gambit', moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','O-O','Nc6','d5','Ne7','Ne1','Nd7','Be3','f5','f3','f4','Bf2','g5','Rc1','Ng6','c5','Nxc5','b4','Na6','Nd3','Rf7','Nb5','Bd7','a4','h5','Nxa7','Bf8','Nb5','Rg7'] },
     { name: "King's Indian: Line 1", moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','O-O'] },
-    { name: "King's Indian: Line 2", moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','d5','a5','Bg5','h6','Bh4','Na6','Nd2','Qe8','O-O'] },
+    { name: "King's Indian: Line 2", moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','d5','a5','Bg5','h6','Bh4','Na6','Nd2','Nc5','O-O','Qd7'] },
     { name: "King's Indian: Line 3", moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','O-O','Nc6','d5','Ne7','Ne1','Nd7','Nd3','f5','Bd2','Nf6','f3','f4','c5','g5','cxd6','cxd6'] },
     { name: "King's Indian: Line 4", moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','O-O','Nc6','d5','Ne7','b4','Nh5','g3','f5'] },
     { name: "King's Indian: Line 5", moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','f3','O-O','Be3','c5','dxc5','dxc5','Qxd8','Rxd8','Bxc5','Nc6','Ba3','a5','Rd1','Be6','Nd5','Nb4','Nxe7+','Kh8','Rxd8+','Rxd8','Nd5'] },
