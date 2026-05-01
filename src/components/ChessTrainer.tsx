@@ -480,16 +480,24 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   };
 
+  // Throttle stepping so rapid clicks wait for the board animation to finish
+  const STEP_ANIMATION_MS = 250;
+  const stepLockRef = useRef(false);
+  const lockStep = () => {
+    stepLockRef.current = true;
+    setTimeout(() => { stepLockRef.current = false; }, STEP_ANIMATION_MS);
+  };
+
   // Step exactly one half-move forward through the line (playback control)
   const stepForward = useCallback(() => {
+    if (stepLockRef.current) return;
     if (currentMoveIndex >= currentLine.moves.length) return;
     const newGame = new Chess(game.fen());
     try {
       newGame.move(currentLine.moves[currentMoveIndex]);
+      lockStep();
       setGame(newGame);
       setCurrentMoveIndex((i) => i + 1);
-      setFeedback(null);
-      setShowHint(false);
       setSelectedSquare(null);
       setCustomSquareStyles({});
     } catch (e) {
@@ -497,21 +505,22 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   }, [game, currentLine.moves, currentMoveIndex]);
 
-  // Step exactly one half-move backward
+  // Step exactly one half-move backward (uses chess.js undo for a single mutation)
   const stepBackward = () => {
+    if (stepLockRef.current) return;
     if (currentMoveIndex === 0) return;
-    const targetIndex = currentMoveIndex - 1;
-    const newGame = new Chess();
-    for (let i = 0; i < targetIndex; i++) {
-      try { newGame.move(currentLine.moves[i]); } catch (e) { break; }
+    const newGame = new Chess(game.fen());
+    try {
+      newGame.undo();
+      lockStep();
+      setGame(newGame);
+      setCurrentMoveIndex((i) => i - 1);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+      setIsPlaying(false);
+    } catch (e) {
+      // ignore
     }
-    setGame(newGame);
-    setCurrentMoveIndex(targetIndex);
-    setFeedback(null);
-    setShowHint(false);
-    setSelectedSquare(null);
-    setCustomSquareStyles({});
-    setIsPlaying(false);
   };
 
   // Autoplay: step through moves while isPlaying
@@ -523,7 +532,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
     const timer = setTimeout(() => {
       stepForward();
-    }, 900);
+    }, STEP_ANIMATION_MS + 500);
     return () => clearTimeout(timer);
   }, [isPlaying, currentMoveIndex, currentLine.moves.length, stepForward]);
 
