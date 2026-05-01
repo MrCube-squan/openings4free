@@ -169,10 +169,52 @@ export const useStockfish = (fen: string) => {
     }
   }, []);
 
-  // Trigger analysis on fen change — never clear the eval
+  // Trigger analysis on fen change — try Lichess cloud eval first, fall back to Stockfish
   useEffect(() => {
-    analyze(fen);
-    return () => { workerRef.current?.postMessage('stop'); };
+    let cancelled = false;
+    fenRef.current = fen;
+
+    const tryLichess = async () => {
+      try {
+        const res = await fetch(
+          `https://lichess.org/api/cloud-eval?fen=${encodeURIComponent(fen)}`
+        );
+        if (cancelled) return false;
+        if (!res.ok) return false;
+        const data = await res.json();
+        const pv = data?.pvs?.[0];
+        if (!pv) return false;
+
+        const sideToMove = fen.split(' ')[1];
+        const rawCp = typeof pv.cp === 'number' ? pv.cp : 0;
+        const rawMate = typeof pv.mate === 'number' ? pv.mate : null;
+
+        const normalized: StockfishEval = {
+          cp: sideToMove === 'b' ? -rawCp : rawCp,
+          mate: rawMate !== null ? (sideToMove === 'b' ? -rawMate : rawMate) : null,
+        };
+
+        if (!cancelled) {
+          // Bump request id so any in-flight Stockfish results are discarded
+          requestIdRef.current = ++currentGlobalRequestId;
+          workerRef.current?.postMessage('stop');
+          setEvaluation(normalized);
+        }
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    tryLichess().then((hit) => {
+      if (cancelled) return;
+      if (!hit) analyze(fen);
+    });
+
+    return () => {
+      cancelled = true;
+      workerRef.current?.postMessage('stop');
+    };
   }, [fen, analyze, workerReady]);
 
   return evaluation;
