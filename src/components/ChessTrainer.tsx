@@ -275,6 +275,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday, isDrillMode]);
 
   const makeOpponentMove = useCallback(() => {
+    if (isPlaying) return;
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
       const move = currentLine.moves[currentMoveIndex];
       const delay = pendingPremove ? 250 : 400;
@@ -291,7 +292,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         }
       }, delay);
     }
-  }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove, checkLineComplete]);
+  }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove, checkLineComplete, isPlaying]);
 
   useEffect(() => { makeOpponentMove(); }, [makeOpponentMove]);
 
