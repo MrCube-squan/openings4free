@@ -107,6 +107,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
   const [userKnightArrow, setUserKnightArrow] = useState<{ from: Square; to: Square; color: string } | null>(null);
   const [userNonKnightArrows, setUserNonKnightArrows] = useState<Array<[Square, Square, string]>>([]);
+  const [isPlaying, setIsPlaying] = useState(false);
   const userKnightArrowRef = useRef<{ from: Square; to: Square; color: string } | null>(null);
 
   useEffect(() => {
