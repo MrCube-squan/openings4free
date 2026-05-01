@@ -4,7 +4,7 @@ import { Chessboard } from 'react-chessboard';
 import { Chess, Square } from 'chess.js';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Undo2, MessageSquare, Mail, LogIn, BookmarkCheck } from 'lucide-react';
+import { Check, X, RotateCcw, ArrowRight, ArrowLeft, Lightbulb, Settings, Undo2, MessageSquare, Mail, LogIn, BookmarkCheck, Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useBoardSettings } from '@/hooks/useBoardSettings';
 import BoardSettingsModal from '@/components/BoardSettingsModal';
 
@@ -107,6 +107,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [arrowColor, setArrowColor] = useState('rgb(255,170,0)');
   const [userKnightArrow, setUserKnightArrow] = useState<{ from: Square; to: Square; color: string } | null>(null);
   const [userNonKnightArrows, setUserNonKnightArrows] = useState<Array<[Square, Square, string]>>([]);
+  const [isPlaying, setIsPlaying] = useState(false);
   const userKnightArrowRef = useRef<{ from: Square; to: Square; color: string } | null>(null);
 
   useEffect(() => {
@@ -274,6 +275,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday, isDrillMode]);
 
   const makeOpponentMove = useCallback(() => {
+    if (isPlaying) return;
     if (!isPlayerTurn && currentMoveIndex < currentLine.moves.length) {
       const move = currentLine.moves[currentMoveIndex];
       const delay = pendingPremove ? 250 : 400;
@@ -290,7 +292,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         }
       }, delay);
     }
-  }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove, checkLineComplete]);
+  }, [game, currentLine, currentMoveIndex, isPlayerTurn, pendingPremove, checkLineComplete, isPlaying]);
 
   useEffect(() => { makeOpponentMove(); }, [makeOpponentMove]);
 
@@ -477,6 +479,59 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setCustomSquareStyles({});
     }
   };
+
+  // Step exactly one half-move forward through the line (playback control)
+  const stepForward = useCallback(() => {
+    if (currentMoveIndex >= currentLine.moves.length) return;
+    const newGame = new Chess(game.fen());
+    try {
+      newGame.move(currentLine.moves[currentMoveIndex]);
+      setGame(newGame);
+      setCurrentMoveIndex((i) => i + 1);
+      setFeedback(null);
+      setShowHint(false);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+    } catch (e) {
+      // ignore
+    }
+  }, [game, currentLine.moves, currentMoveIndex]);
+
+  // Step exactly one half-move backward
+  const stepBackward = () => {
+    if (currentMoveIndex === 0) return;
+    const targetIndex = currentMoveIndex - 1;
+    const newGame = new Chess();
+    for (let i = 0; i < targetIndex; i++) {
+      try { newGame.move(currentLine.moves[i]); } catch (e) { break; }
+    }
+    setGame(newGame);
+    setCurrentMoveIndex(targetIndex);
+    setFeedback(null);
+    setShowHint(false);
+    setSelectedSquare(null);
+    setCustomSquareStyles({});
+    setIsPlaying(false);
+  };
+
+  // Autoplay: step through moves while isPlaying
+  useEffect(() => {
+    if (!isPlaying) return;
+    if (currentMoveIndex >= currentLine.moves.length) {
+      setIsPlaying(false);
+      return;
+    }
+    const timer = setTimeout(() => {
+      stepForward();
+    }, 900);
+    return () => clearTimeout(timer);
+  }, [isPlaying, currentMoveIndex, currentLine.moves.length, stepForward]);
+
+  // Stop autoplay when line changes
+  useEffect(() => {
+    setIsPlaying(false);
+  }, [currentLineIndex]);
+
 
   const resetLine = () => {
     setGame(new Chess());
@@ -736,6 +791,48 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
             <div className="text-2xl font-bold text-destructive">{totalMistakes}</div>
             <div className="text-xs text-muted-foreground">{t('trainer.mistakes')}</div>
           </div>
+        </div>
+
+        {/* Line playback controls */}
+        <div className="flex items-center justify-center gap-2 rounded-xl border border-border bg-card p-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={stepBackward}
+            disabled={currentMoveIndex === 0}
+            title="Previous move"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="default"
+            size="icon"
+            onClick={() => {
+              if (currentMoveIndex >= currentLine.moves.length) {
+                // Restart from beginning if line is finished
+                setGame(new Chess());
+                setCurrentMoveIndex(0);
+                setFeedback(null);
+                setShowHint(false);
+                setSelectedSquare(null);
+                setCustomSquareStyles({});
+              }
+              setIsPlaying((p) => !p);
+            }}
+            title={isPlaying ? 'Pause' : 'Play line'}
+            className="rounded-full"
+          >
+            {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => { setIsPlaying(false); stepForward(); }}
+            disabled={currentMoveIndex >= currentLine.moves.length}
+            title="Next move"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
         </div>
 
         {/* Action buttons */}
