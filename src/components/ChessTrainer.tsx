@@ -793,6 +793,48 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           </div>
         </div>
 
+        {/* Line playback controls */}
+        <div className="flex items-center justify-center gap-2 rounded-xl border border-border bg-card p-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={stepBackward}
+            disabled={currentMoveIndex === 0}
+            title="Previous move"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </Button>
+          <Button
+            variant="default"
+            size="icon"
+            onClick={() => {
+              if (currentMoveIndex >= currentLine.moves.length) {
+                // Restart from beginning if line is finished
+                setGame(new Chess());
+                setCurrentMoveIndex(0);
+                setFeedback(null);
+                setShowHint(false);
+                setSelectedSquare(null);
+                setCustomSquareStyles({});
+              }
+              setIsPlaying((p) => !p);
+            }}
+            title={isPlaying ? 'Pause' : 'Play line'}
+            className="rounded-full"
+          >
+            {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => { setIsPlaying(false); stepForward(); }}
+            disabled={currentMoveIndex >= currentLine.moves.length}
+            title="Next move"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </Button>
+        </div>
+
         {/* Action buttons */}
         <div className="flex gap-3 flex-wrap">
           <Button variant="outline" onClick={previousLine} disabled={lineHistory.length <= 1} size="icon" className="shrink-0">
