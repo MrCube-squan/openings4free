@@ -479,6 +479,59 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   };
 
+  // Step exactly one half-move forward through the line (playback control)
+  const stepForward = useCallback(() => {
+    if (currentMoveIndex >= currentLine.moves.length) return;
+    const newGame = new Chess(game.fen());
+    try {
+      newGame.move(currentLine.moves[currentMoveIndex]);
+      setGame(newGame);
+      setCurrentMoveIndex((i) => i + 1);
+      setFeedback(null);
+      setShowHint(false);
+      setSelectedSquare(null);
+      setCustomSquareStyles({});
+    } catch (e) {
+      // ignore
+    }
+  }, [game, currentLine.moves, currentMoveIndex]);
+
+  // Step exactly one half-move backward
+  const stepBackward = () => {
+    if (currentMoveIndex === 0) return;
+    const targetIndex = currentMoveIndex - 1;
+    const newGame = new Chess();
+    for (let i = 0; i < targetIndex; i++) {
+      try { newGame.move(currentLine.moves[i]); } catch (e) { break; }
+    }
+    setGame(newGame);
+    setCurrentMoveIndex(targetIndex);
+    setFeedback(null);
+    setShowHint(false);
+    setSelectedSquare(null);
+    setCustomSquareStyles({});
+    setIsPlaying(false);
+  };
+
+  // Autoplay: step through moves while isPlaying
+  useEffect(() => {
+    if (!isPlaying) return;
+    if (currentMoveIndex >= currentLine.moves.length) {
+      setIsPlaying(false);
+      return;
+    }
+    const timer = setTimeout(() => {
+      stepForward();
+    }, 900);
+    return () => clearTimeout(timer);
+  }, [isPlaying, currentMoveIndex, currentLine.moves.length, stepForward]);
+
+  // Stop autoplay when line changes
+  useEffect(() => {
+    setIsPlaying(false);
+  }, [currentLineIndex]);
+
+
   const resetLine = () => {
     setGame(new Chess());
     setCurrentMoveIndex(0);
