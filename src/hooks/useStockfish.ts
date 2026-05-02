@@ -119,6 +119,7 @@ export const useStockfish = (fen: string) => {
       const currentFen = fenRef.current;
       const sideToMove = currentFen.split(' ')[1];
 
+      // Stockfish reports score from side-to-move's perspective; normalize to White's perspective.
       const normalized: StockfishEval = {
         mate: raw.mate !== null
           ? (sideToMove === 'b' ? -raw.mate : raw.mate)
