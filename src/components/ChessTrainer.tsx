@@ -503,6 +503,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setCurrentMoveIndex((i) => i + 1);
       setSelectedSquare(null);
       setCustomSquareStyles({});
+      setUsedNavigation(true);
     } catch (e) {
       // ignore
     }
