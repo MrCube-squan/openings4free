@@ -522,6 +522,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setSelectedSquare(null);
       setCustomSquareStyles({});
       setIsPlaying(false);
+      setUsedNavigation(true);
     } catch (e) {
       // ignore
     }
