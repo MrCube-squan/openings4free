@@ -248,7 +248,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         
         if (isDrillMode) {
           // Drill mode: single pass, mistakes require repeat
-          if (hadMistake) {
+          if (hadMistake || usedNavigation) {
             resetLine();
           } else {
             if (onLineComplete) {
@@ -258,7 +258,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           }
         } else {
           // Learn mode: two-pass system
-          if (hadMistake) {
+          if (hadMistake || usedNavigation) {
             resetLine();
           } else if (linePass === 1) {
             setPass1Perfect(true);
@@ -275,7 +275,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         }
       }, 1000);
     }
-  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday, isDrillMode]);
+  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, usedNavigation, linePass, pass1Perfect, shouldPlayFlameToday, isDrillMode]);
 
   const makeOpponentMove = useCallback(() => {
     if (isPlaying) return;
