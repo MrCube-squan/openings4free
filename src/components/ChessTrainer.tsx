@@ -96,6 +96,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [totalMistakes, setTotalMistakes] = useState(0);
   const [totalMoves, setTotalMoves] = useState(0);
   const [hadMistake, setHadMistake] = useState(false);
+  // Tracks if the user used navigation arrows / autoplay to traverse the line
+  // instead of actually playing it. Disqualifies the line from being marked learned.
+  const [usedNavigation, setUsedNavigation] = useState(false);
   // linePass: 1 = guided (moves shown), 2 = test (moves hidden)
   const [linePass, setLinePass] = useState<1 | 2>(1);
   const [pass1Perfect, setPass1Perfect] = useState(false);
