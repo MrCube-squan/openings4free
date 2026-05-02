@@ -186,13 +186,13 @@ export const useStockfish = (fen: string) => {
         const pv = data?.pvs?.[0];
         if (!pv) return false;
 
-        const sideToMove = fen.split(' ')[1];
         const rawCp = typeof pv.cp === 'number' ? pv.cp : 0;
         const rawMate = typeof pv.mate === 'number' ? pv.mate : null;
 
+        // API value is already from White's perspective — use as-is.
         const normalized: StockfishEval = {
-          cp: sideToMove === 'b' ? -rawCp : rawCp,
-          mate: rawMate !== null ? (sideToMove === 'b' ? -rawMate : rawMate) : null,
+          cp: rawCp,
+          mate: rawMate,
         };
 
         if (!cancelled) {
