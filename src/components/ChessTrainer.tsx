@@ -556,6 +556,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setSelectedSquare(null);
     setCustomSquareStyles({});
     setHadMistake(false);
+    setUsedNavigation(false);
     setUserKnightArrow(null);
     setUserNonKnightArrows([]);
   };
