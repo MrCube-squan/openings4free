@@ -216,7 +216,6 @@ const rawCourseLines: Record<string, RawLine[]> = {
   { name: 'King’s Indian Defense Exchange Nh5 Line', moves: ['d4','Nf6','c4','g6','Nc3','Bg7','e4','d6','Nf3','O-O','Be2','e5','O-O','exd4','Nxd4','Re8','f3','Nc6','Be3','Nh5','Qd2','Nxd4','Bxd4','Nf4','Bxg7','Qg5','g3','Nh3+','Kg2','Qxd2','Bf6','Re6'] },
   ],
   'queens-gambit': [
-   { name: 'Tarrasch Defense Symmetrical 6.a3 Line', moves: ['Nf3','Nf6','c4','c5','Nc3','Nc6','e3','e6','d4','d5','a3','dxc4','Bxc4','a6','Bd3'] },
 { name: 'Semi-Slav Defense Bg2 b5 Line', moves: ['d4','d5','c4','c6','Nf3','Nf6','Nc3','e6','g3','dxc4','Bg2','b5','O-O','Bb7','Ne5'] },
 { name: 'Queen’s Gambit Declined Exchange Bf4 Line', moves: ['d4','Nf6','c4','e6','Nf3','d5','Nc3','Be7','cxd5','exd5','Bf4','c6','h3','Bf5','e3'] },
 { name: 'Catalan Opening Qa4+ Line', moves: ['d4','Nf6','c4','e6','g3','d5','Bg2','dxc4','Qa4+','Nbd7','Nf3','a6','Nc3','c5','Bf4'] },
