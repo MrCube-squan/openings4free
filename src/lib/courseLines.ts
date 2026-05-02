@@ -443,7 +443,6 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: 'Stafford: Fish In Pole Trap', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','Be2','h5','O-O','Ng4','h3','Qd6','g3','Qxg3+','Kh1','Qh2#'] },
     { name: 'Stafford: Ruthless Sacrifices', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','Nc3','Bc5','Be2','Ng4','O-O','Qh4','h3','Nxf2','Rxf2','Bxf2+','Kf1','Bd4','Qe1','Qxh3','gxh3','Bxh3#'] },
     { name: 'Stafford: Mate In 8', moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','Bg5','Nxe4','Bxd8','Bxf2+','Ke2','Bg4#'] },
-  { name: "Oh no my queen!", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','Bg5','Nxe4','Bxd8','Bxf2+','Ke2','Bg4#'] },
   { name: "Oh no my knight!", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','e5','Ne4','d3','Bc5','dxe4','Bxf2+','Kxf2','Qxd1'] },
   { name: "Take my knight, but I'll take your rook... (1)", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','e5','Ne4','d4','Qh4','g3','Nxg3','fxg3','Qe4+'] },
   { name: "Most common trap", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','Nc3','Bc5','d3','Ng4','Be3','Nxe3','fxe3','Bxe3'] },
