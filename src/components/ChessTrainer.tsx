@@ -96,6 +96,9 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
   const [totalMistakes, setTotalMistakes] = useState(0);
   const [totalMoves, setTotalMoves] = useState(0);
   const [hadMistake, setHadMistake] = useState(false);
+  // Tracks if the user used navigation arrows / autoplay to traverse the line
+  // instead of actually playing it. Disqualifies the line from being marked learned.
+  const [usedNavigation, setUsedNavigation] = useState(false);
   // linePass: 1 = guided (moves shown), 2 = test (moves hidden)
   const [linePass, setLinePass] = useState<1 | 2>(1);
   const [pass1Perfect, setPass1Perfect] = useState(false);
@@ -245,7 +248,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         
         if (isDrillMode) {
           // Drill mode: single pass, mistakes require repeat
-          if (hadMistake) {
+          if (hadMistake || usedNavigation) {
             resetLine();
           } else {
             if (onLineComplete) {
@@ -255,7 +258,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
           }
         } else {
           // Learn mode: two-pass system
-          if (hadMistake) {
+          if (hadMistake || usedNavigation) {
             resetLine();
           } else if (linePass === 1) {
             setPass1Perfect(true);
@@ -272,7 +275,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
         }
       }, 1000);
     }
-  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, linePass, pass1Perfect, shouldPlayFlameToday, isDrillMode]);
+  }, [currentLine.moves.length, onLineComplete, currentLineIndex, hadMistake, usedNavigation, linePass, pass1Perfect, shouldPlayFlameToday, isDrillMode]);
 
   const makeOpponentMove = useCallback(() => {
     if (isPlaying) return;
@@ -477,6 +480,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setShowHint(false);
       setSelectedSquare(null);
       setCustomSquareStyles({});
+      setUsedNavigation(true);
     }
   };
 
@@ -500,6 +504,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setCurrentMoveIndex((i) => i + 1);
       setSelectedSquare(null);
       setCustomSquareStyles({});
+      setUsedNavigation(true);
     } catch (e) {
       // ignore
     }
@@ -518,6 +523,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setSelectedSquare(null);
       setCustomSquareStyles({});
       setIsPlaying(false);
+      setUsedNavigation(true);
     } catch (e) {
       // ignore
     }
@@ -550,6 +556,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setSelectedSquare(null);
     setCustomSquareStyles({});
     setHadMistake(false);
+    setUsedNavigation(false);
     setUserKnightArrow(null);
     setUserNonKnightArrows([]);
   };
@@ -570,6 +577,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setLinePass(1);
       setPass1Perfect(false);
       setHadMistake(false);
+      setUsedNavigation(false);
       setUserKnightArrow(null);
       setUserNonKnightArrows([]);
     }
@@ -588,6 +596,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     setHadMistake(false);
     setLinePass(1);
     setPass1Perfect(false);
+    setUsedNavigation(false);
     setUserKnightArrow(null);
     setUserNonKnightArrows([]);
   };
