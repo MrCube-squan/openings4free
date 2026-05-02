@@ -480,6 +480,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       setShowHint(false);
       setSelectedSquare(null);
       setCustomSquareStyles({});
+      setUsedNavigation(true);
     }
   };
 
