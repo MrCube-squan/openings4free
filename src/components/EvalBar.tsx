@@ -21,15 +21,20 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
     evalText = pawns >= 0 ? `+${pawns.toFixed(1)}` : pawns.toFixed(1);
   }
 
-  // Board orientation: white = white at bottom, black = black at bottom
-  // Bar segments are stacked top-to-bottom; bottom segment shows the side at bottom of board.
+  // Board orientation: white = white pieces at bottom, black = black pieces at bottom.
+  // Each segment is colored to match its side (white piece side = light, black piece side = dark).
   const whiteOnBottom = orientation === 'white';
   const isWhiteWinning = isMate ? mate > 0 : cp >= 0;
   const textOnWhiteSide = whiteOnBottom ? isWhiteWinning : !isWhiteWinning;
 
-  // Top segment height: opposite-color portion
-  const topHeight = whiteOnBottom ? 100 - whitePercent : whitePercent;
+  // Heights: white portion vs black portion
+  const blackHeight = 100 - whitePercent;
+  const topHeight = whiteOnBottom ? blackHeight : whitePercent;
   const bottomHeight = 100 - topHeight;
+
+  // Top is always the opposite color of bottom
+  const topColor = whiteOnBottom ? '#1a1a1a' : '#f5f5f5';
+  const bottomColor = whiteOnBottom ? '#f5f5f5' : '#1a1a1a';
 
   const transitionClass = isMate
     ? ''
@@ -39,12 +44,12 @@ const EvalBar = ({ fen, orientation }: EvalBarProps) => {
     <div className="relative flex w-11 shrink-0 select-none" style={{ height: '100%', minHeight: '300px' }}>
       <div className="flex w-full flex-col overflow-hidden rounded-md border border-border">
         <div
-          className={`bg-background ${transitionClass}`}
-          style={{ height: `${topHeight}%` }}
+          className={transitionClass}
+          style={{ height: `${topHeight}%`, backgroundColor: topColor }}
         />
         <div
-          className={`bg-foreground ${transitionClass}`}
-          style={{ height: `${bottomHeight}%` }}
+          className={transitionClass}
+          style={{ height: `${bottomHeight}%`, backgroundColor: bottomColor }}
         />
       </div>
 
