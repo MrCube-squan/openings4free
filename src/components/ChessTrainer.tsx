@@ -156,6 +156,8 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   }, [user?.id]);
 
+  const isDrillMode = mode === 'drill';
+
   const hintData = useMemo(() => {
     const showLearningArrow = !isDrillMode && linePass === 1;
     const shouldShow = (showHint || showLearningArrow) && isPlayerTurn && currentMoveIndex < currentLine.moves.length;
