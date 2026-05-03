@@ -162,7 +162,7 @@ const Index = () => {
 
             {/* Source note */}
             <p className="text-xs text-muted-foreground text-center max-w-md">
-              Most lines are manually retrieved from Magnus Carlsen's games — and Hikaru Nakamura's, when he has played the opening enough times.
+              Many lines are manually retrieved from Magnus Carlsen's and Hikaru Nakamura's games (if they have played the opening enough times).
             </p>
 
             {/* Contact */}
