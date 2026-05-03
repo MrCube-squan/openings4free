@@ -156,8 +156,12 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   }, [user?.id]);
 
+  const isDrillMode = mode === 'drill';
+
   const hintData = useMemo(() => {
-    if (!showHint || !isPlayerTurn || currentMoveIndex >= currentLine.moves.length) return { arrows: [], knightArrow: null };
+    const showLearningArrow = !isDrillMode && linePass === 1;
+    const shouldShow = (showHint || showLearningArrow) && isPlayerTurn && currentMoveIndex < currentLine.moves.length;
+    if (!shouldShow) return { arrows: [], knightArrow: null };
     const expectedMove = currentLine.moves[currentMoveIndex];
     const arrow = getArrowFromMove(game, expectedMove);
     if (!arrow) return { arrows: [], knightArrow: null };
@@ -165,7 +169,7 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
       return { arrows: [], knightArrow: { from: arrow[0], to: arrow[1] } };
     }
     return { arrows: [[arrow[0], arrow[1], 'hsl(38, 95%, 55%)']] as Array<[Square, Square, string]>, knightArrow: null };
-  }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game]);
+  }, [showHint, isPlayerTurn, currentMoveIndex, currentLine.moves, game, isDrillMode, linePass]);
 
   const allKnightArrows = useMemo(() => {
     const result: Array<{ from: Square; to: Square; color: string }> = [];
@@ -231,7 +235,6 @@ const ChessTrainer = ({ lines, playerColor, courseName, courseId, onLineComplete
     }
   }, [game]);
 
-  const isDrillMode = mode === 'drill';
 
   const checkLineComplete = useCallback((moveIdx: number) => {
     if (moveIdx >= currentLine.moves.length) {
