@@ -160,6 +160,11 @@ const Index = () => {
               {t('home.credit')}
             </p>
 
+            {/* Source note */}
+            <p className="text-xs text-muted-foreground text-center max-w-md">
+              Most lines are manually retrieved from Magnus Carlsen's games — and Hikaru Nakamura's, when he has played the opening enough times.
+            </p>
+
             {/* Contact */}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Mail className="h-4 w-4" />
