@@ -68,7 +68,7 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: "#47 — Giuoco Piano Game…10.Re1 Nh5 11.Nf1 Qf6 12.Be3", moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','O-O','d6','c3','Nf6','d3','a6','Bb3','Ba7','Nbd2'] },
     { name: "#48 — Italian Game Knight Attack Polerio Bishop Check Suhle Steinitz Variation", moves: ['e4','e5','Nf3','Nc6','Bc4','Nf6','Ng5','d5','exd5','Na5','Bb5+','c6','dxc6','bxc6','Be2'] },
     { name: "#49 — Italian Game Two Knights Modern Bishops Opening…6.Re1 d6 7.c3 h6", moves: ['e4','e5','Nf3','Nc6','Bc4','Nf6','d3','Be7','O-O','O-O','Re1','d6','c3','h6','Nbd2'] },
-    { name: "#50 — Giuoco Piano Game…6.c3 O O 7.Nbd2 a5 8.h3", moves: ['e4','e5','Nf3','Nc6','Bc4','Nf6','d3','Bc5','O-O','d6','c3','O-O','h3','
+    { name: "#50 — Giuoco Piano Game…6.c3 O O 7.Nbd2 a5 8.h3", moves: ['e4','e5','Nf3','Nc6','Bc4','Nf6','d3','Bc5','O-O','d6','c3','O-O','h3'] },
   ],
   'sicilian-dragon': [
     // Yugoslav Attack Lines (1-15)
