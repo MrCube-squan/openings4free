@@ -938,7 +938,7 @@ const rawCourseLines: Record<string, RawLine[]> = {
   ],
   'stafford-gambit': [
   { name: "Drag white's king to e4", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','h3','Bxf2+','Kxf2','Nxe4+','Ke3','O-O','Kxe4'] },
-  { name: "Everyone falls for this trap ", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','Be2','h5','O-O','Ng4','h3','Qd6','hxg4','hxg4'] }
+  { name: "Everyone falls for this trap ", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','d3','Bc5','Be2','h5','O-O','Ng4','h3','Qd6','hxg4','hxg4'] },
   { name: "Most common trap", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','Nc3','Bc5','d3','Ng4','Be3','Nxe3','fxe3','Bxe3'] },
   { name: "My Favorite Trap (Sometimes works against GMs!)", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','Nc3','Bc5','Be2','h5','h3','Qd4','O-O','Ng4','hxg4','hxg4','g3','Qe5','Kg2','Bxf2','Kxf2','Rh2+','Ke3','Qxg3+','Kd4','Be6'] },
   { name: "Oh no my knight!", moves: ['e4','e5','Nf3','Nf6','Nxe5','Nc6','Nxc6','dxc6','e5','Ne4','d3','Bc5','dxe4','Bxf2+','Kxf2','Qxd1'] },
