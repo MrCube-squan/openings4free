@@ -667,7 +667,7 @@ const rawCourseLines: Record<string, RawLine[]> = {
     { name: 'Halloween Gambit: 12.a6',moves:['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Nc6','d5','Nb8','e5','Ng8','d6','cxd6','exd6','Qf6','Nb5','Na6','Bc4','Nc5','O-O','a6','Qe1+','Ne6','Nc7+','Kd8','Qa5','Bxd6','Nxe6+','Ke8','Ng5','b6','Qd5','Qe5','Qxe5+','Bxe5','Nxf7','Bf6','Nxh8'] },
     { name: 'Halloween Gambit: Correct Response Ng6 Variation 2', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Ng6','e5','Ng8','Qf3','d6','Bc4','Be6','Qxb7','Rb8','Bb5+','Bd7','Bxd7+','Kxd7','Qxa7','dxe5','dxe5','Nxe5','Bf4','Bd6','Bxe5','Bxe5','O-O-O+','Bd6','Rxd6+','Kxd6','Rd1+','Ke7','Rxd8','Rxd8'] },
     { name: 'Halloween Gambit: Correct Variation 5.Ng6.....7.f6??', moves: ['e4','e5','Nf3','Nc6','Nc3','Nf6','Nxe5','Nxe5','d4','Ng6','e5','Ng8','Qf3','f6','Bc4','Qe7','Nd5','Qd8','O-O','c6','exf6','Nxf6','Re1+','Be7','Qxf6','gxf6','Nxf6+','Kf8','Bh6#'] },
-  ]
+  ],
   'italian-game': [
         { name: "#1 — Italian Game 3…d6 4.c3", moves: ['e4','e5','Nf3','Nc6','Bc4','d6','c3','f5','d3','f4','b4','Qf6','Qb3','Nh6','h4'] },
     { name: "#2 — Giuoco Piano Game…11.Nf1 Be6 12.Bc2 d5 13.exd5", moves: ['e4','e5','Nf3','Nc6','Bc4','Bc5','O-O','Nf6','d3','d6','c3','a6','Bb3','Ba7','Re1'] },
